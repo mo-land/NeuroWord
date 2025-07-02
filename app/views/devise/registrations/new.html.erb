@@ -1,0 +1,42 @@
+<section class="px-4 py-12 sm:px-6 lg:px-8">
+<h1 class="text-3xl font-bold mb-6 text-center">
+    新規登録
+  </h1>
+
+<div class="max-w-md w-full mx-auto bg-white p-4 sm:p-6 rounded-xl shadow-lg">
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend">ユーザー名</legend>
+    <%= f.text_field :name, class: "input", placeholder: "Type here" %>
+    <p class="label">Optional</p>
+  </fieldset>
+
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend">メールアドレス</legend>
+    <%= f.email_field :email, class: "input", autofocus: true, autocomplete: "email" %>
+    <p class="label">Optional</p>
+  </fieldset>
+
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend">パスワード</legend>
+    <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= f.password_field :password, class: "input", autocomplete: "new-password" %>
+  </fieldset>
+
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend">パスワード（確認）</legend>
+    <%= f.password_field :password_confirmation, class: "input", autocomplete: "new-password" %>
+  </fieldset>
+
+  <div class="actions py-2">
+    <%= f.submit "登録", class:"btn btn-accent" %>
+  </div>
+<% end %>
+
+<%= render "devise/shared/links" %>
+</div>
+</section>
