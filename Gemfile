@@ -60,4 +60,7 @@ end
 gem "tailwindcss-rails", "~> 4.0"
 gem "tailwindcss-ruby"
 
-gem 'devise'
+gem "devise"
+gem "devise-i18n"
+
+gem "rails-i18n"
