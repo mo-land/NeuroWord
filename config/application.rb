@@ -11,6 +11,14 @@ module Myapp
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.2
 
+    # I18nライブラリに訳文の探索場所を指示する
+    config.i18n.load_path += Dir[Rails.root.join("config", "locales", "**", "*.{rb,yml}").to_s]
+    # ロケールを:en以外に変更する
+    config.i18n.default_locale = :ja
+
+    # ロケールのリストを渡す
+    I18n.available_locales = [ :en, :ja ]
+
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.

@@ -1,35 +1,33 @@
-<section class="px-4 py-12 sm:px-6 lg:px-8">
+<div class="max-w-md w-full mx-auto bg-white p-4 sm:p-6">
 <h1 class="text-3xl font-bold mb-6 text-center">
-    新規登録
-  </h1>
-
+  <%= t('devise.registrations.new.sign_up') %>
+</h1>
 <div class="max-w-md w-full mx-auto bg-white p-4 sm:p-6 rounded-xl shadow-lg">
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
 
   <fieldset class="fieldset">
-    <legend class="fieldset-legend">ユーザー名</legend>
-    <%= f.text_field :name, class: "input", placeholder: "Type here" %>
+    <%= f.label :name, class: "fieldset-legend" %>
+    <%= f.text_field :name, class: "input", placeholder: "ユーザー名を入力", autofocus: true %>
     <p class="label">Optional</p>
   </fieldset>
 
   <fieldset class="fieldset">
-    <legend class="fieldset-legend">メールアドレス</legend>
-    <%= f.email_field :email, class: "input", autofocus: true, autocomplete: "email" %>
+    <%= f.label :email, class: "fieldset-legend" %>
+    <%= f.email_field :email, class: "input", autocomplete: "email", placeholder: "例：sample@example.com"  %>
     <p class="label">Optional</p>
   </fieldset>
 
   <fieldset class="fieldset">
-    <legend class="fieldset-legend">パスワード</legend>
+    <%= f.label :password, class: "fieldset-legend" %>
     <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <em>(英数字<%= @minimum_password_length %> 文字以上)</em>
     <% end %><br />
-    <%= f.password_field :password, class: "input", autocomplete: "new-password" %>
+    <%= f.password_field :password, class: "input", placeholder: "パスワードを入力", autocomplete: "new-password" %>
   </fieldset>
 
   <fieldset class="fieldset">
-    <legend class="fieldset-legend">パスワード（確認）</legend>
-    <%= f.password_field :password_confirmation, class: "input", autocomplete: "new-password" %>
+    <%= f.label :password_confirmation, class: "fieldset-legend" %>
+    <%= f.password_field :password_confirmation, class: "input", placeholder: "もう1度パスワードを入力", autocomplete: "new-password" %>
   </fieldset>
 
   <div class="actions py-2">
