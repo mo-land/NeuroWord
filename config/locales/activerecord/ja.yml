@@ -1,0 +1,9 @@
+ja:
+  activerecord:
+    models:
+      user: ユーザー
+      question: 問題
+    attributes:
+      question:
+        title: タイトル
+        description: 説明
