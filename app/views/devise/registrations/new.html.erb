@@ -1,0 +1,40 @@
+<div class="max-w-md w-full mx-auto bg-white p-4 sm:p-6">
+<h1 class="text-3xl font-bold mb-6 text-center">
+  <%= t('devise.registrations.new.sign_up') %>
+</h1>
+<div class="max-w-md w-full mx-auto bg-white p-4 sm:p-6 rounded-xl shadow-lg">
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+
+  <fieldset class="fieldset">
+    <%= f.label :name, class: "fieldset-legend" %>
+    <%= f.text_field :name, class: "input", placeholder: "ユーザー名を入力", autofocus: true %>
+    <p class="label">Optional</p>
+  </fieldset>
+
+  <fieldset class="fieldset">
+    <%= f.label :email, class: "fieldset-legend" %>
+    <%= f.email_field :email, class: "input", autocomplete: "email", placeholder: "例：sample@example.com"  %>
+    <p class="label">Optional</p>
+  </fieldset>
+
+  <fieldset class="fieldset">
+    <%= f.label :password, class: "fieldset-legend" %>
+    <% if @minimum_password_length %>
+    <em>(英数字<%= @minimum_password_length %> 文字以上)</em>
+    <% end %><br />
+    <%= f.password_field :password, class: "input", placeholder: "パスワードを入力", autocomplete: "new-password" %>
+  </fieldset>
+
+  <fieldset class="fieldset">
+    <%= f.label :password_confirmation, class: "fieldset-legend" %>
+    <%= f.password_field :password_confirmation, class: "input", placeholder: "もう1度パスワードを入力", autocomplete: "new-password" %>
+  </fieldset>
+
+  <div class="actions py-2">
+    <%= f.submit "登録", class:"btn btn-accent" %>
+  </div>
+<% end %>
+
+<%= render "devise/shared/links" %>
+</div>
+</section>
