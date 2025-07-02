@@ -1,0 +1,9 @@
+ja:
+  defaults:
+    flash_message:
+      created: "%{item}を作成しました"
+      not_created: "%{item}を作成出来ませんでした"
+      require_login: ログインしてください
+  questions:
+    new:
+      title: 問題作成
