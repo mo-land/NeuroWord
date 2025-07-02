@@ -1,9 +1,9 @@
-<div class="max-w-md w-full mx-auto bg-white p-4 sm:p-6">
+<div class="max-w-md w-full mx-auto bg-base-100 p-4 sm:p-6">
   <h1 class="text-3xl font-bold mb-6 text-center">
     <%= t('devise.sessions.new.sign_in') %>
   </h1>
 
-  <div class="max-w-md w-full mx-auto bg-white p-4 sm:p-6 rounded-xl shadow-lg">
+  <div class="max-w-md w-full mx-auto bg-base-200  p-4 sm:p-6 rounded-xl shadow-lg">
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
       <fieldset class="fieldset">
@@ -24,7 +24,7 @@
       <% end %>
 
       <div class="actions py-2">
-        <%= f.submit t('devise.sessions.new.sign_in'), class: "btn btn-accent" %>
+        <%= f.submit t('devise.sessions.new.sign_in'), class: "btn btn-primary" %>
       </div>
     <% end %>
 
