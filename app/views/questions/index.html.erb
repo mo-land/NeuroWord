@@ -1,0 +1,8 @@
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 mx-auto max-w-screen-6xl">
+<!-- 問題一覧 -->
+  <% if @questions.present? %>
+    <%= render @questions %>
+  <% else %>
+    <div class="mb-3">問題がありません</div>
+  <% end %>
+</div>
