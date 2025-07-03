@@ -1,0 +1,22 @@
+<div class="card bg-base-200 mb-6">
+  <div class="card-body">
+    <h3 class="card-title text-lg">
+      <i class="fas fa-chart-bar text-info mr-2"></i>
+      統計情報
+    </h3>
+
+    <div class="stats stats-vertical shadow">
+      <div class="stat">
+        <div class="stat-title">CardSet数</div>
+        <div class="stat-value text-2xl"><%= question.card_sets.count %></div>
+        <div class="stat-desc">組</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-title">総カード数</div>
+        <div class="stat-value text-2xl"><%= question.total_cards_count %></div>
+        <div class="stat-desc">/ 10枚</div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="card bg-base-200">
+  <div class="card-body">
+    <h3 class="card-title text-lg">
+      <i class="fas fa-cog text-warning mr-2"></i>
+      管理
+    </h3>
+
+    <div class="space-y-2">
+      <!-- 後でedit_question_path(@question)に修正 -->
+      <%= link_to '#', 
+                  class: "btn btn-outline btn-warning btn-block" do %>
+        <i class="fas fa-edit mr-2"></i>
+        問題を編集
+      <% end %>
+
+      <%= link_to question, 
+                  method: :delete,
+                  class: "btn btn-outline btn-error btn-block",
+                  data: { 
+                    confirm: "本当に削除しますか？\n#{question.title}",
+                    turbo_method: :delete
+                  } do %>
+        <i class="fas fa-trash mr-2"></i>
+        問題を削除
+      <% end %>
+    </div>
+  </div>
+</div>

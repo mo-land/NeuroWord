@@ -1,0 +1,22 @@
+<div class="card bg-gradient-to-br from-primary to-secondary text-primary-content mb-6">
+  <div class="card-body text-center">
+    <h3 class="card-title justify-center">
+      <i class="fas fa-gamepad mr-2"></i>
+      ゲーム
+    </h3>
+
+    <% if question.valid_for_game? %>
+      <p class="mb-4">カードの仲間分けゲームで遊ぼう！</p>
+      <button class="btn btn-accent">
+        <i class="fas fa-play mr-2"></i>
+        ゲーム開始
+      </button>
+    <% else %>
+      <p class="mb-4">ゲームを開始するには2組以上のカードセットが必要です</p>
+      <button class="btn btn-disabled">
+        <i class="fas fa-lock mr-2"></i>
+        準備中
+      </button>
+    <% end %>
+  </div>
+</div>
