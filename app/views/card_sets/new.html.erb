@@ -1,0 +1,24 @@
+<!-- app/views/card_sets/new.html.erb -->
+<%= turbo_frame_tag "new_card_set_form" do %>
+  <div class="card bg-base-100 shadow-lg mb-6">
+    <div class="card-body">
+      <h2 class="card-title">
+        <i class="fas fa-plus-circle text-primary mr-2"></i>
+        新しいカードセット
+      </h2>
+      <p class="text-base-content/70 mb-4">
+        問題「<%= @question.title %>」にカードセットを追加
+      </p>
+      
+      <!-- フォーム -->
+      <%= render "form", question: @question, card_set: @card_set %>
+      
+      <!-- キャンセルボタン -->
+      <div class="card-actions justify-start mt-4">
+        <%= link_to "キャンセル", @question, 
+                    class: "btn btn-ghost",
+                    data: { turbo_frame: "_top" } %>
+      </div>
+    </div>
+  </div>
+<% end %>
