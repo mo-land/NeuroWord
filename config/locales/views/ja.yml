@@ -7,3 +7,5 @@ ja:
   questions:
     new:
       title: 問題作成
+    show:
+      title: 問題詳細
