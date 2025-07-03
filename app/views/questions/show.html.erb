@@ -1,31 +1,56 @@
+<!--  app/views/questions/show.html.erb  -->
 <div class="container mx-auto pt-5 px-4">
+  <!-- Hotwire用フラッシュメッセージ（CardSet操作用） -->
+  <div id="flash_messages" class="mb-4">
+    <!-- 通常のページ遷移時のフラッシュメッセージもここに表示 -->
+    <%= render "shared/flash_messages" if notice || alert %>
+  </div>
+
   <div class="mb-3 grid grid-cols-1 lg:grid-cols-8">
     <div class="lg:col-start-2 lg:col-span-6">
-      <h1 class="text-3xl font-bold mb-4"><%= t('.title') %></h1>
-      <article class="card bg-base-100 shadow-md">
-        <div class="card-body">
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div>
-            </div>
-            <div class="md:col-span-3">
-              <h3 class="text-xl font-semibold inline"><%= @question.title %></h3>
-              <ul class="flex flex-wrap text-sm text-gray-500 mt-1 mb-2">
-                <li class="mr-4"><%= "by #{@question.user.name}" %></li>
-                <li><%= l @question.created_at, format: :long %></li>
-              </ul>
-              <div class="flex justify-end space-x-2">
-                <%= link_to "#", id: "button-edit-#{@question.id}", class: "btn btn-sm btn-outline" do %>
-                  <i class="fas fa-pencil-alt"></i>
-                <% end %>
-                <%= link_to "#", id: "button-delete-#{@question.id}", class: "btn btn-sm btn-outline" do %>
-                  <i class="fas fa-trash"></i>
-                <% end %>
-              </div>
-            </div>
-          </div>
-          <p class="mt-4 whitespace-pre-line"><%= simple_format(@question.description) %></p>
+      <!-- ヘッダー部分 -->
+      <div class="mb-8">
+        <h1 class="text-3xl font-bold mb-2"><%= @question.title %></h1>
+        <p class="text-lg text-base-content/70 mb-4"><%= @question.description %></p>
+        <div class="text-sm text-base-content/60">
+          by <%= @question.user.name || @question.user.email %> - 
+          <%= @question.created_at.strftime("%Y/%m/%d %H:%M") %>
         </div>
-      </article>
+      </div>
+
+      <!-- カード制限情報 -->
+      <%= render "shared/card_limit_info", question: @question %>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- メインコンテンツ -->
+        <div class="lg:col-span-2">
+          <h2 class="text-2xl font-bold mb-6">
+            <i class="fas fa-layer-group text-primary mr-2"></i>
+            カードセット一覧
+          </h2>
+          
+          <div id="card_sets" class="space-y-4">
+            <% @question.card_sets.each do |card_set| %>
+              <%= render "card_sets/card_set", card_set: card_set, question: @question %>
+            <% end %>
+          </div>
+
+          <!-- 新規追加ボタン -->
+          <%= render "questions/add_card_set_button", question: @question %>
+        </div>
+
+        <!-- サイドバー -->
+        <div class="lg:col-span-1">
+          <!-- ゲーム開始ボタン -->
+          <%= render "questions/game_section", question: @question %>
+
+          <!-- 統計情報 -->
+          <%= render "questions/stats_section", question: @question %>
+
+          <!-- 管理ボタン -->
+          <%= render "questions/admin_section", question: @question if @question.user == current_user %>
+        </div>
+      </div>
     </div>
   </div>
 
