@@ -1,14 +1,12 @@
-# app/models/question.rb
 class Question < ApplicationRecord
-  # 関連付け
-  belongs_to :user
   has_many :card_sets, dependent: :destroy
   
-  # バリデーション
   validates :title, presence: true, length: { maximum: 40 }
   validates :description, presence: true, length: { maximum: 150 }
-  validate :minimum_card_sets_required, on: :create
+  # validate :minimum_card_sets_required, on: :create
   validate :maximum_total_cards_limit
+    
+  belongs_to :user
   
   # 従来のシャッフル機能（後方互換性）
   def shuffled_game_cards
@@ -28,10 +26,22 @@ class Question < ApplicationRecord
     
     card_sets.each do |card_set|
       # 起点カード
-      origin_cards << card_set.origin_card_data
+      origin_cards << {
+        word: card_set.origin_word,
+        set_id: card_set.id,
+        type: :origin,
+        css_class: "origin-card"
+      }
       
       # 関連語カード
-      related_cards.concat(card_set.related_cards_data)
+      card_set.related_words.each do |word|
+        related_cards << {
+          word: word,
+          set_id: card_set.id,
+          type: :related,
+          css_class: "related-card"
+        }
+      end
     end
     
     {
@@ -44,7 +54,7 @@ class Question < ApplicationRecord
   # ゲームの正答チェック用
   def check_match(origin_card_id, related_word)
     card_set = card_sets.find(origin_card_id)
-    card_set&.includes_related_word?(related_word)
+    card_set&.related_words&.include?(related_word)
   end
   
   def valid_for_game?
@@ -67,9 +77,9 @@ class Question < ApplicationRecord
   
   private
   
-  def minimum_card_sets_required
-    errors.add(:base, 'カードセットは2組以上必要です') if card_sets.count < 2
-  end
+  # def minimum_card_sets_required
+  #   errors.add(:base, 'カードセットは2組以上必要です') if card_sets.count < 2
+  # end
   
   def maximum_total_cards_limit
     if total_cards_count > 10

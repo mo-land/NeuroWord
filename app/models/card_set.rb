@@ -1,7 +1,6 @@
 class CardSet < ApplicationRecord
   belongs_to :question
-
-  # PostgreSQLのJSON型は自動的にJSONとして扱われるため、serializeは不要  
+  
   validates :origin_word, presence: true, length: { maximum: 40 }
   validate :minimum_related_words_required
   validate :related_words_format
@@ -45,7 +44,6 @@ class CardSet < ApplicationRecord
   end
   
   def cards_count
-    # 起点単語(1枚) + 関連語の枚数
     1 + (related_words&.compact_blank&.count || 0)
   end
   
@@ -83,7 +81,6 @@ class CardSet < ApplicationRecord
   def question_total_cards_limit
     return unless question.present?
     
-    # 他のcard_setsのカード数を計算（自分を除く）
     other_card_sets_count = question.card_sets.reject { |cs| cs == self }.sum(&:cards_count)
     current_cards_count = cards_count
     total_count = other_card_sets_count + current_cards_count
