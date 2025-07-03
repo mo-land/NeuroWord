@@ -6,6 +6,8 @@
   <div class="max-w-md w-full mx-auto bg-base-200  p-4 sm:p-6 rounded-xl shadow-lg">
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
       <fieldset class="fieldset">
         <%= f.label :email, class: "fieldset-legend" %>
         <%= f.email_field :email, class: "input", autofocus: true, placeholder: "例：sample@example.com",autocomplete: "email" %>

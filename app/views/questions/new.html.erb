@@ -3,6 +3,8 @@
     <div class="lg:col-start-2 lg:col-span-6">
       <h1 class="text-3xl font-bold mb-6"><%= t('.title') %></h1>
       <%= form_with model: @question, class: "new_question" do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
         <div class="mb-4">
           <%= f.label :title, class: "block text-sm font-medium mb-1" %>
           <%= f.text_field :title, class: "input input-bordered w-full" %>
