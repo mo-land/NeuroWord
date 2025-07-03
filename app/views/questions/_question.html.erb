@@ -1,8 +1,9 @@
+
 <div id="question-id-<%= question.id %>">
-  <div class="card w-full bg-base-100 card-s shadow-sm">
+  <div class="card w-full bg-base-100 card-s shadow-md">
       <div class="card-body items-center text-center">
         <h4 class="card-title">
-          <%= link_to question.title, '#', class: "link link-primary text-2xl" %>
+          <%= link_to question.title, question_path(question), class: "hover:underline" %>
         </h4>
         <div class="flex justify-end gap-2 mb-2">
           <%= link_to '#', id: "button-edit-#{question.id}", class: "btn btn-ghost btn-sm" do %>

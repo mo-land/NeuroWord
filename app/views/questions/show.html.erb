@@ -1,0 +1,42 @@
+<div class="container mx-auto pt-5 px-4">
+  <div class="mb-3 grid grid-cols-1 lg:grid-cols-8">
+    <div class="lg:col-start-2 lg:col-span-6">
+      <h1 class="text-3xl font-bold mb-4"><%= t('.title') %></h1>
+      <article class="card bg-base-100 shadow-md">
+        <div class="card-body">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div>
+            </div>
+            <div class="md:col-span-3">
+              <h3 class="text-xl font-semibold inline"><%= @question.title %></h3>
+              <ul class="flex flex-wrap text-sm text-gray-500 mt-1 mb-2">
+                <li class="mr-4"><%= "by #{@question.user.name}" %></li>
+                <li><%= l @question.created_at, format: :long %></li>
+              </ul>
+              <div class="flex justify-end space-x-2">
+                <%= link_to "#", id: "button-edit-#{@question.id}", class: "btn btn-sm btn-outline" do %>
+                  <i class="fas fa-pencil-alt"></i>
+                <% end %>
+                <%= link_to "#", id: "button-delete-#{@question.id}", class: "btn btn-sm btn-outline" do %>
+                  <i class="fas fa-trash"></i>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <p class="mt-4 whitespace-pre-line"><%= simple_format(@question.description) %></p>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <%# コメントフォーム %>
+  <div class="grid grid-cols-1 lg:grid-cols-8">
+    <div class="lg:col-start-2 lg:col-span-6">
+      <table class="table w-full">
+        <tbody id="table-comment">
+          <%# コメント一覧 %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
