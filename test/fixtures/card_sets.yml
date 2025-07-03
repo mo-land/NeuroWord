@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  question: one
+  origin_word: MyString
+  related_words: MyText
+
+two:
+  question: two
+  origin_word: MyString
+  related_words: MyText
