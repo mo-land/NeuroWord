@@ -11,8 +11,8 @@ class QuestionsController < ApplicationController
     @question = current_user.questions.build(question_params)
     if @question.save
       # ステップ2（CardSet追加）にリダイレクト
-      redirect_to new_question_card_set_path(@question), 
-                  notice: 'ステップ1完了！カードセットを追加してください（2組以上）'
+      redirect_to new_question_card_set_path(@question),
+                  notice: "ステップ1完了！カードセットを追加してください（2組以上）"
     else
       flash.now[:danger] = t("defaults.flash_message.not_created", item: Question.model_name.human)
       render :new, status: :unprocessable_entity
