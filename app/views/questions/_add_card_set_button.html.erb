@@ -1,4 +1,4 @@
-<% if current_user.own?(question) %>
+<% if current_user && current_user.own?(question) %>
   <div class="mt-6">
     <% remaining_count = question.remaining_cards_count %>
     <% if remaining_count > 0 %>
