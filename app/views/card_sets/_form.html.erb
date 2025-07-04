@@ -7,7 +7,7 @@
               class: "space-y-4" do |form| %>
   
   <!-- エラー表示（送信時のみ） -->
-  <% if card_set.errors.any? && request.post? %>
+  <% if card_set.errors.any? %>
     <div class="alert alert-error">
       <i class="fas fa-exclamation-circle"></i>
       <div>
