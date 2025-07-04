@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   end
 
   # ゲーム関連ルート
-  resources :games, only: [:show] do
+  resources :games, only: [ :show ] do
     member do
       post :check_match
       get :result

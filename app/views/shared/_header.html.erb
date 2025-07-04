@@ -1,14 +1,12 @@
 <div class="navbar  bg-base-300 shadow-sm">
   <div class="navbar-start">
     <%= link_to '/', class: 'flex items-center space-x-2' do %>
-  <%= image_tag 'NeuroWord_logo.png', class: 'w-auto' %>
-<% end %>
+      <%= image_tag 'NeuroWord_logo.png', class: 'w-auto' %>
+    <% end %>
   </div>
 
-  <div class="navbar-end">
+  <div class="navbar-end ml-4">
   <% if user_signed_in? %>
-      <li>
-        <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete } %>
         <div class="dropdown dropdown-end">
           <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /> </svg>
@@ -16,41 +14,58 @@
           <ul
             tabindex="0"
             class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-            <li><a>Item 1</a></li>
+            <li><a>準備中</a></li>
             <li>
-              <a>Parent</a>
+              <a>準備中</a>
               <ul class="p-2">
-                <li><a>Submenu 1</a></li>
-                <li><a>Submenu 2</a></li>
+                <li><a>準備中</a></li>
+                <li><a>準備中</a></li>
               </ul>
             </li>
-            <li><a>Item 3</a></li>
+            <li><%= link_to 'お問い合わせ', 'https://x.com/MO_study2408' %></li>
+            <li>
+              <%= link_to destroy_user_session_path, class: "text-warning", data: { turbo_method: :delete } do %>
+                <i class="fa-solid fa-right-from-bracket" viewBox="0 0 24 24"></i>
+                <span>ログアウト</span>
+              <% end %>
+            </li>
+            <li></li>
+            <li></li>
+            <li><div div class='copyright'>
+              <p>Copyright © 2025 NeuroWord～仲間の言葉を見つけよう！～</p>
+            </div></li>
           </ul>
         </div>
         <div class="navbar-center hidden lg:flex">
           <ul class="menu menu-horizontal px-1">
-            <li><a>Item 1</a></li>
+            <li><a>準備中</a></li>
             <li>
               <details>
                 <summary>Parent</summary>
                 <ul class="p-2">
-                  <li><a>Submenu 1</a></li>
-                  <li><a>Submenu 2</a></li>
+                  <li><a>準備中</a></li>
+                  <li><a>準備中</a></li>
                 </ul>
               </details>
             </li>
-            <li><a>Item 3</a></li>
+            <li><%= link_to 'お問い合わせ', 'https://x.com/MO_study2408' %></li>
+            <li>
+              <%= link_to destroy_user_session_path, class: "text-warning", data: { turbo_method: :delete } do %>
+                <i class="fa-solid fa-right-from-bracket" viewBox="0 0 24 24"></i>
+                <span>ログアウト</span>
+              <% end %>
+            </li>
           </ul>
         </div>
       </li>
     <% else %>
       <div class="flex-none">
-        <ul class="menu menu-horizontal px-1">
-          <li class="mx-2">
-            <%= link_to "ログイン", new_user_session_path, class: "btn btn-primary" %>
+        <ul class="menu menu-horizontal md:px-1">
+          <li class="sm:mx-1 md:mx-2">
+            <%= link_to "ログイン", new_user_session_path, class: "btn btn-primary sm:btn-sm md:btn-md" %>
           </li>
-          <li class="mx-2">
-            <%= link_to "新規登録", new_user_registration_path, class: "btn btn-secondary" %>
+          <li class="sm:mx-1 md:mx-2">
+            <%= link_to "新規登録", new_user_registration_path, class: "btn btn-secondary sm:btn-sm md:btn-md" %>
           </li>
         </ul>
       </div>

@@ -49,24 +49,8 @@ export default class extends Controller {
     const card = event.currentTarget
     const setId = card.dataset.setId
 
-    // 既に完了した起点カードは選択不可
-    if (this.selectedOriginCompleted.has(setId)) {
-      this.showMessage("この起点カードは既に完了しています", "warning")
-      return
-    }
-
-    // 現在の状態に関係なく起点カードは選択可能
-    // 既に選択されている起点カードを解除
-    this.originCardTargets.forEach(c => {
-      c.classList.remove('ring-4', 'ring-accent', 'ring-offset-2')
-    })
-
-    // 新しい起点カードを選択
-    card.classList.add('ring-4', 'ring-accent', 'ring-offset-2')
-    this.selectedOriginId = setId
-    this.gameState = "SELECT_RELATED"
-
-    this.showMessage("起点カードを選択しました。関連語を選んでください！", "info")
+    // 常にAPIリクエストを送る（起点カード選択として）
+    this.handleOriginClick(setId, card)
   }
 
   selectRelated(event) {
@@ -74,32 +58,11 @@ export default class extends Controller {
     const setId = card.dataset.setId
     const relatedWord = card.dataset.word
 
-    // 既に選択済みのカードは無視
-    if (card.classList.contains('opacity-50')) {
-      return
-    }
-
-    if (this.gameState === "SELECT_ORIGIN") {
-      this.showMessage("まず起点カードを選択してください", "warning")
-      return
-    }
-
-    if (!this.selectedOriginId) {
-      this.showMessage("まず起点カードを選択してください", "warning")
-      return
-    }
-
-    // 選択した関連語が現在の起点カードとマッチするかチェック
-    if (setId === this.selectedOriginId) {
-      // 正解の場合
-      this.handleCorrectMatch(card, setId, relatedWord)
-    } else {
-      // 不正解の場合
-      this.showMessage("選択したカードは、現在の起点カードとセットになっていません", "error")
-    }
+    // 常にAPIリクエストを送る（関連語カード選択として）
+    this.handleRelatedClick(setId, relatedWord, card)
   }
 
-  async handleCorrectMatch(cardElement, setId, relatedWord) {
+  async handleOriginClick(setId, cardElement) {
     try {
       const response = await fetch(`/games/${this.questionId}/check_match`, {
         method: 'POST',
@@ -108,40 +71,95 @@ export default class extends Controller {
           'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
         },
         body: JSON.stringify({
+          click_type: 'origin',
           origin_set_id: setId,
-          related_word: relatedWord
+          related_word: null,
+          current_state: this.gameState,
+          selected_origin_id: this.selectedOriginId,
+          is_completed: this.selectedOriginCompleted.has(setId)
         })
       })
 
       const result = await response.json()
 
-      if (result.correct) {
-        // カードを無効化
+      // クリック数を更新
+      this.totalClicks = result.total_clicks
+      this.correctClicks = result.correct_clicks
+
+      if (result.valid_action) {
+        // 有効なアクション（起点カード選択成功）
+        
+        // 既に選択されている起点カードを解除
+        this.originCardTargets.forEach(c => {
+          c.classList.remove('ring-4', 'ring-accent', 'ring-offset-2')
+        })
+
+        // 新しい起点カードを選択
+        cardElement.classList.add('ring-4', 'ring-accent', 'ring-offset-2')
+        this.selectedOriginId = setId
+        this.gameState = "SELECT_RELATED"
+
+        this.showMessage(result.message || "起点カードを選択しました。関連語を選んでください！", "info")
+      } else {
+        // 無効なアクション
+        this.showMessage(result.message || "この起点カードは選択できません", "warning")
+      }
+
+    } catch (error) {
+      console.error('Error handling origin click:', error)
+      this.showMessage("エラーが発生しました", "error")
+    }
+  }
+
+  async handleRelatedClick(setId, relatedWord, cardElement) {
+    try {
+      const response = await fetch(`/games/${this.questionId}/check_match`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
+        },
+        body: JSON.stringify({
+          click_type: 'related',
+          origin_set_id: this.selectedOriginId,
+          related_word: relatedWord,
+          clicked_set_id: setId,
+          current_state: this.gameState,
+          is_already_selected: cardElement.classList.contains('opacity-50')
+        })
+      })
+
+      const result = await response.json()
+
+      // クリック数を更新
+      this.totalClicks = result.total_clicks
+      this.correctClicks = result.correct_clicks
+
+      if (result.correct && result.valid_action) {
+        // 正解且つ有効なアクション
         cardElement.classList.add('opacity-50', 'cursor-not-allowed')
         cardElement.classList.remove('hover:scale-105')
         cardElement.removeAttribute('data-action')
         
         this.correctMatches = result.total_matches
-        this.correctClicks = result.correct_clicks
-        this.totalClicks = result.total_clicks
         this.scoreTarget.textContent = this.correctMatches
         
         this.showMessage(`正解！ (正答率: ${result.current_accuracy}%)`, "success")
 
         // この起点カードの関連語が全て完了したかチェック
-        await this.checkOriginCompletion(setId)
+        await this.checkOriginCompletion(this.selectedOriginId)
 
         // ゲーム完了チェック
         if (result.game_completed) {
           setTimeout(() => this.showCompletionModal(), 1000)
         }
       } else {
-        this.totalClicks = result.total_clicks
-        this.showMessage(`不正解... (正答率: ${result.current_accuracy}%)`, "error")
+        // 不正解または無効なアクション
+        this.showMessage(result.message || `不正解... (正答率: ${result.current_accuracy}%)`, "error")
       }
 
     } catch (error) {
-      console.error('Error checking match:', error)
+      console.error('Error handling related click:', error)
       this.showMessage("エラーが発生しました", "error")
     }
   }
@@ -198,7 +216,7 @@ export default class extends Controller {
 
     setTimeout(() => {
       this.messageTarget.classList.add("hidden")
-    }, 3000) // メッセージ表示時間を少し長くする
+    }, 3000)
   }
 
   showCompletionModal() {

@@ -12,6 +12,7 @@
 
     <%= link_to '#', class: "hover:dock-active" do %>
       <i class="fa-solid fa-user" viewBox="0 0 24 24"></i>
+      <span class="dock-label">【準備中】</span>
       <span class="dock-label">マイページ</span>
     <% end %>
   <% else %>
@@ -22,7 +23,7 @@
     <% end %>
     <%= link_to '#', class: "hover:dock-active" do %>
       <i class="fa-solid fa-user" viewBox="0 0 24 24"></i>
-      <span class="dock-label">【要ログイン】</span>
+      <span class="dock-label">【準備中・要ログイン】</span>
       <span class="dock-label">マイページ</span>
     <% end %> 
   <% end %>

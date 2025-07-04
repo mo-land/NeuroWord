@@ -1,10 +1,14 @@
-<div class="bg-gradient-to-r from-sky-500 via-teal-500 to-green-500 py-6 md:py-8">
-  <div class="text-center text-white">
-    <h1 class="m-4 text-2xl md:text-4xl font-bold">
-      NeuroWord
-    </h1>
-    <h1 class="m-4 text-2xl md:text-4xl font-bold">
-      ～仲間の言葉をみつけよう～
-    </h1>
+<div class="hero bg-base-200 min-screen">
+  <div class="hero-content flex-col lg:flex-row-reverse">
+    <%= image_tag 'NeuroWord.png' , class: 'sm rounded-lg shadow-2xl' %>
+    <div>
+      <p class="py-6">
+        「NeuroWord（ニューロワード）」は、単語や用語とその関連語・説明を一覧表示し、正しい組み合わせを選んでいくWebゲームアプリです。
+      </p>
+    <%= link_to questions_path, class: "btn btn-primary" do %>
+      <i class="fa-solid fa-magnifying-glass" viewBox="0 0 24 24"></i>
+      <span>さぁ、問題を探そう！</span>
+    <% end %>
+    </div>
   </div>
 </div>

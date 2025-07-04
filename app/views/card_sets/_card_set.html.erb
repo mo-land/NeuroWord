@@ -38,7 +38,7 @@
       <% if current_user.own?(question) %>
       <div class="flex flex-col gap-2">
         <%= link_to edit_question_card_set_path(question, card_set), 
-                    class: "btn btn-outline btn-primary btn-sm" do %>
+                    class: "btn btn-outline btn-accent btn-sm" do %>
           <i class="fas fa-edit mr-1"></i>
           編集
         <% end %>
