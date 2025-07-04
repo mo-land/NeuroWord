@@ -7,7 +7,7 @@
   </div>
   
   <!-- カード制限情報 -->
-  <% if current_user.own?(@question) %>
+  <% if current_user && current_user.own?(@question) %>
     <%= render "shared/card_limit_info", question: @question %>
   <% end %>
 
