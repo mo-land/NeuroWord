@@ -13,15 +13,21 @@
       </div>
       
       <div class="text-right">
+        <!-- ギブアップボタン -->
+        <button class="btn btn-outline btn-error m-4" 
+                data-action="click->game#giveUp">
+          <i class="fas fa-flag mr-2"></i>
+          ギブアップ
+        </button>
         <div class="stats stats-horizontal shadow">
           <div class="stat">
             <div class="stat-title">正解数</div>
-            <div class="stat-value text-primary" data-game-target="score">0</div>
+            <div class="stat-value text-error" data-game-target="score">0</div>
             <div class="stat-desc">/ <%= @game_data[:relateds].count %></div>
           </div>
           <div class="stat">
             <div class="stat-title">時間</div>
-            <div class="stat-value text-secondary" data-game-target="timer">00:00</div>
+            <div class="stat-value text-success" data-game-target="timer">00:00</div>
           </div>
         </div>
       </div>
@@ -91,14 +97,6 @@
     </div>
   </div>
 
-  <!-- ギブアップボタン -->
-  <div class="fixed top-4 right-4">
-    <button class="btn btn-outline btn-error" 
-            data-action="click->game#giveUp">
-      <i class="fas fa-flag mr-2"></i>
-      ギブアップ
-    </button>
-  </div>
 
   <!-- ゲーム完了モーダル -->
   <div class="modal" data-game-target="completionModal">
