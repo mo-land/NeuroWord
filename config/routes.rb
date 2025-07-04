@@ -8,6 +8,15 @@ Rails.application.routes.draw do
   resources :questions, only: %i[index new create show edit update destroy] do
     resources :card_sets
   end
+
+  # ゲーム関連ルート
+  resources :games, only: [:show] do
+    member do
+      post :check_match
+      get :result
+    end
+  end
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
