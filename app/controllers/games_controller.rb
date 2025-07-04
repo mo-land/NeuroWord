@@ -1,10 +1,10 @@
 class GamesController < ApplicationController
-  before_action :set_question, only: [:show, :check_match, :result]
+  before_action :set_question, only: [ :show, :check_match, :result ]
 
   # GET /games/:id (questionのIDを使用)
   def show
     unless @question.valid_for_game?
-      redirect_to @question, alert: 'ゲームを開始するには2組以上のカードセットが必要です'
+      redirect_to @question, alert: "ゲームを開始するには2組以上のカードセットが必要です"
       return
     end
 
@@ -24,16 +24,16 @@ class GamesController < ApplicationController
   # POST /games/:id/check_match
   def check_match
     click_type = params[:click_type] # 'origin' or 'related'
-    
+
     # すべてのクリックをカウント
     session[:total_clicks] = (session[:total_clicks] || 0) + 1
 
-    if click_type == 'origin'
+    if click_type == "origin"
       handle_origin_click
-    elsif click_type == 'related'
+    elsif click_type == "related"
       handle_related_click
     else
-      render json: { error: 'Invalid click type' }, status: 400
+      render json: { error: "Invalid click type" }, status: 400
     end
   end
 
@@ -42,12 +42,12 @@ class GamesController < ApplicationController
     @question = Question.find(params[:id])
     @total_matches = session[:correct_matches]&.length || 0
     @required_matches = session[:total_required_matches] || @question.card_sets.sum { |cs| cs.related_words.count }
-    
+
     # クリック数ベースの正答率計算
     @total_clicks = session[:total_clicks] || 0
     @correct_clicks = session[:correct_clicks] || 0
     @accuracy = @total_clicks > 0 ? (@correct_clicks.to_f / @total_clicks * 100).round(1) : 0
-    
+
     # ゲーム時間計算
     start_time = session[:game_start_time] || Time.current.to_f
     @game_duration = Time.current.to_f - start_time
@@ -158,9 +158,9 @@ class GamesController < ApplicationController
       # 不正解の場合
       message = if !is_valid_match
                   "選択したカードは、現在の起点カードとセットになっていません"
-                else
+      else
                   "不正解..."
-                end
+      end
 
       render json: {
         valid_action: true,
