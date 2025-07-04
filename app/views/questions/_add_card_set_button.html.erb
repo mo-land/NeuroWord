@@ -1,15 +1,17 @@
-<div class="mt-6">
-  <% remaining_count = question.remaining_cards_count %>
-  <% if remaining_count > 0 %>
-    <%= link_to new_question_card_set_path(question),
-                class: "btn btn-primary" do %>
-      <i class="fas fa-plus mr-2"></i>
-      新しいカードセットを追加
+<% if current_user.own?(question) %>
+  <div class="mt-6">
+    <% remaining_count = question.remaining_cards_count %>
+    <% if remaining_count > 0 %>
+      <%= link_to new_question_card_set_path(question),
+                  class: "btn btn-primary" do %>
+        <i class="fas fa-plus mr-2"></i>
+        新しいカードセットを追加
+      <% end %>
+    <% else %>
+      <button class="btn btn-disabled btn-block">
+        <i class="fas fa-lock mr-2"></i>
+        カード数上限に達しました
+      </button>
     <% end %>
-  <% else %>
-    <button class="btn btn-disabled btn-block">
-      <i class="fas fa-lock mr-2"></i>
-      カード数上限に達しました
-    </button>
-  <% end %>
-</div>
+  </div>
+<% end %>
