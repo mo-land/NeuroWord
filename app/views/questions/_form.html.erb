@@ -1,0 +1,51 @@
+<!-- フォーム -->
+      <div class="card bg-base-100 shadow-lg">
+        <div class="card-body">
+          <%= form_with model: @question, class: "new_question", local: true do |f| %>
+            <%= render 'shared/error_messages', object: f.object %>
+
+            <div class="form-control mb-4">
+              <%= f.label :title, class: "label" do %>
+                <span class="label-text">
+                  <i class="fas fa-heading text-primary mr-1"></i>
+                  問題タイトル
+                </span>
+              <% end %>
+              <%= f.text_field :title, 
+                              class: "input input-bordered w-full",
+                              placeholder: "例: 動物と食べ物の仲間分け" %>
+            </div>
+
+            <div class="form-control mb-6">
+              <%= f.label :description, class: "label" do %>
+                <span class="label-text">
+                  <i class="fas fa-align-left text-secondary mr-1"></i>
+                  問題説明
+                </span>
+              <% end %>
+              <%= f.text_area :description, 
+                             class: "textarea textarea-bordered w-full", 
+                             rows: "8",
+                             placeholder: "この問題について説明してください...説明不要であれば「お楽しみに！」でOK!" %>
+            </div>
+
+            <div class="card-actions justify-end">
+              <%= f.submit "次へ：カードセットを追加", 
+                          class: "btn btn-primary btn-lg" do %>
+                次へ：カードセットを追加
+                <i class="fas fa-arrow-right ml-2"></i>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- ヘルプ情報 -->
+      <div class="alert alert-info mt-6">
+        <i class="fas fa-info-circle"></i>
+        <div>
+          <h4 class="font-bold">次のステップについて</h4>
+          <p>基本情報の入力後、カードセット（起点単語と関連語のペア）を2組以上追加していただきます。</p>
+        </div>
+      </div>
+    
