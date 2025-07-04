@@ -3,7 +3,7 @@
   <div class="card w-full bg-base-100 card-s shadow-md">
     <div class="card-body items-center text-center">
       <h4 class="card-title">
-        <%= link_to question.title, question_path(question), class: "hover:underline" %>
+        <%= link_to question.title, game_path(question), class: "hover:underline" %>
       </h4>
       <% if current_user.own?(question) %>
         <div class="flex justify-end gap-2 mb-2">
