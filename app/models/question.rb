@@ -72,7 +72,7 @@ class Question < ApplicationRecord
   end
 
   def can_add_card_set?(origin_word_count = 1, related_words_count = 0)
-    (total_cards_count + origin_word_count + related_words_count) <= 10
+    (total_cards_count + origin_word_count + related_words_count) <= 11
   end
 
   private
