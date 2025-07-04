@@ -7,10 +7,10 @@
 
     <% if question.valid_for_game? %>
       <p class="mb-4">カードの仲間分けゲームで遊ぼう！</p>
-      <button class="btn btn-accent">
+      <%= link_to game_path(question), class: "btn btn-accent" do %>
         <i class="fas fa-play mr-2"></i>
         ゲーム開始
-      </button>
+      <% end %>
     <% else %>
       <p class="mb-4">ゲームを開始するには2組以上のカードセットが必要です</p>
       <button class="btn btn-disabled">
