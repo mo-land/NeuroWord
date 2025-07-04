@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   def index
-    @questions = Question.includes(:user)
+    @questions = Question.includes(:user).order(created_at: :desc)
   end
 
   def new
@@ -21,6 +21,26 @@ class QuestionsController < ApplicationController
 
   def show
     @question = Question.find(params[:id])
+  end
+
+  def edit
+    @question = current_user.questions.find(params[:id])
+  end
+
+  def update
+  @question = current_user.questions.find(params[:id])
+    if @question.update(question_params)
+      redirect_to question_path(@question), success: t("defaults.flash_message.updated", item: Question.model_name.human)
+    else
+      flash.now[:danger] = t("defaults.flash_message.not_updated", item: Question.model_name.human)
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+  question = current_user.questions.find(params[:id])
+    question.destroy!
+    redirect_to questions_path, success: t("defaults.flash_message.deleted", item: Question.model_name.human), status: :see_other
   end
 
   private

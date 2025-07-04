@@ -1,3 +1,4 @@
+<!-- app/views/questions/new.html.erbのコピペ -->
 <div class="container mx-auto px-4 py-8">
   <div class="grid grid-cols-1 lg:grid-cols-8">
     <div class="lg:col-start-2 lg:col-span-6">
@@ -6,7 +7,7 @@
       <div class="steps mb-8 w-full">
         <div class="step step-primary">
           <i class="fas fa-edit mr-2"></i>
-          基本情報J
+          基本情報
         </div>
         <div class="step">
           <i class="fas fa-layer-group mr-2"></i>
@@ -21,10 +22,11 @@
           <%= t('.title') %>
         </h1>
         <p class="text-lg text-base-content/70">
-          ステップ1: 問題の基本情報を入力してください
+          ステップ1: 問題の基本情報を編集してください
         </p>
       </div>
       <%= render 'form', question: @question %>
-    </div>
+
+      </div>
   </div>
 </div>

@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # resources :static_pages
   root "static_pages#top"
 
-  resources :questions, only: %i[index new create show] do
+  resources :questions, only: %i[index new create show edit update destroy] do
     resources :card_sets
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
