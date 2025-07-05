@@ -9,13 +9,11 @@
   <fieldset class="fieldset">
     <%= f.label :name, class: "fieldset-legend" %>
     <%= f.text_field :name, class: "input", placeholder: "ユーザー名を入力", autofocus: true %>
-    <p class="label">Optional</p>
   </fieldset>
 
   <fieldset class="fieldset">
     <%= f.label :email, class: "fieldset-legend" %>
     <%= f.email_field :email, class: "input", autocomplete: "email", placeholder: "例：sample@example.com"  %>
-    <p class="label">Optional</p>
   </fieldset>
 
   <fieldset class="fieldset">
@@ -36,6 +34,6 @@
   </div>
 <% end %>
 
-<%= render "devise/shared/links" %>
+<p><%= link_to "ログインはこちら", new_user_session_path, class: "link mt-12" %></p>
 </div>
 </div>
