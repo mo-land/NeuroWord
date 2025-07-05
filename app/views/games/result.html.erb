@@ -88,7 +88,7 @@
         <h3 class="card-title justify-center text-2xl">
         <div class="flex flex-wrap justify-center gap-4">
           <!-- Twitter/X シェア -->
-          <%= link_to "https://twitter.com/intent/tweet?text=#{CGI.escape("NeuroWordで「#{@question.title}」に挑戦！\n正答率: #{@accuracy}% (#{@correct_clicks}/#{@total_clicks}クリック)\n完了問題: #{@total_matches}/#{@required_matches}問\n時間: #{sprintf('%02d:%02d', (@game_duration / 60).to_i, (@game_duration % 60).to_i)}\n\n#NeuroWord #単語ゲーム")}&url=#{CGI.escape(request.base_url)}", 
+          <%= link_to "https://twitter.com/intent/tweet?text=#{CGI.escape("NeuroWordで「#{@question.title}」に挑戦！\n正答率: #{@accuracy}% (#{@correct_clicks}/#{@total_clicks}クリック)\n完了問題: #{@total_matches}/#{@required_matches}問\n時間: #{sprintf('%02d:%02d', (@game_duration / 60).to_i, (@game_duration % 60).to_i)}\n\n#仲間言葉探し #単語ゲーム")}&url=#{CGI.escape("#{request.base_url}/games/#{@question.id}")}", 
                   target: "_blank",
                   class: "btn btn-neutral text-2xl shadow-xl mb-8" do %>
             <div>
