@@ -5,27 +5,26 @@
       <h4 class="card-title">
         <%= link_to question.title, game_path(question), class: "hover:underline" %>
       </h4>
-      <% if current_user && current_user.own?(question) %>
-        <div class="flex justify-end gap-2 mb-2">
-          <%= link_to edit_question_path(question), id: "button-edit-#{question.id}" do %>
-            <i class="fa-solid fa-pen"></i>
-          <% end %>
-          <%= link_to question_path(question), id: "button-delete-#{question.id}", data: { turbo_method: :delete, turbo_confirm: t('defaults.delete_confirm') }  do %>
-            <i class="fa-solid fa-trash"></i>
-          <% end %>
-        </div>
-      <% end %>
+      
       <div class="flex gap-4 text-sm opacity-70 mb-2">
         <div class="flex items-center gap-1">
           <i class="fa-solid fa-user"></i>
           <%= question.user.name %>
         </div>
         <div class="flex items-center gap-1">
-          <i class="fa-solid fa-calendar"></i>
-          <%= l question.created_at, format: :short %>
+        <% if current_user && current_user.own?(question) %>
+        <div class="flex justify-end gap-2 mb-2">
+          <%= link_to edit_question_path(question), id: "button-edit-#{question.id}" do %>
+            <i class="fa-solid fa-pen text-success"></i>
+          <% end %>
+          <%= link_to question_path(question), id: "button-delete-#{question.id}", data: { turbo_method: :delete, turbo_confirm: t('defaults.delete_confirm') }  do %>
+            <i class="fa-solid fa-trash text-error"></i>
+          <% end %>
+        </div>
+      <% end %>
         </div>
       </div>
-      <p class="text-base-content/80"><%= question.description %></p>
+      <p class="text-base-content/80"><%= truncate("#{question.description}", omission: "・・・") %></p>
     </div>
   </div>
 </div>
