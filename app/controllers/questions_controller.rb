@@ -24,9 +24,10 @@ class QuestionsController < ApplicationController
   def show
     @question = Question.find(params[:id])
     pattern = /[\p{Emoji}\p{Emoji_Component}&&[:^ascii:]]/
-    @url = "https://res.cloudinary.com/dyafcag5y/image/upload/l_text:TakaoPGothic_60_bold:～#{@question.title.gsub(pattern, '')}～%0Aの問題を作ったよ！,co_rgb:FFF,w_900,c_fit/v1752043591/yng2jlr2e2w98soqvxje.png"
-
-    set_meta_tags(og: { image: @url }, twitter: { image: @url })
+    if current_user && current_user.own?(@question)
+      @url = "https://res.cloudinary.com/dyafcag5y/image/upload/l_text:TakaoPGothic_60_bold:～#{@question.title.gsub(pattern, '')}～%0Aの問題を作ったよ！,co_rgb:FFF,w_900,c_fit/v1752074827/kjwmtl03doe8m0ywkvvh.png"
+      set_meta_tags(og: { image: @url }, twitter: { image: @url })
+    end
   end
 
   def edit
