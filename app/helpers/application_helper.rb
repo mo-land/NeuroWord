@@ -15,6 +15,10 @@ module ApplicationHelper
         type: "website",
         url: request.original_url,
         locale: "ja_JP"
+      },
+       twitter: {
+        card: "summary_large_image",
+        image: @url
       }
     }
   end
