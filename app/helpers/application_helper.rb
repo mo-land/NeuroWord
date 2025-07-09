@@ -1,5 +1,5 @@
 module ApplicationHelper
-  def default_meta_tags
+  def default_meta_tags(url: "https://res.cloudinary.com/dyafcag5y/image/upload/v1752075435/iyj9hdmhh8r4njmyrwwr.png")
     {
       site: "NeuroWord～仲間の言葉を見つけよう！～",
       title: "NeuroWord～仲間の言葉を見つけよう！～",
@@ -18,7 +18,7 @@ module ApplicationHelper
       },
        twitter: {
         card: "summary_large_image",
-        image: @url
+        image: url
       }
     }
   end
