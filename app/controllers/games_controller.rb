@@ -52,6 +52,11 @@ class GamesController < ApplicationController
     start_time = session[:game_start_time] || Time.current.to_f
     @game_duration = Time.current.to_f - start_time
 
+    # OGP
+    pattern = /[\p{Emoji}\p{Emoji_Component}&&[:^ascii:]]/
+    @url = "https://res.cloudinary.com/dyafcag5y/image/upload/l_text:TakaoPGothic_60_bold:～#{@question.title.gsub(pattern, '')}～%0Aに挑戦したよ！,co_rgb:421,w_900,c_fit/v1752043572/ixs5grlxhrds2aprflcn.png"
+    set_meta_tags(og: { image: @url }, twitter: { image: @url })
+
     # セッションクリア
     session.delete(:game_question_id)
     session.delete(:correct_matches)
