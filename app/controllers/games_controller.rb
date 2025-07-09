@@ -54,7 +54,7 @@ class GamesController < ApplicationController
 
     # OGP
     pattern = /[\p{Emoji}\p{Emoji_Component}&&[:^ascii:]]/
-    @url = "https://res.cloudinary.com/dyafcag5y/image/upload/l_text:TakaoPGothic_60_bold:～#{@question.title.gsub(pattern, '')}～%0Aに挑戦したよ！,co_rgb:421,w_900,c_fit/v1752043572/ixs5grlxhrds2aprflcn.png"
+    @url = "https://res.cloudinary.com/dyafcag5y/image/upload/l_text:TakaoPGothic_60_bold:～#{@question.title.gsub(pattern, '')}～%0Aに挑戦したよ！,co_rgb:421,w_900,c_fit/v1752074826/h0rhydkkhqhzlqvt1rbk.png"
     set_meta_tags(og: { image: @url }, twitter: { image: @url })
 
     # セッションクリア
