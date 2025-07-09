@@ -42,8 +42,8 @@ gem "devise-i18n"
 
 gem "rails-i18n"
 
-gem 'cloudinary'
-gem 'meta-tags'
+gem "cloudinary"
+gem "meta-tags"
 
 group :development, :test do
   gem "faker"
@@ -68,5 +68,3 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
-
-
