@@ -10,6 +10,9 @@ class GamesController < ApplicationController
 
     @game_data = @question.grouped_game_cards
 
+    # OGP画像の動的設定（経由元に応じて切り替え）
+    set_dynamic_ogp_image
+
     # セッションでゲーム状態管理
     session[:game_question_id] = @question.id
     session[:correct_matches] = []
@@ -52,11 +55,6 @@ class GamesController < ApplicationController
     start_time = session[:game_start_time] || Time.current.to_f
     @game_duration = Time.current.to_f - start_time
 
-    # OGP
-    pattern = /[\p{Emoji}\p{Emoji_Component}&&[:^ascii:]]/
-    @url = "https://res.cloudinary.com/dyafcag5y/image/upload/l_text:TakaoPGothic_60_bold:～#{@question.title.gsub(pattern, '')}～%0Aに挑戦したよ！,co_rgb:421,w_900,c_fit/v1752074826/h0rhydkkhqhzlqvt1rbk.png"
-    set_meta_tags(og: { image: @url }, twitter: { image: @url })
-
     # セッションクリア
     session.delete(:game_question_id)
     session.delete(:correct_matches)
@@ -71,6 +69,26 @@ class GamesController < ApplicationController
 
   def set_question
     @question = Question.find(params[:id])
+  end
+
+  # OGP画像を動的に設定するメソッド
+  def set_dynamic_ogp_image
+    pattern = /[\p{Emoji}\p{Emoji_Component}&&[:^ascii:]]/
+    escaped_title = @question.title.gsub(pattern, "")
+
+    case params[:from]
+    when "creator"
+      # 作成者からのシェア（questions/show からのリンク）
+      @url = "https://res.cloudinary.com/dyafcag5y/image/upload/l_text:TakaoPGothic_60_bold:～#{escaped_title}～%0Aの問題を作ったよ！,co_rgb:FFF,w_900,c_fit/v1752074827/kjwmtl03doe8m0ywkvvh.png"
+    when "result"
+      # ゲーム結果からのシェア（result.html.erb からのリンク）
+      @url = "https://res.cloudinary.com/dyafcag5y/image/upload/l_text:TakaoPGothic_60_bold:～#{escaped_title}～%0Aに挑戦したよ！,co_rgb:421,w_900,c_fit/v1752074826/h0rhydkkhqhzlqvt1rbk.png"
+    else
+      # デフォルト（直接アクセスやその他）
+      @url = "https://res.cloudinary.com/dyafcag5y/image/upload/v1752075435/iyj9hdmhh8r4njmyrwwr.png"
+    end
+
+    set_meta_tags(og: { image: @url }, twitter: { image: @url })
   end
 
   def handle_origin_click

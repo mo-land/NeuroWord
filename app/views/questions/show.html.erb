@@ -29,7 +29,7 @@
         <h3 class="card-title justify-center text-2xl">
         <div class="flex flex-wrap justify-center gap-4">
           <!-- Twitter/X シェア -->
-          <%= link_to "https://twitter.com/intent/tweet?text=#{CGI.escape("NeuroWordで「#{@question.title}」を作ったよ！\n挑戦してみてね🙌\n\n#仲間言葉探し #単語ゲーム")}&url=#{CGI.escape("#{request.base_url}/games/#{@question.id}")}", 
+          <%= link_to "https://twitter.com/intent/tweet?text=#{CGI.escape("NeuroWordで「#{@question.title}」を作ったよ！\n挑戦してみてね🙌\n\n#仲間言葉探し #単語ゲーム")}&url=#{CGI.escape("#{request.base_url}/games/#{@question.id}?from=creator")}", 
                   target: "_blank",
                   class: "btn btn-neutral text-2xl shadow-xl mb-8" do %>
             <div>
