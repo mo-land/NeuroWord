@@ -1,3 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@100..900&display=swap" rel="stylesheet");
+
 @import "tailwindcss" source(none);
 @source "../../../public/*.html";
 @source "../../../app/helpers/**/*.rb";
@@ -8,3 +11,17 @@
   themes: retro --default;
  }
 
+@theme {
+  --font-kosugimaru: "Kosugi Maru", sans-serif;
+  --font-mplus1: "M Plus 1", sans-serif;
+}
+.font-mplus1 {
+  font-family: "M Plus 1", sans-serif;
+}
+
+@layer base {
+  body {
+    font-family: "Kosugi Maru", sans-serif;
+    @apply text-base-content;
+  }
+}
