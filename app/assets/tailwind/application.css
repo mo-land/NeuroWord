@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap");
+
 @import "tailwindcss" source(none);
 @source "../../../public/*.html";
 @source "../../../app/helpers/**/*.rb";
@@ -8,3 +10,13 @@
   themes: retro --default;
  }
 
+@theme {
+  --font-kosugimaru: "Kosugi Maru", sans-serif;
+}
+
+@layer base {
+  body {
+    font-family: "Kosugi Maru", sans-serif;
+    @apply text-base-content;
+  }
+}
