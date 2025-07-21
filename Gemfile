@@ -45,6 +45,8 @@ gem "rails-i18n"
 gem "cloudinary"
 gem "meta-tags"
 
+gem "kaminari"
+
 group :development, :test do
   gem "faker"
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

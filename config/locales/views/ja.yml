@@ -10,6 +10,12 @@ ja:
       not_updated: "%{item}を更新出来ませんでした"
       deleted: "%{item}を削除しました"
       require_login: ログインしてください
+  pagination:
+    first: 最初
+    last: 最後
+    previous:  '<'
+    next: '>'
+    truncate: '...'
   questions:
     new:
       title: 問題作成
