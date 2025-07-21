@@ -1,5 +1,5 @@
 <%= paginate @questions %>
-<div class="bg-base-200 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 mx-auto max-w-screen-6xl py-8">
+<div class="bg-base-200 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 mx-auto max-w-screen-6xl py-8 items-stretch">
 <!-- 問題一覧 -->
   <% if @questions.present? %>
     <%= render @questions %>
