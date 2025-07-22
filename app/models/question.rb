@@ -86,4 +86,13 @@ class Question < ApplicationRecord
       errors.add(:base, "カードの総数は10枚以内にしてください（現在：#{total_cards_count}枚）")
     end
   end
+
+  # Runsackホワイトリスト
+  def self.ransackable_attributes(auth_object = nil)
+    [ "title", "description" ]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    [ "user" ]
+  end
 end
