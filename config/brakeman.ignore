@@ -1,0 +1,9 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Dynamic Render Path",
+      "fingerprint": "1dd7f01ee59d92cd5034e72780d190aad003266142dc8b1b4aee7ba50df4da8c",
+      "note": "Kaminari and Ransack handle user input safely"
+    }
+  ]
+}
