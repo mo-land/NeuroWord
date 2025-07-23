@@ -6,6 +6,6 @@ class ApplicationController < ActionController::Base
   def set_search
     # @search = Question.search(params[:q])
     @search = Question.ransack(params[:q]) # ransackメソッド推奨
-    @search_questions = @search.result.page(params[:page])
+    @search_questions = @search.result(distinct: true).includes(:user).order(created_at: :desc).page(params[:page])
   end
 end
