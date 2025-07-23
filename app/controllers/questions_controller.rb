@@ -1,9 +1,7 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [ :index, :show ]
 
-  def index
-    @questions = Question.includes(:user).order(created_at: :desc).page(params[:page])
-  end
+  def index; end
 
   def new
     @question = Question.new
