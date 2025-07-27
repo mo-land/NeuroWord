@@ -11,7 +11,18 @@ class QuestionsController < ApplicationController
 
   def create
     @question = current_user.questions.build(question_params)
-    tag_list = params[:question][:tag].split(",")
+    # Tagifyから送られてくるJSON形式のタグを処理
+    tag_json = params[:question][:tag]
+    tag_list = []
+    if tag_json.present?
+      begin
+        parsed_tags = JSON.parse(tag_json)
+        tag_list = parsed_tags.map { |tag| tag["value"] } if parsed_tags.is_a?(Array)
+      rescue JSON::ParserError
+        # JSON形式でない場合はカンマ区切りとして処理
+        tag_list = tag_json.split(",")
+      end
+    end
     if @question.save
       @question.save_tag(tag_list)
       # ステップ2（CardSet追加）にリダイレクト
@@ -34,8 +45,19 @@ class QuestionsController < ApplicationController
   end
 
   def update
-  @question = current_user.questions.find(params[:id])
-  tag_list = params[:question][:tag].split(",")
+    @question = current_user.questions.find(params[:id])
+    # Tagifyから送られてくるJSON形式のタグを処理
+    tag_json = params[:question][:tag]
+    tag_list = []
+    if tag_json.present?
+      begin
+        parsed_tags = JSON.parse(tag_json)
+        tag_list = parsed_tags.map { |tag| tag["value"] } if parsed_tags.is_a?(Array)
+      rescue JSON::ParserError
+        # JSON形式でない場合はカンマ区切りとして処理
+        tag_list = tag_json.split(",")
+      end
+    end
     if @question.update(question_params)
       @question.save_tag(tag_list)
       redirect_to question_path(@question), success: t("defaults.flash_message.updated", item: Question.model_name.human)
