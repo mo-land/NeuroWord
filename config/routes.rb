@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   # resources :static_pages
   root "static_pages#top"
 
+  get "search_tag"=>"questions#search_tag"
+
   resources :questions, only: %i[index new create show edit update destroy] do
     resources :card_sets
   end

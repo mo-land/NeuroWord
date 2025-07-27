@@ -15,7 +15,9 @@
     <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag 'https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css' %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+    <%= javascript_include_tag 'https://cdn.jsdelivr.net/npm/@yaireo/tagify', defer: true %>
     <%= display_meta_tags(default_meta_tags) %>
     <script src="https://kit.fontawesome.com/d9485f9c23.js" crossorigin="anonymous"></script>
   </head>

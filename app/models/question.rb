@@ -1,5 +1,7 @@
 class Question < ApplicationRecord
   has_many :card_sets, dependent: :destroy
+  has_many :question_tags, dependent: :destroy
+  has_many :tags, through: :question_tags
 
   validates :title, presence: true, length: { maximum: 40 }
   validates :description, presence: true, length: { maximum: 150 }
@@ -73,6 +75,26 @@ class Question < ApplicationRecord
 
   def can_add_card_set?(origin_word_count = 1, related_words_count = 0)
     (total_cards_count + origin_word_count + related_words_count) <= 11
+  end
+
+  def save_tag(sent_tags)
+    # タグが存在していれば、タグの名前を配列として全て取得
+    current_tags = tags.pluck(:name) unless tags.nil?
+    # 現在取得したタグから送られてきたタグを除いてoldtagとする
+    old_tags = current_tags - sent_tags
+    # 送信されてきたタグから現在存在するタグを除いたタグをnewとする
+    new_tags = sent_tags - current_tags
+
+    # 古いタグを消す
+    old_tags.each do |old|
+      tags.delete Tag.find_by(name: old)
+    end
+
+    # 新しいタグを保存
+    new_tags.each do |new|
+      new_question_tag = Tag.find_or_create_by(name: new)
+      tags << new_question_tag
+    end
   end
 
   private

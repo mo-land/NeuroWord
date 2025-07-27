@@ -7,7 +7,7 @@
             <div class="form-control mb-4">
               <%= f.label :title, class: "label" do %>
                 <span class="label-text">
-                  <i class="fas fa-heading text-primary mr-1"></i>
+                  <i class="fas fa-heading text-accent mr-1"></i>
                   問題タイトル
                 </span>
               <% end %>
@@ -19,7 +19,7 @@
             <div class="form-control mb-6">
               <%= f.label :description, class: "label" do %>
                 <span class="label-text">
-                  <i class="fas fa-align-left text-secondary mr-1"></i>
+                  <i class="fas fa-align-left text-accent mr-1"></i>
                   問題説明
                 </span>
               <% end %>
@@ -27,6 +27,24 @@
                              class: "textarea textarea-bordered w-full", 
                              rows: "8",
                              placeholder: "この問題について説明してください...説明不要であれば「お楽しみに！」でOK!" %>
+            </div>
+
+            <div class="form-control mb-3">
+              <%= f.label :tag, class: "label" do %>
+              <span class="label-text">
+                  <i class="fas fa-tags text-accent mr-1"></i>
+                  タグ
+                </span>
+              <% end %>
+              <%= f.text_field :tag, 
+                id: 'tag-input',
+                value: @question.tags.pluck(:name).join(','),
+                class: "tagify input-bordered w-full",
+                placeholder: "1タグ20文字以内で設定ください",
+                data: { 
+                  existing_tags: Tag.pluck(:name).to_json,
+                  role: 'tagify'
+                } %>
             </div>
 
             <div class="card-actions justify-end">
