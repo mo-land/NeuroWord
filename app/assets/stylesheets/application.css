@@ -13,3 +13,94 @@
  *= require_tree .
  *= require_self
  */
+
+/* Tagifyコンテナのスタイル */
+.tagify {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid oklch(var(--bc) / 0.2);
+  border-radius: 0.5rem;
+  background-color: oklch(var(--b1));
+  color: oklch(var(--bc));
+  font-size: 1rem;
+  line-height: 1.5;
+  min-height: 3rem;
+  
+  /* Tagify独自の変数を上書き（softstyle風） */
+  --tag-bg: #dbeafe !important;
+  --tag-text-color: #1e40af !important;
+  --tag-hover: #bfdbfe !important;
+  --tag-remove-btn-color: #1e40af !important;
+  --tag-border-color: #93c5fd !important;
+  --tag-border-radius: 0.5rem !important;
+}
+
+/* タグ本体のスタイル */
+.tagify .tagify__tag,
+tags.tagify .tagify__tag,
+.tagify__tag {
+  background-color: #dbeafe !important;
+  color: #1e40af !important;
+  border: 1px solid #93c5fd !important;
+  box-shadow: 0 0 0 1px #93c5fd !important;
+  margin: 2px;
+  border-radius: 0.5rem !important;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* タグのテキスト部分 */
+.tagify .tagify__tag .tagify__tag-text {
+  color: inherit !important;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* 削除ボタンのスタイル */
+.tagify .tagify__tag .tagify__tag__removeBtn {
+  width: 18px !important;
+  height: 18px !important;
+  margin-left: 0.25rem;
+  border-radius: 50%;
+  background-color: transparent !important;
+  border: none;
+  color: #1e40af !important;
+  opacity: 0.8;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+}
+
+.tagify .tagify__tag .tagify__tag__removeBtn:hover {
+  background-color: #ef4444 !important;
+  color: white !important;
+  opacity: 1;
+}
+
+/* フォーカス時のスタイル */
+.tagify:focus-within {
+  border-color: oklch(var(--p));
+  box-shadow: 0 0 0 2px oklch(var(--p) / 0.2);
+  outline: none;
+}
+
+/* プレースホルダーのスタイル */
+.tagify__input::before {
+  color: oklch(var(--bc) / 0.5);
+}
+
+/* 問題一覧のタグスタイル */
+.badge {
+  white-space: nowrap;
+  max-width: 8rem;
+}
+
+.badge.text-xs {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+}
