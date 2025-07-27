@@ -99,12 +99,43 @@ tags.tagify .tagify__tag,
 }
 
 /* 問題一覧のタグスタイル */
-.badge {
+.tag-badge {
   white-space: nowrap;
   max-width: 8rem;
+}
+
+.tag-badge:hover  {
+  white-space: nowrap;
+  max-width: 8rem;
+  transform: translateY(-2px);
+  color: oklch(96% 0.059 95.617);
+  background-color:oklch(58% 0.158 241.966);
 }
 
 .badge.text-xs {
   font-size: 0.75rem;
   padding: 0.25rem 0.5rem;
+}
+
+/* クイズカード */
+.question-card {
+  color:oklch(51% .096 186.391);
+  border: 2px solid oklch(51% .096 186.391);
+  border-radius: 16px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  padding: 1rem;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+}
+.question-card:hover {
+  transform: translateY(-4px);
+  color: oklch(96% 0.059 95.617);
+  background-color:oklch(51% .096 186.391);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+
+/* hover感追加 */
+.button-hover:hover {
+  transform: translateY(-2px);
 }
