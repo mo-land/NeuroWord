@@ -36,10 +36,15 @@
                   タグ
                 </span>
               <% end %>
-              <%= f.text_field :tag,
-                              class: 'input input-bordered w-full',
-                              placeholder: "",
-                              value: @tag_list %>
+              <%= f.text_field :tag, 
+                id: 'tag-input',
+                value: @question.tags.pluck(:name).join(','),
+                class: "tagify input-bordered w-full",
+                placeholder: "1タグ20文字以内で設定ください",
+                data: { 
+                  existing_tags: Tag.pluck(:name).to_json,
+                  role: 'tagify'
+                } %>
             </div>
 
             <div class="card-actions justify-end">
