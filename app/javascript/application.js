@@ -21,6 +21,27 @@ function initializeTagify() {
         }
       })
       
+      // プレースホルダーと枠線の色を設定
+      const style = document.createElement('style')
+      style.textContent = `
+        .tagify__input::before {
+          color: rgba(120, 49, 5, 0.4) !important;
+        }
+        .tagify {
+          border-color: rgba(120, 49, 5, 0.4) !important;
+          border-width: 1px !important;
+        }
+        .tagify:focus-within {
+          border-color: rgba(120, 49, 5, 0.4) !important;
+          box-shadow: 0 0 0 2px rgba(120, 49, 5, 0.2) !important;
+        }
+        .tagify .tagify__tag {
+          border-color: rgba(120, 49, 5, 0.4) !important;
+          border-width: 1px !important;
+        }
+      `
+      document.head.appendChild(style)
+      
       // 参照を保存（次回の削除用）
       tagInput.tagify = tagify
       

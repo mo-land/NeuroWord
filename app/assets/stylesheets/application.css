@@ -33,6 +33,8 @@
   --tag-remove-btn-color: #1e40af !important;
   --tag-border-color: #93c5fd !important;
   --tag-border-radius: 0.5rem !important;
+  --placeholder-color: rgba(120, 49, 5, 0.4) !important;
+  --placeholder-color-focus: rgba(120, 49, 5, 0.4) !important;
 }
 
 /* タグ本体のスタイル */
@@ -91,7 +93,9 @@ tags.tagify .tagify__tag,
 
 /* プレースホルダーのスタイル */
 .tagify__input::before {
-  color: oklch(var(--bc) / 0.5);
+  color: rgba(120, 49, 5, 0.4) !important;
+  opacity: 1 !important;
+  font-size: 1rem !important;
 }
 
 /* 問題一覧のタグスタイル */
