@@ -154,3 +154,6 @@
 | データベース   | PostgreSQL                       |
 | デプロイ       | Render                           |
 | 認証           | gem devise / OmniAuth            |
+
+### 画面遷移図
+[Figma](https://www.figma.com/design/xme6s96ehELySbIOnt31U7/NeuroWord?node-id=0-1&t=V4JqtNMmzldeBCQM-1)
