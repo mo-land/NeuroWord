@@ -143,7 +143,7 @@
 こちらも、現段階の予定になります。今後変更となる可能性もあります。  
 
 - 検索機能：gem ransack
-- 動的OGP：gem miniMagic
+- 動的OGP：Cloudinary
 
 ### スタック技術
 
@@ -154,4 +154,3 @@
 | データベース   | PostgreSQL                       |
 | デプロイ       | Render                           |
 | 認証           | gem devise / OmniAuth            |
-
