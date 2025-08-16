@@ -154,3 +154,58 @@
 
 ### 画面遷移図
 [Figma](https://www.figma.com/design/xme6s96ehELySbIOnt31U7/NeuroWord?node-id=0-1&t=V4JqtNMmzldeBCQM-1)
+
+### ER図
+```mermaid
+erDiagram
+    users {
+        varchar id PK "ID"
+        string email "メールアドレス"
+        string encrypted_password "暗号化されたパスワード"
+        string name "ユーザー名"
+        string reset_password_token "パスワードリセット時に使用するトークン"
+        datetime reset_password_sent_at "パスワードリセットメールを送信した日時"
+        datetime remember_created_at "ログイン状態保持の機能で使用するカラム"
+        datetime created_at "作成日時"
+        datetime updated_at "更新日時"
+    }
+
+    questions {
+        varchar id PK "ID"
+        bigint user_id FK "ユーザーID"
+        string title "問題のタイトル"
+        text description "問題の説明"
+        datetime created_at "作成日時"
+        datetime updated_at "更新日時"
+    }
+
+    tags {
+        varchar id PK "ID"
+        string name "タグの名前"
+        datetime created_at "作成日時"
+        datetime updated_at "更新日時"
+    }
+
+    question_tags {
+        varchar id PK "ID"
+        bigint question_id FK "問題ID"
+        bigint tag_id FK "タグID"
+        datetime created_at "作成日時"
+        datetime updated_at "更新日時"
+    }
+
+    card_sets {
+        varchar id PK "ID"
+        bigint question_id FK "問題ID"
+        string origin_word "起点となるワード"
+        json related_words "（起点ワードに）関連するワード群"
+        datetime created_at "作成日時"
+        datetime updated_at "更新日時"
+    }
+
+    %% Relations
+    users ||--o{ questions : "has_many"
+    questions ||--o{ card_sets : "has_many"
+    questions ||--o{ question_tags : "has_many"
+    tags ||--o{ question_tags : "has_many"
+```
