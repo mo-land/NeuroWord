@@ -203,9 +203,34 @@ erDiagram
         datetime updated_at "更新日時"
     }
 
+    requests {
+        varchar id PK "ID"
+        bigint question_id FK "問題ID"
+        bigint user_id FK "ユーザーID ※ユーザー = 修正依頼起票者"
+        string title "修正依頼のタイトル"
+        text content "修正依頼の詳細"
+        integer status "enum: { incompleted: 0, completed: 1 }"
+        datetime created_at "作成日時"
+        datetime updated_at "更新日時"
+    }
+
+    request_responses {
+        varchar id PK "ID"
+        bigint request_id FK "修正依頼ID"
+        bigint user_id FK "ユーザーID ※ユーザー = 修正依頼への返信者"
+        text content "返信内容"
+        boolean completed_check "修正依頼完了チェック ※trueになった場合、同じ修正依頼IDには追加の返信ができないようにする"
+        datetime created_at "作成日時"
+        datetime updated_at "更新日時"
+    }
+
     %% Relations
     users ||--o{ questions : "has_many"
+    users ||--o{ requests : "has_many"
+    users ||--o{ request_responses : "has_many"
     questions ||--o{ card_sets : "has_many"
     questions ||--o{ question_tags : "has_many"
+    questions ||--o{ requests : "has_many"
     tags ||--o{ question_tags : "has_many"
+    requests ||--o{ request_responses : "has_many"
 ```
