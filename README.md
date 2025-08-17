@@ -106,15 +106,14 @@
 - ログイン機能
 - ログアウト機能
 - 公開問題一覧の表示機能
-  - ソート機能（作成日時・総挑戦回数・リスト登録数）
-  - 検索・タグ機能（オートコンプリート機能含む）
+  - 検索機能
 - ゲーム機能
 	- 最大10枚のカードマッチングゲーム
 	- 起点カード → 関連カード選択のゲームロジック
 	- カード選択時の正解/不正解フィードバック
   - ギブアップ機能
   - 結果画面の正解表示
-  - 修正依頼・コメント機能
+  - 修正依頼機能
 - マイページ機能
 	- 自作問題の CRUD（登録・参照・更新・削除）機能
 
@@ -129,10 +128,13 @@
 - お問い合わせ
 - 利用規約
 - プライバシーポリシー
+- 公開問題一覧の表示機能
+  - ソート機能（作成日時・総挑戦回数・リスト登録数）
+  - タグ機能（オートコンプリート機能含む）
 - スコア機能（正答率・解答にかかった時間）
 - 公開リストの一覧表示機能
 - マイページ追加機能
-	- 学習履歴機能：総挑戦数、挑戦した問題、スコア(問題ごとの正答率・解答にかかった時間)の記録 
+	- 学習履歴機能：総挑戦数、挑戦した問題、スコア(問題ごとの正答率・解答にかかった時間)の記録
 	- リストのCRUD（登録・参照・更新・削除）機能　※公開/非公開選択機能
   - リストの連続プレイ機能
 
@@ -152,5 +154,99 @@
 | デプロイ       | Render                           |
 | 認証           | gem devise / OmniAuth            |
 
-### 画面遷移図
+### ■ 画面遷移図
 [Figma](https://www.figma.com/design/xme6s96ehELySbIOnt31U7/NeuroWord?node-id=0-1&t=V4JqtNMmzldeBCQM-1)
+
+### ■ ER図
+```mermaid
+erDiagram
+    users {
+        varchar id PK "ID"
+        string email "メールアドレス"
+        string encrypted_password "暗号化されたパスワード"
+        string name "ユーザー名"
+        string reset_password_token "パスワードリセット時に使用するトークン"
+        datetime reset_password_sent_at "パスワードリセットメールを送信した日時"
+        datetime remember_created_at "ログイン状態保持の機能で使用するカラム"
+        datetime created_at "作成日時"
+        datetime updated_at "更新日時"
+    }
+
+    questions {
+        varchar id PK "ID"
+        bigint user_id FK "ユーザーID"
+        string title "問題のタイトル"
+        text description "問題の説明"
+        datetime created_at "作成日時"
+        datetime updated_at "更新日時"
+    }
+
+    tags {
+        varchar id PK "ID"
+        string name "タグの名前"
+        datetime created_at "作成日時"
+        datetime updated_at "更新日時"
+    }
+
+    question_tags {
+        varchar id PK "ID"
+        bigint question_id FK "問題ID"
+        bigint tag_id FK "タグID"
+        datetime created_at "作成日時"
+        datetime updated_at "更新日時"
+    }
+
+    card_sets {
+        varchar id PK "ID"
+        bigint question_id FK "問題ID"
+        string origin_word "起点となるワード"
+        json related_words "（起点ワードに）関連するワード群"
+        datetime created_at "作成日時"
+        datetime updated_at "更新日時"
+    }
+
+    requests {
+        varchar id PK "ID"
+        bigint question_id FK "問題ID"
+        bigint user_id FK "ユーザーID ※ユーザー = 修正依頼起票者"
+        string title "修正依頼のタイトル"
+        text content "修正依頼の詳細"
+        integer status "enum: { incompleted: 0, completed: 1 }"
+        datetime created_at "作成日時"
+        datetime updated_at "更新日時"
+    }
+
+    request_responses {
+        varchar id PK "ID"
+        bigint request_id FK "修正依頼ID"
+        bigint user_id FK "ユーザーID ※ユーザー = 修正依頼への返信者"
+        text content "返信内容"
+        boolean is_completed "修正依頼完了チェック ※trueになった場合、同じ修正依頼IDには追加の返信ができないようにする"
+        datetime created_at "作成日時"
+        datetime updated_at "更新日時"
+    }
+
+    game_records {
+        bigint id PK "ID"
+        bigint user_id FK "ユーザーID ※ログイン時のみ記録可能"
+        bigint question_id FK "問題ID"
+        integer total_matches "問題正解数"
+        decimal accuracy "正答率"
+        integer completion_time_seconds "解答時間（秒）"
+        boolean given_up "ギブアップしたかどうか"
+        datetime created_at "作成日時"
+        datetime updated_at "更新日時"
+    }
+
+    %% Relations
+    users ||--o{ questions : "has_many"
+    users ||--o{ requests : "has_many"
+    users ||--o{ request_responses : "has_many"
+    users ||--o{ game_records : "has_many"
+    questions ||--o{ card_sets : "has_many"
+    questions ||--o{ question_tags : "has_many"
+    questions ||--o{ requests : "has_many"
+    questions ||--o{ game_records : "has_many"
+    tags ||--o{ question_tags : "has_many"
+    requests ||--o{ request_responses : "has_many"
+```
