@@ -7,6 +7,12 @@ Rails.application.routes.draw do
 
   get "search_tag"=>"questions#search_tag"
 
+  resource :user, only: [:edit, :update] do
+    member do
+      get :mypage  # 必要に応じて
+    end
+  end
+
   resources :questions, only: %i[index new create show edit update destroy] do
     resources :card_sets
   end
