@@ -1,9 +1,9 @@
 module ApplicationHelper
-  def page_title(title = '')
-    base_title = 'NeuroWord～仲間の言葉を見つけよう！～'
+  def page_title(title = "")
+    base_title = "NeuroWord～仲間の言葉を見つけよう！～"
     title.present? ? "#{title} | #{base_title}" : base_title
   end
-  
+
   def default_meta_tags(url: "https://res.cloudinary.com/dyafcag5y/image/upload/v1752075435/iyj9hdmhh8r4njmyrwwr.png")
     {
       site: "NeuroWord～仲間の言葉を見つけよう！～",

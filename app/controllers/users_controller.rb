@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_action :set_user
 
   def mypage
-    @questions = @user.questions.includes([:tags]).page(params[:page])
+    @questions = @user.questions.includes([ :tags ]).page(params[:page])
   end
 
   private
