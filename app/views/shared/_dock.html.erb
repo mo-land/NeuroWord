@@ -2,29 +2,15 @@
   <%= link_to questions_path, class: "hover:dock-active" do %>
     <i class="fa-solid fa-magnifying-glass" viewBox="0 0 24 24"></i>
     <span class="dock-label">問題を探す</span>
-   <% end %>
-  
-  <% if user_signed_in? %>
-    <%= link_to new_question_path, class: "hover:dock-active" do %>
-      <i class="fa-solid fa-circle-plus" viewBox="0 0 24 24"></i>
-      <span class="dock-label">新しい問題を作る</span>
-    <% end %>
+  <% end %>
 
-    <%= link_to '#', class: "hover:dock-active" do %>
-      <i class="fa-solid fa-user" viewBox="0 0 24 24"></i>
-      <span class="dock-label">【準備中】</span>
-      <span class="dock-label">マイページ</span>
-    <% end %>
-  <% else %>
-    <%= link_to new_user_session_path, class: "hover:dock-active" do %>
-      <i class="fa-solid fa-circle-plus" viewBox="0 0 24 24"></i>
-      <span class="dock-label">【要ログイン】</span>
-      <span class="dock-label">新しい問題を作る</span>
-    <% end %>
-    <%= link_to '#', class: "hover:dock-active" do %>
-      <i class="fa-solid fa-user" viewBox="0 0 24 24"></i>
-      <span class="dock-label">【準備中・要ログイン】</span>
-      <span class="dock-label">マイページ</span>
-    <% end %> 
+  <%= link_to new_question_path, class: "hover:dock-active" do %>
+    <i class="fa-solid fa-circle-plus" viewBox="0 0 24 24"></i>
+    <span class="dock-label">新しい問題を作る</span>
+  <% end %>
+  
+  <%= link_to mypage_user_path, class: "hover:dock-active" do %>
+    <i class="fa-solid fa-user" viewBox="0 0 24 24"></i>
+    <span class="dock-label">マイページ</span>
   <% end %>
 </div>
