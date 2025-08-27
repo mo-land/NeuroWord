@@ -25,3 +25,10 @@ ja:
       title: 問題一覧
     edit:
       title: 問題編集
+  users:
+    mypage:
+      title: マイページ
+      user_information: ユーザー情報
+      user_questions: 作った問題
+      user_lists: リスト
+      game_records: プレイ履歴
