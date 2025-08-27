@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   get "search_tag"=>"questions#search_tag"
 
-  resource :user, only: [:edit, :update] do
+  resource :user, only: [ :edit, :update ] do
     member do
       get :mypage  # 必要に応じて
     end
