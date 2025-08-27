@@ -59,4 +59,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def after_inactive_sign_up_path_for(resource)
     root_path
   end
+
+  protected
+  # パスワードなしでユーザー情報を更新
+  def update_resource(resource, params)
+    resource.update_without_password(params)
+  end
+
+  # 編集後のリダイレクト先を指定するメソッド
+  def after_update_path_for(resource)
+    mypage_user_path(resource)
+  end
 end
