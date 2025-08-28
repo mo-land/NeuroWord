@@ -30,7 +30,11 @@
       <ul class="menu menu-horizontal px-1">
         <li>
           <details>
-            <summary><%= "#{current_user.name}さん" %></summary>
+          <summary class="text-xl">
+            <%= turbo_frame_tag "header_name_sp" do %>
+              <%= render "shared/header_name" %>
+            <% end %>
+          </summary>
             <ul class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm" >
               <li><a>準備中</a></li>
               <li><a>準備中</a>
@@ -61,7 +65,11 @@
       <ul class="menu menu-horizontal px-1">
         <li>
         <details>
-          <summary class="text-xl"><%= "#{current_user.name} さん" %></summary>
+          <summary class="text-xl">
+            <%= turbo_frame_tag "header_name_pc" do %>
+              <%= render "shared/header_name" %>
+            <% end %>
+          </summary>
           <ul class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm" >
             <li><a>準備中</a></li>
             <li><a>準備中</a>

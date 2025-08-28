@@ -1,0 +1,10 @@
+<%= turbo_stream.replace "header_name_pc" do %>
+  <%= render "shared/header_name" %>
+<% end %>
+<%= turbo_stream.replace "header_name_sp" do %>
+  <%= render "shared/header_name" %>
+<% end %>
+<%= turbo_stream.replace current_user do %>
+  <%= render "users/profile" %>
+<% end %>
+<%= turbo_stream_flash %>

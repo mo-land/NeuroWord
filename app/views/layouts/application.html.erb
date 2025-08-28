@@ -23,7 +23,9 @@
 
   <body>
     <%= render 'shared/header' %>
-    <%= render 'shared/flash_messages' %>
+    <div id="flash">
+      <%= render 'shared/flash_messages' %>
+    </div>
     <%= yield %>
     <%= render 'shared/footer' %>
     <%= render 'shared/dock' %>
