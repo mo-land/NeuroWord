@@ -2,24 +2,9 @@
 <div class="md:justify-self-start">
   <div class="max-w-3xl mx-auto px-4">
 
-
-    <div class="card w-93 bg-base-100 card-xs shadow-sm px-3">
-      <div class="card-body">
-        <div>
-          <div class="flex items-center gap-2">
-            <i class="fa-solid fa-user" aria-hidden="true"></i>
-            <h2 class="text-xl font-semibold"><%= current_user.name %></h2>
-          </div>
-          <div class="flex items-center gap-2">
-            <i class="fa-solid fa-envelope" aria-hidden="true"></i>
-            <h3 class="text-lg"><%= current_user.email %></h3>
-          </div>
-        </div>
-        <div class="justify-end card-actions">
-          <%= link_to t('defaults.edit'), edit_user_registration_path, class: 'btn btn-success' %>
-        </div>
-      </div>
-    </div>
+    <%= turbo_frame_tag current_user do %>
+      <%= render "profile" %>
+    <% end %>
   </div>
 </div>
 
