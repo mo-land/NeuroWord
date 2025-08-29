@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_25_160224) do
+ActiveRecord::Schema[7.2].define(version: 2025_08_29_113127) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +21,22 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_25_160224) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["question_id"], name: "index_card_sets_on_question_id"
+  end
+
+  create_table "game_records", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "question_id", null: false
+    t.integer "total_matches", default: 0, null: false
+    t.float "accuracy", default: 0.0
+    t.float "completion_time_seconds"
+    t.boolean "given_up", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["accuracy"], name: "index_game_records_on_accuracy"
+    t.index ["completion_time_seconds"], name: "index_game_records_on_completion_time_seconds"
+    t.index ["created_at"], name: "index_game_records_on_created_at"
+    t.index ["question_id"], name: "index_game_records_on_question_id"
+    t.index ["user_id"], name: "index_game_records_on_user_id"
   end
 
   create_table "question_tags", force: :cascade do |t|
@@ -63,6 +79,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_25_160224) do
   end
 
   add_foreign_key "card_sets", "questions"
+  add_foreign_key "game_records", "questions"
+  add_foreign_key "game_records", "users"
   add_foreign_key "question_tags", "questions"
   add_foreign_key "question_tags", "tags"
   add_foreign_key "questions", "users"

@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  question: one
+  total_matches: 1
+  accuracy: 1.5
+  completion_time_seconds: 1.5
+  given_up: false
+
+two:
+  user: two
+  question: two
+  total_matches: 1
+  accuracy: 1.5
+  completion_time_seconds: 1.5
+  given_up: false
