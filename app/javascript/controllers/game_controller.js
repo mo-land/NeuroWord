@@ -80,13 +80,13 @@ export default class extends Controller {
         })
       })
 
-      const result = await response.json()
+      const record = await response.json()
 
       // クリック数を更新
-      this.totalClicks = result.total_clicks
-      this.correctClicks = result.correct_clicks
+      this.totalClicks = record.total_clicks
+      this.correctClicks = record.correct_clicks
 
-      if (result.valid_action) {
+      if (record.valid_action) {
         // 有効なアクション（起点カード選択成功）
         
         // 既に選択されている起点カードを解除
@@ -99,10 +99,10 @@ export default class extends Controller {
         this.selectedOriginId = setId
         this.gameState = "SELECT_RELATED"
 
-        this.showMessage(result.message || "起点カードを選択しました。関連語を選んでください！", "info")
+        this.showMessage(record.message || "起点カードを選択しました。関連語を選んでください！", "info")
       } else {
         // 無効なアクション
-        this.showMessage(result.message || "この起点カードは選択できません", "warning")
+        this.showMessage(record.message || "この起点カードは選択できません", "warning")
       }
 
     } catch (error) {
@@ -129,33 +129,33 @@ export default class extends Controller {
         })
       })
 
-      const result = await response.json()
+      const record = await response.json()
 
       // クリック数を更新
-      this.totalClicks = result.total_clicks
-      this.correctClicks = result.correct_clicks
+      this.totalClicks = record.total_clicks
+      this.correctClicks = record.correct_clicks
 
-      if (result.correct && result.valid_action) {
+      if (record.correct && record.valid_action) {
         // 正解且つ有効なアクション
         cardElement.classList.add('opacity-50', 'cursor-not-allowed')
         cardElement.classList.remove('hover:scale-105')
         cardElement.removeAttribute('data-action')
         
-        this.correctMatches = result.total_matches
+        this.correctMatches = record.total_matches
         this.scoreTarget.textContent = this.correctMatches
         
-        this.showMessage(`正解！ (正答率: ${result.current_accuracy}%)`, "success")
+        this.showMessage(`正解！ (正答率: ${record.current_accuracy}%)`, "success")
 
         // この起点カードの関連語が全て完了したかチェック
         await this.checkOriginCompletion(this.selectedOriginId)
 
         // ゲーム完了チェック
-        if (result.game_completed) {
+        if (record.game_completed) {
           setTimeout(() => this.showCompletionModal(), 1000)
         }
       } else {
         // 不正解または無効なアクション
-        this.showMessage(result.message || `不正解... (正答率: ${result.current_accuracy}%)`, "error")
+        this.showMessage(record.message || `不正解... (正答率: ${record.current_accuracy}%)`, "error")
       }
 
     } catch (error) {
@@ -237,7 +237,7 @@ export default class extends Controller {
 
   giveUp() {
     if (confirm("本当にギブアップしますか？")) {
-      window.location.href = `/games/${this.questionId}/result`
+      window.location.href = `/game_records/${this.questionId}`
     }
   }
 }
