@@ -9,6 +9,7 @@ class Question < ApplicationRecord
   validate :maximum_total_cards_limit
 
   belongs_to :user
+  has_many :game_records, dependent: :destroy
 
   # 従来のシャッフル機能（後方互換性）
   def shuffled_game_cards
