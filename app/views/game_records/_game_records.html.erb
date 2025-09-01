@@ -1,0 +1,19 @@
+
+<%= paginate @game_records, param_name: :game_records_page, params: { tab: 'game_records' } %>
+<% @game_records.each do |game_record| %>
+  <div id="game_record-id-<%= game_record.id %>">
+    <li class="list-row">
+      <div>
+        <div>
+          <%= link_to game_record.question.title, game_path(game_record.question), class: "link link-primary" %>
+        </div>
+        <div class="flex text-xs uppercase font-semibold opacity-60">
+        <div><%= l game_record.created_at, format: :short %></div>
+        <div class="ml-4"><%= "⏱: #{Time.at(game_record.completion_time_seconds).utc.strftime("%M:%S.%2N")}" %></div>
+        <div class="ml-4"><%= "正答率: #{game_record.accuracy}%" %></div>
+        
+        </div>
+      </div>
+    </li>
+  </div>
+<% end %>

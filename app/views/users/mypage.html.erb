@@ -10,18 +10,31 @@
 
 <!-- name of each tab group should be unique -->
 <div class="tabs tabs-lift mt-3 p-4">
-  <input type="radio" name="my_tabs_3" class="tab" aria-label=<%= t('.user_questions') %> checked="checked" />
+  <%= radio_button_tag 'my_tabs_3', 'user_questions', @current_tab == 'user_questions',
+                     class: 'tab',
+                     aria: { label: t('.user_questions') } %>
   <div class="tab-content bg-base-100 border-base-300 p-6">
     <%= render 'user_questions' %>
   </div>
 
-  <input type="radio" name="my_tabs_3" class="tab" aria-label=<%= t('.user_lists') %> />
+  <%= radio_button_tag 'my_tabs_3', 'user_lists', @current_tab == 'user_lists',
+                     class: 'tab',
+                     aria: { label: t('.user_lists') } %>
   <div class="tab-content bg-base-100 border-base-300 p-6">
     準備中！お楽しみに～～！
   </div>
 
-  <input type="radio" name="my_tabs_3" class="tab" aria-label=<%= t('.game_records') %> />
+  <%= radio_button_tag 'my_tabs_3', 'game_records', @current_tab == 'game_records',
+                     class: 'tab',
+                     aria: { label: t('.game_records') } %>
   <div class="tab-content bg-base-100 border-base-300 p-6">
-    準備中！お楽しみに～～！
+    <ul class="list bg-base-100 rounded-box shadow-md">
+        <!--%= render 'game_records/game_records' %-->
+        <% if @game_records.present? %>
+          <%= render 'game_records/game_records' %>
+        <% else %>
+          <div class="m-8">履歴がありません</div>
+        <% end %>
+    </ul>
   </div>
 </div>
