@@ -219,7 +219,29 @@ export default class extends Controller {
     }, 3000)
   }
 
-  showCompletionModal() {
+  async showCompletionModal() {
+    // タイマー停止
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval)
+    }
+
+    // ゲーム記録を保存
+    try {
+      await fetch(`/game_records`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
+        },
+        body: JSON.stringify({
+          id: this.questionId,
+          give_up: false
+        })
+      })
+    } catch (error) {
+      console.error('Error saving game record:', error)
+    }
+
     const elapsed = Math.floor((Date.now() - this.startTime) / 1000)
     const minutes = Math.floor(elapsed / 60)
     const seconds = elapsed % 60
@@ -228,16 +250,36 @@ export default class extends Controller {
     this.finalTimeTarget.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
     
     this.completionModalTarget.classList.add("modal-open")
-    
-    // タイマー停止
-    if (this.timerInterval) {
-      clearInterval(this.timerInterval)
-    }
   }
 
-  giveUp() {
+  async giveUp() {
     if (confirm("本当にギブアップしますか？")) {
-      window.location.href = `/game_records/${this.questionId}`
+      // タイマー停止
+      if (this.timerInterval) {
+        clearInterval(this.timerInterval)
+      }
+
+      // ゲーム記録を保存してから結果画面へ
+      try {
+        await fetch(`/game_records`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
+          },
+          body: JSON.stringify({
+            id: this.questionId,
+            give_up: true
+          })
+        })
+        
+        // 保存後に結果画面へリダイレクト
+        window.location.href = `/game_records/${this.questionId}`
+      } catch (error) {
+        console.error('Error saving game record:', error)
+        // エラーが発生してもリダイレクトする
+        window.location.href = `/game_records/${this.questionId}?give_up=true`
+      }
     }
   }
 }
