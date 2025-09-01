@@ -18,13 +18,13 @@ Rails.application.routes.draw do
   end
 
   # ゲーム関連ルート
-  resources :games, only: [:show ] do
+  resources :games, only: [ :show ] do
     member do
       post :check_match
     end
   end
 
-  resources :game_records, only: %i[index create show]
+  resources :game_records, only: %i[create show]
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

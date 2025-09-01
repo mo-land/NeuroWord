@@ -1,10 +1,6 @@
 class GameRecordsController < ApplicationController
-  before_action :authenticate_user!, only: %i[index create]
+  before_action :authenticate_user!, only: %i[create]
   before_action :set_question, only: %i[create show]
-
-  def index
-    @game_records = @user.game_records.order(created_at: :desc).page(params[:page])
-  end
 
   def create
     if user_signed_in?
