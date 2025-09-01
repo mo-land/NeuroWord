@@ -21,9 +21,10 @@ Rails.application.routes.draw do
   resources :games, only: [ :show ] do
     member do
       post :check_match
-      get :result
     end
   end
+
+  resources :game_records, only: %i[create show]
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
