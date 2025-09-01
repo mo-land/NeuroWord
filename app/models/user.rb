@@ -7,6 +7,7 @@ class User < ApplicationRecord
 
   has_many :questions, dependent: :destroy
   has_many :game_records, dependent: :destroy
+  has_many :requests, dependent: :destroy
 
   def own?(object)
     id == object&.user_id

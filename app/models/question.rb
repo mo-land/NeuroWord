@@ -10,6 +10,7 @@ class Question < ApplicationRecord
 
   belongs_to :user
   has_many :game_records, dependent: :destroy
+  has_many :requests, dependent: :destroy
 
   # 従来のシャッフル機能（後方互換性）
   def shuffled_game_cards
