@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :set_question, only: [ :show, :check_match, :result ]
+  before_action :set_question, only: [ :show, :check_match ]
 
   # GET /games/:id (questionのIDを使用)
   def show
