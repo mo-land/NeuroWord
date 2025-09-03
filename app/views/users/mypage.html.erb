@@ -31,7 +31,11 @@
     <ul class="list bg-base-100 rounded-box shadow-md">
         <!--%= render 'game_records/game_records' %-->
         <% if @game_records.present? %>
-          <%= render 'game_records/game_records' %>
+        <%= paginate @game_records, param_name: :game_records_page, params: { tab: 'game_records' } %>
+          <%= render 'game_records/game_record' %>
+        <div class="p-6">
+          <%= paginate @game_records, param_name: :game_records_page, params: { tab: 'game_records' } %>
+        </div>
         <% else %>
           <div class="m-8">履歴がありません</div>
         <% end %>
