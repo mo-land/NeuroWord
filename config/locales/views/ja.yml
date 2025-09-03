@@ -44,3 +44,5 @@ ja:
       post: 投稿する
     request_btn:
       request: 【準備中】修正依頼
+    question_search_form:
+      placeholder: 問題タイトルを入力して選択
