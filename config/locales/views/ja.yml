@@ -33,3 +33,9 @@ ja:
       user_questions: 作った問題
       user_lists: リスト
       game_records: プレイ履歴
+  requests:
+    index:
+      title: 修正依頼一覧
+      requests_to_user: 自分への依頼
+      requests: みんなの依頼
+      requests_from_user: 自分の依頼

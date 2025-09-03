@@ -1,0 +1,36 @@
+<div class="card w-93 bg-base-100 card-xs shadow-sm px-3">
+  <div class="card-body">
+    <%= search_form_for @search_request, url: requests_path do |f| %>
+      <div class="mb-4">
+        <label class="input flex items-center w-auto">
+          <svg class="h-[1em] opacity-50 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.3-4.3"></path>
+            </g>
+          </svg>
+          <%= f.search_field :title_or_question_title_or_content_or_user_name_cont, placeholder: 'キーワードで検索', class: "sm:w-64 md:w-64" %>
+        </label>
+          <div class="flex gap-4 mt-2">
+            <% Request.statuses.each do |key, value| %>
+              <% 
+                # デフォルトは未完了のみ選択、検索後は検索条件を保持
+                checked = if params[:q] && params[:q][:status_in]
+                           params[:q][:status_in].include?(value.to_s)
+                         else
+                           key == 'incompleted'
+                         end
+              %>
+              <%= check_box_tag "q[status_in][]", value, checked, class: "checkbox", id: "status_#{key}" %>
+              <label for="status_<%= key %>" class="text-base">
+                <%= t("activerecord.enums.request.status.#{key}") %>
+              </label>
+            <% end %>
+          </div>
+        <div class="justify-end card-actions">
+          <%= f.submit "検索", class: "btn btn-accent mt-2" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

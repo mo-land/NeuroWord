@@ -3,7 +3,13 @@ ja:
     models:
       user: ユーザー
       question: 問題
+      request: 修正依頼
     attributes:
       question:
         title: タイトル
         description: 説明
+    enums:
+      request:
+        status:
+          incompleted: 未完了
+          completed: 完了

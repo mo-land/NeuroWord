@@ -1,0 +1,25 @@
+<%= paginate @search_requests, param_name: :requests_page, params: { tab: 'requests' } %>
+<% @search_requests.each do |request| %>
+  <div id="request-id-<%= request.id %>">
+    <li class="list-row">
+      <div>
+        <div>
+          <%= link_to request.title, '#', class: "link" %>
+        </div>
+        <div class="text-xs font-semibold opacity-60">
+          <div>
+            <%= link_to request.question.title, question_path(request.question), class: "link" %>
+          </div>
+          <div class="lg:hidden pt-2" ><%= request.user.name %></div>
+        </div>
+        <div class="text-xs font-semibold opacity-60 pt-2 hidden lg:flex">
+          <div class="mr-2 "><%= request.user.name %></div>
+          <div><%= l request.created_at, format: :short %></div>
+        </div>
+      </div>
+        <div class="text-xs font-semibold opacity-60 pt-16 mr-2 text-right lg:hidden">
+          <div><%= l request.created_at, format: :short %></div>
+        </div>
+    </li>
+  </div>
+<% end %>
