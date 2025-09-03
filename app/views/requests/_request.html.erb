@@ -1,5 +1,5 @@
-<%= paginate @requests, param_name: :requests_page, params: { tab: 'requests' } %>
-<% @requests.each do |request| %>
+<%= paginate @search_requests, param_name: :requests_page, params: { tab: 'requests' } %>
+<% @search_requests.each do |request| %>
   <div id="request-id-<%= request.id %>">
     <li class="list-row">
       <div>
