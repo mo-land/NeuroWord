@@ -39,3 +39,8 @@ ja:
       requests_to_user: 自分への依頼
       requests: みんなの依頼
       requests_from_user: 自分の依頼
+    new:
+      title: 修正依頼を作成
+      post: 投稿する
+    request_btn:
+      request: 【準備中】修正依頼

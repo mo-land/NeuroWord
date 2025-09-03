@@ -17,9 +17,14 @@
       <div class="mb-8">
         <h1 class="text-3xl font-bold mb-2"><%= @question.title %></h1>
         <p class="text-lg text-base-content/70 mb-4"><%= @question.description %></p>
-        <div class="text-sm text-base-content/60">
-          by <%= @question.user.name || @question.user.email %> - 
-          <%= @question.created_at.strftime("%Y/%m/%d %H:%M") %>
+        <div class="text-sm text-base-content/60 flex justify-between items-center">
+          <span>
+            by <%= @question.user.name || @question.user.email %> - 
+            <%= @question.created_at.strftime("%Y/%m/%d %H:%M") %>
+          </span>
+          <div>
+            <%= render 'requests/request_btn' %>
+          </div>
         </div>
       </div>
 
