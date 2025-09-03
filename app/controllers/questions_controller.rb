@@ -84,6 +84,13 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def autocomplete
+    @questions = Question.where("title like ?", "%#{params[:q]}%")
+    respond_to do |format|
+      format.js
+    end
+  end
+
   private
 
   def question_params

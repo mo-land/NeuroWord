@@ -15,6 +15,9 @@ Rails.application.routes.draw do
 
   resources :questions, only: %i[index new create show edit update destroy] do
     resources :card_sets
+    collection do
+      get :autocomplete
+    end
   end
 
   # ゲーム関連ルート
