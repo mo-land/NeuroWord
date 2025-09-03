@@ -4,4 +4,8 @@ class RequestsController < ApplicationController
   def index
     @current_requests_tab = params[:tab] || "requests"
   end
+
+  def new
+    @request = Request.new
+  end
 end
