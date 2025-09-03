@@ -8,6 +8,10 @@ ja:
       question:
         title: タイトル
         description: 説明
+      request:
+        question_title: 対象問題
+        title: 件名
+        content: 詳細
     enums:
       request:
         status:
