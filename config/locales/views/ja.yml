@@ -42,3 +42,5 @@ ja:
     new:
       title: 修正依頼を作成
       post: 投稿する
+    request_btn:
+      request: 【準備中】修正依頼
