@@ -3,7 +3,7 @@
     <li class="list-row">
       <div>
         <div>
-          <%= link_to game_record.question.title, game_path(game_record.question), class: "link link-primary" %>
+          <%= link_to game_record.question.title, game_path(game_record.question), class: "link" %>
         </div>
         <div class="flex text-xs font-semibold opacity-60">
         <div><%= l game_record.created_at, format: :short %></div>
