@@ -114,11 +114,15 @@
     <!-- 正解一覧 -->
     <div class="card bg-base-100 shadow-xl mb-8">
       <div class="card-body">
-        <h3 class="card-title mb-4">
+      <div class="flex justify-between items-center">
+        <h3 class="card-title mb-2">
           <i class="fas fa-list-check text-primary mr-2"></i>
           正解一覧
         </h3>
-        
+        <div class="flex mb-2">
+            <%= render 'requests/request_btn' %>
+          </div>
+        </div>
         <div class="space-y-4">
           <% @question.card_sets.each do |card_set| %>
             <div class="bg-base-200 rounded-lg p-4">
