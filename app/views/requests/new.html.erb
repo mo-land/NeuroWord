@@ -9,6 +9,9 @@
 
             <div class="form-control mb-4">
               <%= f.label :question_title %>
+              <div class="text-xs text-base-content/70">
+                <%= t('.description') %>
+              </div>
               <%= render 'requests/question_search_form' %>
               <%= f.hidden_field :question_id %>
             </div>

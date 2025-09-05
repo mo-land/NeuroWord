@@ -42,7 +42,6 @@ ja:
     new:
       title: 修正依頼を作成
       post: 投稿する
+      description: 問題タイトル（一部可）を入力 → 候補をクリックして選択してください。
     request_btn:
       request: 【準備中】修正依頼
-    question_search_form:
-      placeholder: 問題タイトルを入力して選択
