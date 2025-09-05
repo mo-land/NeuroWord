@@ -9,3 +9,6 @@ application.register("card-set-form", CardSetFormController)
 
 import GameController from "./game_controller"
 application.register("game", GameController)
+
+import RequestFormController from "./request_form_controller"
+application.register("request-form", RequestFormController)
