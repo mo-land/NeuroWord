@@ -1,7 +1,11 @@
-<%= search_form_for @search, url: questions_path do |f| %>
-  <div data-controller="autocomplete" data-autocomplete-url-value="<%= autocomplete_questions_path %>" role="combobox">
-    <%= f.search_field :title_or_description_or_user_name_cont, placeholder: t('.placeholder'), class: "input input-bordered w-full", data: { autocomplete_target: 'input' } %>
-    <%= f.hidden_field :title, data: { autocomplete_target: 'hidden' } %>
-    <ul class="list-group" data-autocomplete-target="results"></ul>
-  </div>
-<% end %>
+
+
+<div data-controller="autocomplete request-form"
+      data-autocomplete-url-value="<%= autocomplete_questions_path %>"
+      data-autocomplete-hidden-field="#request_question_id">
+  <input class="input input-bordered w-full"
+         autocomplete="off"
+         data-autocomplete-target="input"
+         type="search" />
+  <ul class="list-group" data-autocomplete-target="results"></ul>
+</div>

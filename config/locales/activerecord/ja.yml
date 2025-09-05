@@ -12,8 +12,15 @@ ja:
         question_title: 対象問題
         title: 件名
         content: 詳細
+        question: 既存の問題タイトル
     enums:
       request:
         status:
           incompleted: 未完了
           completed: 完了
+    errors:
+      models:
+        request:
+          attributes:
+            question:
+              required: を入力してください
