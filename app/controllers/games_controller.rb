@@ -1,5 +1,6 @@
 class GamesController < ApplicationController
   before_action :set_question, only: [ :show, :check_match ]
+  before_action :session_delete, only: [ :show ], if: :new_game_start?
 
   # GET /games/:id (questionのIDを使用)
   def show
@@ -174,5 +175,21 @@ class GamesController < ApplicationController
   def calculate_current_accuracy
     return 0 if session[:total_clicks].to_i == 0
     (session[:correct_clicks].to_f / session[:total_clicks] * 100).round(1)
+  end
+
+  def session_delete
+    # セッションクリア
+    session.delete(:game_question_id)
+    session.delete(:correct_matches)
+    session.delete(:total_required_matches)
+    session.delete(:game_start_time)
+    session.delete(:selected_origin_id)
+    session.delete(:total_clicks)
+    session.delete(:correct_clicks)
+  end
+
+  def new_game_start?
+    # 現在のゲームIDと異なる場合、または既存セッションがない場合は新ゲーム
+    session[:game_question_id] != @question.id
   end
 end

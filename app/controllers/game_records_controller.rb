@@ -27,6 +27,8 @@ class GameRecordsController < ApplicationController
     if @latest_game_record
       # 保存されたゲーム記録のデータを使用
       @total_matches = @latest_game_record.total_matches
+      @total_clicks = session[:total_clicks] || 0
+      @correct_clicks = session[:correct_clicks] || 0
       @accuracy = @latest_game_record.accuracy
       @game_duration = @latest_game_record.completion_time_seconds
     else
@@ -43,15 +45,6 @@ class GameRecordsController < ApplicationController
 
     # 必要な組み合わせ数を計算
     @required_matches = session[:total_required_matches] || @question.card_sets.sum { |cs| cs.related_words.count }
-
-    # セッションクリア
-    session.delete(:game_question_id)
-    session.delete(:correct_matches)
-    session.delete(:total_required_matches)
-    session.delete(:game_start_time)
-    session.delete(:selected_origin_id)
-    session.delete(:total_clicks)
-    session.delete(:correct_clicks)
   end
 
   private
