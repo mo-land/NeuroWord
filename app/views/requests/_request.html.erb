@@ -1,25 +1,39 @@
 <%= paginate @search_requests, param_name: :requests_page, params: { tab: 'requests' } %>
 <% @search_requests.each do |request| %>
   <div id="request-id-<%= request.id %>">
-    <li class="list-row">
-      <div>
-        <div>
-          <%= link_to request.title, '#', class: "link" %>
-        </div>
-        <div class="text-xs font-semibold opacity-60">
-          <div>
-            <%= link_to request.question.title, question_path(request.question), class: "link" %>
+    <div class="p-2">
+      <ul class="list-inside bg-base-100 rounded-box shadow-md p-4">
+        <li class=" grid grid-cols-1 gap-4 m-2">
+          <div class="col-start-1 col-span-1">
+            <div class="flex items-center">
+              <div><%= render 'requests/status_badge', request: request %></div>
+              <%= link_to request.title, request_path(request), class: "link ml-2" %>
+            </div>
           </div>
-          <div class="lg:hidden pt-2" ><%= request.user.name %></div>
-        </div>
-        <div class="text-xs font-semibold opacity-60 pt-2 hidden lg:flex">
-          <div class="mr-2 "><%= request.user.name %></div>
-          <div><%= l request.created_at, format: :short %></div>
-        </div>
-      </div>
-        <div class="text-xs font-semibold opacity-60 pt-16 mr-2 text-right lg:hidden">
-          <div><%= l request.created_at, format: :short %></div>
-        </div>
-    </li>
+          <div class="col-start-1 col-span-1">
+            <div class="text-sm font-semibold opacity-60">
+              <div class="flex ">
+                <p class="min-w-max"><%= t('.question') %></p>
+                <p class="ml-2">
+                <%= link_to "#{request.question.title}  by #{request.question.user.name}", question_path(request.question), class: "link" %></p>
+              </div>
+              <div class="flex pt-2">
+                <p class="min-w-max"><%= t('.request_user') %></p>
+                <div class="ml-2" ><%= request.user.name %></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-start-1 col-span-1">
+            <div class="text-sm font-semibold opacity-60">
+              <div class="flex justify-end">
+                <%= t('.created_at') %>
+                <%= l request.created_at, format: :short %>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 <% end %>
+
