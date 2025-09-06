@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   end
 
   resources :game_records, only: %i[create show]
-  resources :requests, only: %i[index new create]
+  resources :requests, only: %i[index new create show]
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

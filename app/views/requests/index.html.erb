@@ -18,14 +18,12 @@
                       class: 'tab',
                       aria: { label: t('.requests') } %>
     <div class="tab-content bg-base-100 border-base-300 p-6">
-      <ul class="list bg-base-100 rounded-box shadow-md">
           <!--%= render 'requests/requests' %-->
           <% if @search_requests.present? %>
             <%= render 'requests/request' %>
           <% else %>
-            <div class="m-8">履歴がありません</div>
+            <div class="m-8">この条件の依頼はありません</div>
           <% end %>
-      </ul>
     </div>
 
     <%= radio_button_tag 'my_tabs_3', 'requests_from_user', @current_requests_tab == 'requests_from_user',

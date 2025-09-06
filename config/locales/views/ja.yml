@@ -20,8 +20,6 @@ ja:
   questions:
     new:
       title: 問題作成
-    show:
-      title: 問題詳細
     index:
       title: 問題一覧
     edit:
@@ -39,9 +37,23 @@ ja:
       requests_to_user: 自分への依頼
       requests: みんなの依頼
       requests_from_user: 自分の依頼
+    request:
+      question: "対象問題: "
+      request_user: "投稿者　: "
+      created_at: "投稿日時: "
     new:
       title: 修正依頼を作成
       post: 投稿する
       description: 問題タイトル（一部可）を入力 → 候補をクリックして選択してください。
+    show:
+      to_index: "← 修正依頼一覧"
+      content: 修正依頼内容
+      request_responses: 対応履歴
+      question: "対象問題: "
+      request_user: "投稿者　: "
+      created_at: "投稿日時: "
     request_btn:
       request: 【準備中】修正依頼
+    status_badge:
+      incompleted: 未完了
+      completed: 完了
