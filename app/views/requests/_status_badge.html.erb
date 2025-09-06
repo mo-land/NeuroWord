@@ -1,0 +1,7 @@
+
+<% case request.status %>
+<% when 'incompleted' then %>
+  <div class="badge badge-warning"><%= t('.incompleted') %></div>
+<% when 'completed' then %>
+  <div class="badge badge-success"><%= t('.completed') %></div>
+<% end %>
