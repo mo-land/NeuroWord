@@ -46,6 +46,7 @@ ja:
       post: 投稿する
       description: 問題タイトル（一部可）を入力 → 候補をクリックして選択してください。
     show:
+      to_index: "← 修正依頼一覧"
       content: 修正依頼内容
       request_responses: 対応履歴
       question: "対象問題: "

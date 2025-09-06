@@ -2,6 +2,7 @@
   <div class="grid grid-cols-1 lg:grid-cols-8">
     <div class="lg:col-start-2 lg:col-span-6">
       <div class="card bg-base-100 shadow-lg p-6">
+      <%= link_to t('.to_index'), requests_path, class: "link" %>
         <div class="flex items-center pt-4">
           <div><%= render 'requests/status_badge', request: @request %></div>
           <h1 class="text-2xl font-bold text-left px-2"><%= @request.title %></h1>
