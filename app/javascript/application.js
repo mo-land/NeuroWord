@@ -45,12 +45,6 @@ function initializeTagify() {
       // 参照を保存（次回の削除用）
       tagInput.tagify = tagify
       
-      console.log('Tagify initialized successfully!') // デバッグ用
-    } else {
-      console.log('Tagify initialization failed:', {
-        tagInput: !!tagInput,
-        tagifyLoaded: typeof Tagify !== 'undefined'
-      })
     }
   }, 100)
 }
