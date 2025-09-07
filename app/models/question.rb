@@ -7,6 +7,9 @@ class Question < ApplicationRecord
   validates :description, presence: true, length: { maximum: 150 }
   # validate :minimum_card_sets_required, on: :create
   validate :maximum_total_cards_limit
+  validate :validate_tag_names
+
+  attr_accessor :tag_names
 
   belongs_to :user
   has_many :game_records, dependent: :destroy
@@ -108,6 +111,18 @@ class Question < ApplicationRecord
   def maximum_total_cards_limit
     if total_cards_count > 10
       errors.add(:base, "カードの総数は10枚以内にしてください（現在：#{total_cards_count}枚）")
+    end
+  end
+
+  def validate_tag_names
+    return unless tag_names.present?
+
+    names = tag_names.split(",")
+
+    names.each do |name|
+      if name.length > 20
+        errors.add(:base, "タグは20文字以内で入力してください")
+      end
     end
   end
 

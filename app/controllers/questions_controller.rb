@@ -23,6 +23,7 @@ class QuestionsController < ApplicationController
         tag_list = tag_json.split(",")
       end
     end
+    @question.tag_names = tag_list.join(",")
     if @question.save
       @question.save_tag(tag_list)
       # ステップ2（CardSet追加）にリダイレクト
@@ -58,6 +59,7 @@ class QuestionsController < ApplicationController
         tag_list = tag_json.split(",")
       end
     end
+    @question.tag_names = tag_list.join(",")
     if @question.update(question_params)
       @question.save_tag(tag_list)
       redirect_to question_path(@question), success: t("defaults.flash_message.updated", item: Question.model_name.human)
