@@ -14,6 +14,12 @@
  *= require_self
  */
 
+h5 {
+  margin-bottom: 1em;
+  border-radius: 10px;
+  background: #e3d7b3;
+}
+
 /* Tagifyコンテナのスタイル */
 .tagify {
   width: 100%;
