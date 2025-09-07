@@ -6,7 +6,6 @@ export default class extends Controller {
                    "relatedWordsContainer", "relatedWordGroup", "addButton", "submitButton"]
 
   connect() {
-    console.log("CardSetForm controller connected!")
     this.updateAllCharCounts()
     this.updateAddButtonState()
   }
@@ -52,8 +51,6 @@ export default class extends Controller {
   }
 
   addRelatedWord() {
-    console.log("関連語追加ボタンがクリックされました")
-    
     const container = this.relatedWordsContainerTarget
     const currentGroups = this.relatedWordGroupTargets
     const index = currentGroups.length
@@ -100,8 +97,6 @@ export default class extends Controller {
   }
 
   removeRelatedWord(event) {
-    console.log("関連語削除ボタンがクリックされました")
-    
     const wordGroup = event.target.closest('[data-card-set-form-target="relatedWordGroup"]')
     const countDiv = wordGroup.nextElementSibling
     

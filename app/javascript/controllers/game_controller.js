@@ -27,9 +27,6 @@ export default class extends Controller {
     // クリック数追跡用
     this.totalClicks = 0
     this.correctClicks = 0
-    
-    console.log("Game controller connected")
-    console.log("Total matches needed:", this.totalMatches)
   }
 
   disconnect() {
