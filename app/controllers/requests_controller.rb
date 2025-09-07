@@ -15,15 +15,17 @@ class RequestsController < ApplicationController
   def create
     @request = current_user.requests.build(request_params)
     if @request.save
-      redirect_to request_path(@request), success: t("defaults.flash_message.created", item: Request.model_name.human)
+      redirect_to request_path(@request), notice: t("defaults.flash_message.created", item: Request.model_name.human)
     else
-      flash.now[:danger] = t("defaults.flash_message.not_created", item: Request.model_name.human)
+      flash.now[:alert] = t("defaults.flash_message.not_created", item: Request.model_name.human)
       render :new, status: :unprocessable_entity
     end
   end
 
   def show
     @request = Request.find(params[:id])
+    @request_response = RequestResponse.new
+    @request_responses = @request.request_responses.includes(:user).order(created_at: :desc)
   end
 
   private
