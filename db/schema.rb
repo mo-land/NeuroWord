@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_09_03_143946) do
+ActiveRecord::Schema[7.2].define(version: 2025_09_07_081808) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -44,7 +44,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_03_143946) do
     t.bigint "tag_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["question_id", "tag_id"], name: "index_question_tags_on_question_id_and_tag_id", unique: true
     t.index ["question_id"], name: "index_question_tags_on_question_id"
     t.index ["tag_id"], name: "index_question_tags_on_tag_id"
   end
@@ -57,6 +56,17 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_03_143946) do
     t.datetime "updated_at", null: false
     t.index ["title"], name: "index_questions_on_title", unique: true
     t.index ["user_id"], name: "index_questions_on_user_id"
+  end
+
+  create_table "request_responses", force: :cascade do |t|
+    t.bigint "request_id", null: false
+    t.bigint "user_id", null: false
+    t.text "content", null: false
+    t.boolean "is_completed"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["request_id"], name: "index_request_responses_on_request_id"
+    t.index ["user_id"], name: "index_request_responses_on_user_id"
   end
 
   create_table "requests", force: :cascade do |t|
@@ -97,6 +107,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_03_143946) do
   add_foreign_key "question_tags", "questions"
   add_foreign_key "question_tags", "tags"
   add_foreign_key "questions", "users"
+  add_foreign_key "request_responses", "requests"
+  add_foreign_key "request_responses", "users"
   add_foreign_key "requests", "questions"
   add_foreign_key "requests", "users"
 end
