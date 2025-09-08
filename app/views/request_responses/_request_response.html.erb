@@ -1,0 +1,17 @@
+<tr id="request_response-<%= request_response.id %>">
+  <div class="border-b border-current/50 border-dotted pb-4 mb-4">
+    <% if request_response.is_completed == true %>
+      <div class="badge badge-soft badge-success mb-2"><%= t('.completed') %></div>
+    <% end %>
+    <div class="px-6">
+      <td>
+        <h6 class="text-sm mt-0">
+          <div class="font-bold"><%= request_response.user.name %></div>
+          <div class="opacity-60"><%= l request_response.created_at, format: :long %></div>
+        </h6>
+        <p class="text-sm mt-2">
+          <%= simple_format(request_response.content) %>
+        </p>
+    </div>
+  </div>
+</tr>
