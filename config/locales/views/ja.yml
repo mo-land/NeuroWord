@@ -45,9 +45,10 @@ ja:
       requests_from_user: 自分の依頼
       requests_empty: この条件の依頼はありません
     request:
-      question: "対象問題: "
-      request_user: "投稿者　: "
-      created_at: "投稿日時: "
+      question: "対象問題　: "
+      request_user: "by "
+      last_response_user: "最終返信者: "
+      created_at: "依頼投稿日時: "
     new:
       title: 修正依頼を作成
       post: 投稿する
@@ -57,14 +58,17 @@ ja:
       content: 修正依頼内容
       responses: 対応履歴
       require_login: 修正履歴に返信する場合は、ログインしてください
-      question: "対象問題: "
-      request_user: "投稿者　: "
-      created_at: "投稿日時: "
+      question: "対象問題　　: "
+      request_user: "投稿者　　　: "
+      last_response_user: "最終返信者　: "
+      last_response_created_at: "最終返信日時: "
+      created_at: "投稿日時　　: "
+      closed: この修正依頼はクローズしました。新しい修正依頼を投稿してください。
     request_btn:
       request: 修正依頼を投稿する
     status_badge:
       incompleted: 未完了
-      completed: 完了
+      completed: " 完了 "
   request_responses:
     form:
       placeholder: |
