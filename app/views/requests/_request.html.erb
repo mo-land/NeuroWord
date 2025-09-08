@@ -9,22 +9,28 @@
               <div><%= render 'requests/status_badge', request: request %></div>
               <%= link_to request.title, request_path(request), class: "link ml-2" %>
             </div>
-          </div>
-          <div class="col-start-1 col-span-1">
-            <div class="text-sm font-semibold opacity-60">
-              <div class="flex ">
-                <p class="min-w-max"><%= t('.question') %></p>
-                <p class="ml-2">
-                <%= link_to "#{request.question.title}  by #{request.question.user.name}", question_path(request.question), class: "link" %></p>
-              </div>
-              <div class="flex pt-2">
+            <div class="text-sm">
+              <div class="flex ml-20">
                 <p class="min-w-max"><%= t('.request_user') %></p>
                 <div class="ml-2" ><%= request.user.name %></div>
               </div>
+                <p class="ml-20">
+                <%= link_to "#{request.question.title}  by #{request.question.user.name}", question_path(request.question), class: "link" %>
+                </p>
             </div>
           </div>
           <div class="col-start-1 col-span-1">
-            <div class="text-sm font-semibold opacity-60">
+            <div class="text-sm">
+              <% if request.request_responses.present? %>
+                <div class="flex pt-2">
+                  <p class="min-w-max"><%= t('.last_response_user') %></p>
+                  <div class="ml-2"><%= request.request_responses.last.user.name %></div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="col-start-1 col-span-1">
+            <div class="text-sm">
               <div class="flex justify-end">
                 <%= t('.created_at') %>
                 <%= l request.created_at, format: :short %>
@@ -36,4 +42,3 @@
     </div>
   </div>
 <% end %>
-
