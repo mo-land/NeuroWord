@@ -1,10 +1,15 @@
 class RequestResponsesController < ApplicationController
   def create
-    request_response = current_user.request_responses.build(request_response_params)
-    if request_response.save
-      redirect_to request_path(request_response.request), notice: t("defaults.flash_message.sent", item: RequestResponse.model_name.human)
+    @request = Request.find(params[:request_id])
+    @request_response = current_user.request_responses.build(request_response_params)
+    @request_responses = @request.request_responses.includes(:user).order(created_at: :asc)
+    @latest_request_response = @request_responses.last
+    
+    if @request_response.save
+      redirect_to request_path(@request), notice: t("defaults.flash_message.sent", item: RequestResponse.model_name.human)
     else
-      redirect_to requests_path, alert: t("defaults.flash_message.not_sent", item: RequestResponse.model_name.human)
+      flash.now[:alert] = t("defaults.flash_message.not_sent", item: RequestResponse.model_name.human)
+      render 'requests/show', status: :unprocessable_entity
     end
   end
 

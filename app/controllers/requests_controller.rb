@@ -11,7 +11,7 @@ class RequestsController < ApplicationController
     end
 
     @search_request = Request.ransack(search_params) # ransackメソッド推奨
-    @search_requests = @search_request.result(distinct: true).includes(:user, :question, { question: :user }).order(created_at: :desc).page(params[:page])
+    @search_requests = @search_request.result(distinct: true).includes(:user, :question, { question: :user }, { request_responses: :user }).order(created_at: :desc).page(params[:page])
     @current_requests_tab = params[:tab] || "requests"
   end
 
@@ -34,6 +34,7 @@ class RequestsController < ApplicationController
     @request = Request.find(params[:id])
     @request_response = RequestResponse.new
     @request_responses = @request.request_responses.includes(:user).order(created_at: :asc)
+    @latest_request_response = @request_responses.last
   end
 
   private
