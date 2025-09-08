@@ -1,8 +1,16 @@
 class RequestsController < ApplicationController
-  before_action :authenticate_user!, except: %i[ index ]
+  before_action :authenticate_user!, except: %i[ index show ]
 
   def index
-    @search_request = Request.ransack(params[:q]) # ransackメソッド推奨
+    # 検索条件がない場合はデフォルトで未完了のみ表示
+    search_params = params[:q] || {}
+
+    # 初回アクセス（検索条件が空）の場合は未完了のみ表示
+    if search_params.empty?
+      search_params[:status_in] = [ "0" ]
+    end
+
+    @search_request = Request.ransack(search_params) # ransackメソッド推奨
     @search_requests = @search_request.result(distinct: true).includes(:user, :question, { question: :user }).order(created_at: :desc).page(params[:page])
     @current_requests_tab = params[:tab] || "requests"
   end
@@ -25,7 +33,7 @@ class RequestsController < ApplicationController
   def show
     @request = Request.find(params[:id])
     @request_response = RequestResponse.new
-    @request_responses = @request.request_responses.includes(:user).order(created_at: :desc)
+    @request_responses = @request.request_responses.includes(:user).order(created_at: :asc)
   end
 
   private
