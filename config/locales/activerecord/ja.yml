@@ -4,6 +4,7 @@ ja:
       user: ユーザー
       question: 問題
       request: 修正依頼
+      request_response: 返信
     attributes:
       question:
         title: タイトル
@@ -13,6 +14,8 @@ ja:
         title: 件名
         content: 詳細
         question: 既存の問題タイトル
+      request_response:
+        content: 修正依頼に返信
     enums:
       request:
         status:

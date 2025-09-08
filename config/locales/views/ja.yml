@@ -2,11 +2,15 @@ ja:
   defaults:
     create: 作成
     post: 投稿
+    send: 送信
     edit: 編集
+    search: 検索
     delete_confirm: 削除しますか？
     flash_message:
       created: "%{item}を作成しました"
       not_created: "%{item}を作成出来ませんでした"
+      sent: "%{item}を送信しました"
+      not_sent: "%{item}を送信出来ませんでした"
       updated: "%{item}を更新しました"
       not_updated: "%{item}を更新出来ませんでした"
       deleted: "%{item}を削除しました"
@@ -32,11 +36,14 @@ ja:
       user_lists: リスト
       game_records: プレイ履歴
   requests:
+    search_form:
+      placeholder: キーワードで検索
     index:
       title: 修正依頼一覧
       requests_to_user: 自分への依頼
       requests: みんなの依頼
       requests_from_user: 自分の依頼
+      requests_empty: この条件の依頼はありません
     request:
       question: "対象問題: "
       request_user: "投稿者　: "
@@ -48,12 +55,27 @@ ja:
     show:
       to_index: "← 修正依頼一覧"
       content: 修正依頼内容
-      request_responses: 対応履歴
+      responses: 対応履歴
+      require_login: 修正履歴に返信する場合は、ログインしてください
       question: "対象問題: "
       request_user: "投稿者　: "
       created_at: "投稿日時: "
     request_btn:
-      request: 【準備中】修正依頼
+      request: 修正依頼を投稿する
     status_badge:
       incompleted: 未完了
       completed: 完了
+  request_responses:
+    form:
+      placeholder: |
+                    〈例1：問題作成者〉
+                    　　修正対応が完了しました。ご報告いただき、ありがとうございました！
+                    〈例2：他〉
+                    　　補足です。～～。よろしくお願いします。
+
+      complete: この返信で修正対応を完了する
+      no_more_response_attention:  ※完了後は、返信不可となります
+      who_can_complete: ※ 修正依頼完了チェック欄は、問題作成者・依頼投稿者のみに表示されます。
+    request_response:
+      created_at: "返信日時: "
+      completed: この返信で完了しました
