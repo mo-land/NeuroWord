@@ -54,6 +54,7 @@ ja:
       last_response_user: "最終返信者: "
       created_at: "依頼投稿日時: "
     new:
+      to_index: 修正依頼一覧はこちら
       title: 修正依頼を作成
       post: 投稿する
       description: 問題タイトル（一部可）を入力 → 候補をクリックして選択してください。
