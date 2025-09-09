@@ -30,7 +30,7 @@ class QuestionsController < ApplicationController
       redirect_to new_question_card_set_path(@question),
                   notice: "ステップ1完了！カードセットを追加してください（2組以上）"
     else
-      flash.now[:danger] = t("defaults.flash_message.not_created", item: Question.model_name.human)
+      flash.now[:alert] = t("defaults.flash_message.not_created", item: Question.model_name.human)
       render :new, status: :unprocessable_entity
     end
   end
@@ -62,9 +62,9 @@ class QuestionsController < ApplicationController
     @question.tag_names = tag_list.join(",")
     if @question.update(question_params)
       @question.save_tag(tag_list)
-      redirect_to question_path(@question), success: t("defaults.flash_message.updated", item: Question.model_name.human)
+      redirect_to question_path(@question), notice: t("defaults.flash_message.updated", item: Question.model_name.human)
     else
-      flash.now[:danger] = t("defaults.flash_message.not_updated", item: Question.model_name.human)
+      flash.now[:alert] = t("defaults.flash_message.not_updated", item: Question.model_name.human)
       render :edit, status: :unprocessable_entity
     end
   end
@@ -72,7 +72,7 @@ class QuestionsController < ApplicationController
   def destroy
   question = current_user.questions.find(params[:id])
     question.destroy!
-    redirect_to questions_path, success: t("defaults.flash_message.deleted", item: Question.model_name.human), status: :see_other
+    redirect_to questions_path, notice: t("defaults.flash_message.deleted", item: Question.model_name.human), status: :see_other
   end
 
   def search_tag
