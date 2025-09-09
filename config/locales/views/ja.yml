@@ -71,6 +71,9 @@ ja:
     status_badge:
       incompleted: 未完了
       completed: " 完了 "
+    incompleted_request_btn:
+      check_request: この問題への修正依頼を確認できます
+      incompleted: 修正未完了
   request_responses:
     form:
       placeholder: |
