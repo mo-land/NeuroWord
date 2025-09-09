@@ -14,7 +14,11 @@
                       class: 'tab',
                       aria: { label: t('.requests_to_user') } %>
     <div class="tab-content bg-base-100 border-base-300 p-6">
-      準備中！気長にお待ちください🙇‍♀️
+      <% if @search_requests.present? %>
+        <%= render 'requests/request', tab_type: 'requests_to_user' %>
+      <% else %>
+        <div class="m-8"><%= t('.requests_empty') %></div>
+      <% end %>
     </div>
 
     <%= radio_button_tag 'my_tabs_3', 'requests', @current_requests_tab == 'requests',
@@ -23,7 +27,7 @@
     <div class="tab-content bg-base-100 border-base-300 p-6">
       <!--%= render 'requests/requests' %-->
       <% if @search_requests.present? %>
-        <%= render 'requests/request' %>
+        <%= render 'requests/request', tab_type: 'requests' %>
       <% else %>
         <div class="m-8"><%= t('.requests_empty') %></div>
       <% end %>
@@ -33,14 +37,18 @@
                       class: 'tab',
                       aria: { label: t('.requests_from_user') } %>
     <div class="tab-content bg-base-100 border-base-300 p-6">
-      準備中！気長にお待ちください🙇‍♀️
+      <% if @search_requests.present? %>
+        <%= render 'requests/request', tab_type: 'requests_from_user' %>
+      <% else %>
+        <div class="m-8"><%= t('.requests_empty') %></div>
+      <% end %>
     </div>
   </div>
 <% else %>
   <div class="p-3">
     <ul class="list bg-base-100 rounded-box shadow-md">
       <% if @search_requests.present? %>
-        <%= render 'requests/request' %>
+        <%= render 'requests/request', tab_type: 'requests' %>
       <% else %>
         <div class="m-8"><%= t('.requests_empty' )%></div>
       <% end %>
