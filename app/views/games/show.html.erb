@@ -7,6 +7,9 @@
   <!-- ヘッダー -->
   <div class="container mx-auto mb-6">
     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center bg-base-100 rounded-lg p-4 shadow-lg gap-4">
+    <% if has_incompleted_requests?(@question) %>
+      <%= render 'requests/incompleted_request_btn', question: @question %>
+    <% end %>
       <div class="flex-1 min-w-0">
         <h1 class="text-2xl font-bold font-mplus1 break-words"><%= @question.title %></h1>
         <p class="text-base-content/70 break-words"><%= @question.description %></p>
