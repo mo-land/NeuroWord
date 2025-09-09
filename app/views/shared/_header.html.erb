@@ -61,39 +61,47 @@
       </ul>
     </div>
     <!-- PC版ユーザーメニュー -->
-    <div class="navbar-end dropdown dropdown-end hidden lg:flex">
-      <ul class="menu menu-horizontal px-1">
-        <li>
-        <details>
-          <summary class="text-xl">
-            <%= turbo_frame_tag "header_name_pc" do %>
-              <%= render "shared/header_name" %>
-            <% end %>
-          </summary>
-          <ul class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm" >
-            <li><a>準備中</a></li>
-            <li><a>準備中</a>
-              <ul class="p-2">
-                <li><a>準備中</a></li>
-                <li><a>準備中</a></li>
-              </ul>
-            </li>
-            <li><%= link_to 'お問い合わせ', 'https://x.com/MO_study2408' %></li>
-            <li>
-              <%= link_to destroy_user_session_path, class: "text-warning", data: { turbo_method: :delete } do %>
-                <i class="fa-solid fa-right-from-bracket" viewBox="0 0 24 24"></i>
-                <span>ログアウト</span>
+    <div class="navbar-end hidden lg:flex">
+        <% if must_check_request_to_user_count > 0 %>
+          <%= link_to requests_path(tab: 'requests_to_user'), class: "btn btn-warning" do %>
+            <i class="fa-solid fa-hand-pointer fa-rotate-90 pr-2" viewBox="0 0 24 24"></i>
+            <%= t('.requests_to_user') %>
+          <% end %>
+        <% end %>
+      <div class="dropdown dropdown-end">
+        <ul class="menu menu-horizontal px-1">
+          <li>
+          <details>
+            <summary class="text-xl">
+              <%= turbo_frame_tag "header_name_pc" do %>
+                <%= render "shared/header_name" %>
               <% end %>
-            </li>
-            <li></li>
-            <li></li>
-            <li><div div class='copyright'>
-              <p>Copyright © 2025 NeuroWord～仲間の言葉を見つけよう！～</p>
-            </div></li>
-          </ul>
-        </details>
-        </li>
-      </ul>
+            </summary>
+            <ul class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm" >
+              <li><a>準備中</a></li>
+              <li><a>準備中</a>
+                <ul class="p-2">
+                  <li><a>準備中</a></li>
+                  <li><a>準備中</a></li>
+                </ul>
+              </li>
+              <li><%= link_to 'お問い合わせ', 'https://x.com/MO_study2408' %></li>
+              <li>
+                <%= link_to destroy_user_session_path, class: "text-warning", data: { turbo_method: :delete } do %>
+                  <i class="fa-solid fa-right-from-bracket" viewBox="0 0 24 24"></i>
+                  <span>ログアウト</span>
+                <% end %>
+              </li>
+              <li></li>
+              <li></li>
+              <li><div div class='copyright'>
+                <p>Copyright © 2025 NeuroWord～仲間の言葉を見つけよう！～</p>
+              </div></li>
+            </ul>
+          </details>
+          </li>
+        </ul>
+      </div>
     </div>
   <% else %>
     <!-- 共通_ログイン前メニュー -->

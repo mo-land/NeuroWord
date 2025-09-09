@@ -1,39 +1,64 @@
-<%= paginate @search_requests, param_name: :requests_page, params: { tab: 'requests' } %>
-<% @search_requests.each do |request| %>
-  <div id="request-id-<%= request.id %>">
-    <div class="p-2">
-      <ul class="list-inside bg-base-100 rounded-box shadow-md p-4">
-        <li class=" grid grid-cols-1 gap-4 m-2">
-          <div class="col-start-1 col-span-1">
-            <div class="flex items-center">
-              <div><%= render 'requests/status_badge', request: request %></div>
-              <%= link_to request.title, request_path(request), class: "link ml-2" %>
-            </div>
-          </div>
-          <div class="col-start-1 col-span-1">
-            <div class="text-sm font-semibold opacity-60">
-              <div class="flex ">
-                <p class="min-w-max"><%= t('.question') %></p>
-                <p class="ml-2">
-                <%= link_to "#{request.question.title}  by #{request.question.user.name}", question_path(request.question), class: "link" %></p>
-              </div>
-              <div class="flex pt-2">
-                <p class="min-w-max"><%= t('.request_user') %></p>
-                <div class="ml-2" ><%= request.user.name %></div>
-              </div>
-            </div>
-          </div>
-          <div class="col-start-1 col-span-1">
-            <div class="text-sm font-semibold opacity-60">
-              <div class="flex justify-end">
-                <%= t('.created_at') %>
-                <%= l request.created_at, format: :short %>
-              </div>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-<% end %>
+<%
+  tab_type = local_assigns[:tab_type]
+  
+  # タブに応じてフィルタリングした修正依頼を取得
+  filtered_requests = @search_requests.select do |request|
+    case tab_type
+    when 'requests_to_user'
+      request.question.user == current_user
+    when 'requests_from_user'
+      request.user == current_user
+    else # 'requests'
+      true
+    end
+  end
+%>
 
+<% if filtered_requests.present? %>
+  <%= paginate @search_requests, param_name: :requests_page, params: { tab: 'requests' } %>
+  <% filtered_requests.each do |request| %>
+    <div id="request-id-<%= request.id %>">
+      <div class="p-2">
+        <ul class="list-inside bg-base-100 rounded-box shadow-md p-4">
+          <li class=" grid grid-cols-1 gap-4 m-2">
+            <div class="col-start-1 col-span-1">
+              <div class="flex items-center">
+                <div><%= render 'requests/status_badge', request: request %></div>
+                <%= link_to request.title, request_path(request), class: "link ml-2" %>
+              </div>
+              <div class="text-sm">
+                <div class="flex ml-20">
+                  <p class="min-w-max"><%= t('.request_user') %></p>
+                  <div class="ml-2" ><%= request.user.name %></div>
+                </div>
+                  <p class="ml-20">
+                  <%= link_to "#{request.question.title}  by #{request.question.user.name}", question_path(request.question), class: "link" %>
+                  </p>
+              </div>
+            </div>
+            <div class="col-start-1 col-span-1">
+              <div class="text-sm">
+                <% if request.request_responses.present? %>
+                  <div class="flex pt-2">
+                    <p class="min-w-max"><%= t('.last_response_user') %></p>
+                    <div class="ml-2"><%= request.request_responses.last.user.name %></div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+            <div class="col-start-1 col-span-1">
+              <div class="text-sm">
+                <div class="flex justify-end">
+                  <%= t('.created_at') %>
+                  <%= l request.created_at, format: :short %>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <div class="m-8"><%= t('requests.index.requests_empty') %></div>
+<% end %>

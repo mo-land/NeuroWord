@@ -9,28 +9,37 @@
         </div>
         <div class="card-body">
           <ul class="pl-2 text-sm">
-            <li class="pb-2"><%= t('.question') %><%= link_to @request.question.title, question_path(@request.question), class: "link" %></li>
+
+            
+
+            <li class="pb-2"><%= t('.question') %><%= link_to "#{@request.question.title}  by #{@request.question.user.name}", question_path(@request.question), class: "link" %></li>
             <li><%= t('.request_user') %><%= @request.user.name %></li>
-            <li><%= t('.created_at') %><%= l @request.created_at, format: :long %></li>
+            <li class="pb-2"><%= t('.created_at') %><%= l @request.created_at, format: :long %></li>
+            <% if @latest_request_response %>
+              <li><%= t('.last_response_user') %><%= @latest_request_response.user.name %></li>
+              <li><%= t('.last_response_created_at') %><%= l @latest_request_response.created_at, format: :long %></li>
+            <% end %>
           </ul>
-          <h5 class="text-lg font-semibold pl-2 mt-6"><%= t('.content') %></h5>
-          <div class="pl-2">
-            <p><%= simple_format(@request.content) %></p>
-<%
-=begin%>
-返信機能つけ終わったら、修正依頼編集・削除機能つけるかも            
-          <div class="flex justify-end mt-4 space-x-4">
-            <%= link_to "#", id: "button-edit-#{@request.id}", class: "btn btn-ghost btn-sm" do %>
-              <i class="fa-solid fa-pen"></i>
-            <% end %>
-            <%= link_to "#", id: "button-delete-#{@request.id}", class: "btn btn-ghost btn-sm text-error" do %>
-              <i class="fa-solid fa-trash"></i>
-            <% end %>
-          </div>
-<%
-=end%>            
-          </div>
         </div>
+          <h5 class="text-lg font-semibold pl-6"><%= t('.content') %></h5>
+          <div class="pl-6">
+            <p><%= simple_format(@request.content) %></p>
+          </div>
+          <h5 class="text-lg font-semibold pl-6 mt-6"><%= t('.responses') %></h5>
+          <div class="pl-2">
+            <%= render @request_responses %>
+              <% if @request.status != "completed" %>
+                <% if user_signed_in? %>
+                 <%= render 'request_responses/form', request_response: @request_response, request: @request %>
+                <% else %>
+                  <span class="label-text ml-2"><%= t('.require_login') %></span>
+                <% end %>
+              <% else %>
+                <div class="request-response-closed-message bg-accent">
+                  <%= t('.closed') %>
+                </div>
+              <% end %>
+          </div>
       </div>
     </div>
   </div>

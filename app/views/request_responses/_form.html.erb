@@ -1,0 +1,31 @@
+<div id="request_response-form" class="mb-6">
+  <div class="max-w-2xl mr-auto">
+    <%= form_with model: request_response, url: request_request_responses_path(request), class: "space-y-4" do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+      <div>
+        <%= f.label :content, class: "label" do %>
+          <span class="label-text"><%= RequestResponse.human_attribute_name(:content) %></span>
+        <% end %>
+        <%= f.text_area :content, class: "textarea textarea-bordered w-full", rows: 4, placeholder: t('.placeholder') %>
+      </div>
+
+      <% if current_user.own?(request)||current_user.own?(request.question) %>
+        <div class="form-control">
+          <label class="cursor-pointer label">
+            <%= f.check_box :is_completed, class: "checkbox" %>
+            <span class="label-text ml-2"><%= t('.complete') %></span>
+          </label>
+          <div class="text-sm text-warning/80 ml-10 mt-[-2px] leading-tight">
+            <%= t('.no_more_response_attention') %>
+          </div>
+        </div>
+      <% else %>
+        <div class="text-sm label-text/60 ml-2 leading-tight">
+          <%= t('.who_can_complete') %>
+        </div>
+      <% end %>
+
+      <%= f.submit t('defaults.send'), class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
