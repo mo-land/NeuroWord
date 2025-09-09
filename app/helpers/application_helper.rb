@@ -31,4 +31,9 @@ module ApplicationHelper
    def turbo_stream_flash
     turbo_stream.update "flash", partial: "shared/flash_messages"
   end
+
+  def must_check_request_to_user_count
+    return 0 unless user_signed_in?
+    Request.joins(:question).where(questions: { user_id: current_user.id }, status: :incompleted).count
+  end
 end

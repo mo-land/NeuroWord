@@ -15,6 +15,9 @@ ja:
       not_updated: "%{item}を更新出来ませんでした"
       deleted: "%{item}を削除しました"
       require_login: ログインしてください
+  shared:
+    header:
+      requests_to_user: 修正依頼が届きました！要チェック！
   pagination:
     first: 最初
     last: 最後
