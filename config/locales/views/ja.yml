@@ -48,7 +48,6 @@ ja:
       requests_from_user: 自分の依頼
       requests_empty: この条件の依頼はありません
     request:
-      question: "対象問題　: "
       request_user: "by "
       last_response_user: "最終返信者: "
       created_at: "依頼投稿日時: "
