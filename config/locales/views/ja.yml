@@ -17,7 +17,9 @@ ja:
       require_login: ログインしてください
   shared:
     header:
-      requests_to_user: 修正依頼が届きました！要チェック！
+    request_to_user_btn:
+      requests_to_user_pc: 修正依頼が届きました！要チェック！
+      requests_to_user_sp: 修正依頼が届きました！
   pagination:
     first: 最初
     last: 最後

@@ -26,47 +26,48 @@
 
   <!-- スマホメニュー（ログインユーザー） -->
   <% if user_signed_in? %>
-    <div class="navbar-end ml-4 dropdown dropdown-end lg:hidden">
+   <% if must_check_request_to_user_count > 0 %>
+    <div class="navbar-end dropdown dropdown-end lg:hidden">
       <ul class="menu menu-horizontal px-1">
         <li>
           <details>
-          <summary class="text-xl">
-            <%= turbo_frame_tag "header_name_sp" do %>
-              <%= render "shared/header_name" %>
-            <% end %>
-          </summary>
-            <ul class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm" >
-              <li><a>準備中</a></li>
-              <li><a>準備中</a>
-                <ul class="p-2">
-                  <li><a>準備中</a></li>
-                  <li><a>準備中</a></li>
-                </ul>
-              </li>
-              <li><%= link_to 'お問い合わせ', 'https://x.com/MO_study2408' %></li>
-              <li>
-                <%= link_to destroy_user_session_path, class: "text-warning", data: { turbo_method: :delete } do %>
-                  <i class="fa-solid fa-right-from-bracket" viewBox="0 0 24 24"></i>
-                  <span>ログアウト</span>
-                <% end %>
-              </li>
-              <li></li>
-              <li></li>
-              <li><div div class='copyright'>
-                <p>Copyright © 2025 NeuroWord～仲間の言葉を見つけよう！～</p>
-              </div></li>
-            </ul>
+            <summary>
+              <div class="indicator">
+                <span class="indicator-item indicator-start badge badge-primary lg:hidden">!</span>
+                <div class="bg-base-300 pl-6 grid place-items-center">
+                  <%= turbo_frame_tag "header_name_sp" do %>
+                    <%= render "shared/header_name" %>
+                  <% end %>
+                </div>
+              </div>
+            </summary>
+            <%= render 'shared/header_sp_authenticated' %>
           </details>
         </li>
       </ul>
     </div>
+    <% else %>
+      <div class="navbar-end dropdown dropdown-end lg:hidden">
+        <ul class="menu menu-horizontal px-1">
+          <li>
+            <details>
+              <summary>
+                <div class="bg-base-300 pl-6 grid place-items-center">
+                  <%= turbo_frame_tag "header_name_sp" do %>
+                    <%= render "shared/header_name" %>
+                  <% end %>
+                </div>
+              </summary>
+              <%= render 'shared/header_sp_authenticated' %>
+            </details>
+          </li>
+        </ul>
+      </div>
+    <% end %>
     <!-- PC版ユーザーメニュー -->
     <div class="navbar-end hidden lg:flex">
         <% if must_check_request_to_user_count > 0 %>
-          <%= link_to requests_path(tab: 'requests_to_user'), class: "btn btn-warning" do %>
-            <i class="fa-solid fa-hand-pointer fa-rotate-90 pr-2" viewBox="0 0 24 24"></i>
-            <%= t('.requests_to_user') %>
-          <% end %>
+          <%= render 'shared/request_to_user_btn' %>
         <% end %>
       <div class="dropdown dropdown-end">
         <ul class="menu menu-horizontal px-1">
