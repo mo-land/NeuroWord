@@ -141,7 +141,18 @@ tags.tagify .tagify__tag,
   box-shadow: 0 6px 12px rgba(0,0,0,0.1);
 }
 
-/* hover感追加 */
 .button-hover:hover {
   transform: translateY(-2px);
+}
+
+/* 修正依頼クローズアラート */
+.request-response-closed-message {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+    text-align: center;
+    padding: 16px;
+    background-color: #ff9ea0;
+    border-radius: 4px;
 }
