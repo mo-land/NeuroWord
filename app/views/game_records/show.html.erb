@@ -4,8 +4,13 @@
     
     <!-- ヘッダー -->
     <div class="text-center mb-8">
-      <h1 class="text-4xl font-bold mb-2">🎉 ゲーム結果</h1>
-      <h2 class="text-2xl text-base-content/70"><%= @question.title %></h2>
+      <h1 class="text-4xl font-bold mb-4">🎉 ゲーム結果</h1>
+      <div class="lg:flex justify-center gap-2 shrink">
+        <% if has_incompleted_requests?(@question) %>
+          <%= render 'requests/incompleted_request_btn', question: @question %>
+        <% end %>
+        <h2 class="text-2xl text-base-content/70 shrink"><%= @question.title %></h2>
+      </div>
     </div>
 
     <!-- スコアカード -->
@@ -119,9 +124,9 @@
           <i class="fas fa-list-check text-primary mr-2"></i>
           正解一覧
         </h3>
-        <div class="flex mb-2">
-            <%= render 'requests/request_btn' %>
-          </div>
+        <div class="flex gap-2 mb-2">
+          <%= render 'requests/request_btn' %>
+        </div>
         </div>
         <div class="space-y-4">
           <% @question.card_sets.each do |card_set| %>

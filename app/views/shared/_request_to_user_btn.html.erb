@@ -1,0 +1,10 @@
+<%= link_to requests_path(tab: 'requests_to_user'), class: "btn btn-warning" do %>
+  <div class="hidden lg:flex">
+    <i class="fa-solid fa-hand-pointer fa-rotate-90 mr-2" aria-hidden="true"></i>
+    <%= t('.requests_to_user_pc') %>
+  </div>
+  <div class="lg:hidden text-xs">
+    <i class="fa-solid fa-angles-right" aria-hidden="true"></i>
+    <%= t('.requests_to_user_sp') %>
+  </div>
+<% end %>

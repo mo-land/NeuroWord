@@ -36,4 +36,9 @@ module ApplicationHelper
     return 0 unless user_signed_in?
     Request.joins(:question).where(questions: { user_id: current_user.id }, status: :incompleted).count
   end
+
+  def has_incompleted_requests?(question)
+    return false unless question
+    question.requests.where(status: :incompleted).exists?
+  end
 end

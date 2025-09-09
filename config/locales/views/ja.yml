@@ -17,7 +17,9 @@ ja:
       require_login: ログインしてください
   shared:
     header:
-      requests_to_user: 修正依頼が届きました！要チェック！
+    request_to_user_btn:
+      requests_to_user_pc: 修正依頼が届きました！要チェック！
+      requests_to_user_sp: 修正依頼が届きました！
   pagination:
     first: 最初
     last: 最後
@@ -52,6 +54,7 @@ ja:
       last_response_user: "最終返信者: "
       created_at: "依頼投稿日時: "
     new:
+      to_index: 修正依頼一覧はこちら
       title: 修正依頼を作成
       post: 投稿する
       description: 問題タイトル（一部可）を入力 → 候補をクリックして選択してください。
@@ -71,6 +74,9 @@ ja:
     status_badge:
       incompleted: 未完了
       completed: " 完了 "
+    incompleted_request_btn:
+      check_request: この問題への修正依頼を確認できます
+      incompleted: 修正未完了
   request_responses:
     form:
       placeholder: |
