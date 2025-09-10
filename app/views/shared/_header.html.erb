@@ -9,21 +9,21 @@
           <li>
             <%= link_to questions_path do %>
               <i class="fa-solid fa-magnifying-glass" viewBox="0 0 24 24"></i>
-              <span>問題を探す</span>
+              <span><%= t('shared.defaults.search_question') %></span>
             <% end %>
           </li>
           <% if user_signed_in? %>
             <li>
               <%= link_to new_question_path do %>
                 <i class="fa-solid fa-circle-plus" viewBox="0 0 24 24"></i>
-                <span>新しい問題を作る</span>
+                <span><%= t('shared.defaults.create_question') %></span>
               <% end %>
             </li>
             <li>
               <details>
                 <summary>
                   <i class="fa-solid fa-user" viewBox="0 0 24 24"></i>
-                  <span>マイページ</span>
+                  <span><%= t('shared.defaults.mypage') %></span>
                 </summary>
                 <ul class="bg-base-100 rounded-box z-1 p-2 shadow-sm w-max min-w-32">
                   <li>
@@ -33,17 +33,17 @@
                   </li>
                   <li>
                     <%= link_to mypage_user_path(tab: 'user_questions') do %>
-                      <span class="whitespace-nowrap">作った問題</span>
+                      <span class="whitespace-nowrap"><%= t('shared.defaults.user_questions') %></span>
                     <% end %>
                   </li>
                   <li>
                     <%= link_to mypage_user_path(tab: 'user_lists') do %>
-                      <span class="whitespace-nowrap">マイリスト</span>
+                      <span class="whitespace-nowrap"><%= t('shared.defaults.user_lists') %></span>
                     <% end %>
                   </li>
                   <li>
                     <%= link_to mypage_user_path(tab: 'game_records') do %>
-                      <span class="whitespace-nowrap">プレイ履歴</span>
+                      <span class="whitespace-nowrap"><%= t('shared.defaults.game_records') %></span>
                     <% end %>
                   </li>
                 </ul>
@@ -120,10 +120,10 @@
     <div class="flex-none">
       <ul class="menu menu-horizontal">
         <li class="mx-2">
-          <%= link_to "ログイン", new_user_session_path, class: "btn btn-secondary sm:btn-xs md:btn-md" %>
+          <%= link_to t('shared.defaults.login'), new_user_session_path, class: "btn btn-secondary sm:btn-xs md:btn-md" %>
         </li>
         <li class="ml-2">
-          <%= link_to "新規登録", new_user_registration_path, class: "btn btn-primary sm:btn-xs md:btn-md" %>
+          <%= link_to t('shared.defaults.sign_up'), new_user_registration_path, class: "btn btn-primary sm:btn-xs md:btn-md" %>
         </li>
       </ul>
     </div>

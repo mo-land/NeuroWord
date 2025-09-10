@@ -16,7 +16,23 @@ ja:
       deleted: "%{item}を削除しました"
       require_login: ログインしてください
   shared:
-    header:
+    defaults:
+      search_question: 問題を探す
+      create_question: 新しい問題を作る
+      mypage: マイページ
+      user_questions: 作った問題
+      user_lists: マイリスト
+      game_records: プレイ履歴
+      login: ログイン
+      sign_up: 新規登録
+      terms_of_service: （準備中）利用規約
+      privacy_policy: （準備中）プライバシーポリシー
+      contact: お問い合わせ
+      logout: ログアウト
+      copyright: Copyright © 2025 NeuroWord～仲間の言葉を見つけよう！～
+    header_end_authenticated:
+      requests: 修正依頼一覧
+      create_request: 修正依頼を投稿
     request_to_user_btn:
       requests_to_user_pc: 修正依頼が届きました！要チェック！
       requests_to_user_sp: 修正依頼が届きました！

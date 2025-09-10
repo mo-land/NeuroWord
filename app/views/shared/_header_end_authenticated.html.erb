@@ -5,7 +5,7 @@
               <%= render 'shared/request_to_user_btn' %>
             </li>
           <% end %>
-          <li class="lg:hidden"><a>マイページ</a>
+          <li class="lg:hidden"><a><%= t('shared.defaults.mypage') %></a>
             <ul class="p-2">
               <li>
                 <%= link_to mypage_user_path do %>
@@ -14,38 +14,38 @@
               </li>
               <li>
                 <%= link_to mypage_user_path(tab: 'user_questions') do %>
-                  <span class="whitespace-nowrap">作った問題</span>
+                  <span class="whitespace-nowrap"><%= t('shared.defaults.user_questions') %></span>
                 <% end %>
               </li>
               <li>
                 <%= link_to mypage_user_path(tab: 'user_lists') do %>
-                  <span class="whitespace-nowrap">マイリスト</span>
+                  <span class="whitespace-nowrap"><%= t('shared.defaults.user_lists') %></span>
                 <% end %>
               </li>
               <li>
                 <%= link_to mypage_user_path(tab: 'game_records') do %>
-                  <span class="whitespace-nowrap">プレイ履歴</span>
+                  <span class="whitespace-nowrap"><%= t('shared.defaults.game_records') %></span>
                 <% end %>
               </li>
             </ul>
           </li>
           <li class="lg:hidden"></li>
-          <li><%= link_to '修正依頼一覧', requests_path %></li>
-          <li><%= link_to '修正依頼を投稿', new_request_path %></li>
+          <li><%= link_to t('.requests'), requests_path %></li>
+          <li><%= link_to t('.create_request'), new_request_path %></li>
           <li></li>
           <div class="lg:hidden">
-            <li><%= link_to '（準備中）利用規約', '#' %></li>
-            <li><%= link_to '（準備中）プライバシーポリシー', '#' %></li>
-            <li><%= link_to 'お問い合わせ', 'https://x.com/MO_study2408' %></li>
+            <li><%= link_to t('shared.defaults.terms_of_service'), '#' %></li>
+            <li><%= link_to t('shared.defaults.privacy_policy'), '#' %></li>
+            <li><%= link_to t('shared.defaults.contact'), 'https://x.com/MO_study2408' %></li>
             <li></li>
           </div>
           <li>
             <%= link_to destroy_user_session_path, class: "text-warning", data: { turbo_method: :delete } do %>
               <i class="fa-solid fa-right-from-bracket" viewBox="0 0 24 24"></i>
-              <span>ログアウト</span>
+              <span><%= t('shared.defaults.logout') %></span>
             <% end %>
           </li>
           <li><div div class='copyright lg:hidden'>
-            <p>Copyright © 2025 NeuroWord～仲間の言葉を見つけよう！～</p>
+            <p><%= t('shared.defaults.copyright') %></p>
           </div></li>
         </ul>
