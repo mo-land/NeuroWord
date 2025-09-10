@@ -83,7 +83,7 @@ export default class extends Controller {
     
     // カウンター要素を追加
     const countDiv = document.createElement('div')
-    countDiv.className = 'text-xs text-base-content/70 ml-1'
+    countDiv.className = 'text-xs text-base-content/70 ml-1 mb-2'
     countDiv.innerHTML = '残り<span data-card-set-form-target="relatedCount">40</span>文字'
     
     container.appendChild(newGroup)
