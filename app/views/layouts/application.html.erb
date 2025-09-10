@@ -28,7 +28,9 @@
     <div id="flash" class="relative z-1">
       <%= render 'shared/flash_messages' %>
     </div>
-    <%= yield %>
+    <div class="mb-28 lg:mb-0">
+      <%= yield %>
+    </div>
     <div class="hidden lg:flex">
       <%= render 'shared/footer' %>
     </div>
