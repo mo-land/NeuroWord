@@ -1,3 +1,8 @@
+
+<% if current_user && current_user.own?(@question) %>
+  <%= render "card_limit_info", question: @question, show_game_status: false %>
+<% end %>
+
 <%= form_with model: [question, card_set], 
               local: true,
               data: { 
@@ -7,7 +12,7 @@
               class: "space-y-4" do |form| %>
   
   <!-- エラー表示（送信時のみ） -->
-  <% if card_set.errors.any? %>
+  <% if card_set.errors.any? && request.post? %>
     <div class="alert alert-error">
       <i class="fas fa-exclamation-circle"></i>
       <div>
@@ -90,12 +95,12 @@
 
   <!-- アクションボタン -->
   <div class="flex gap-2 pt-4">
-    <% if card_set.persisted? %>
+    <% if @question.card_sets.count > 0 %>
       <%= form.submit "更新してカードセット一覧に戻る", 
                      class: "btn btn-primary",
                      data: { card_set_form_target: "submitButton" } %>
     <% else %>
-      <%= form.submit "作成", 
+      <%= form.submit "保存して次のカードセットを作成", 
                      class: "btn btn-primary",
                      data: { card_set_form_target: "submitButton" } %>
     <% end %>
