@@ -96,7 +96,7 @@
   <!-- アクションボタン -->
   <div class="flex gap-2 pt-4">
     <% if @question.card_sets.count > 0 %>
-      <%= form.submit "更新してカードセット一覧に戻る", 
+      <%= form.submit "更新してカードセット一覧を確認する", 
                      class: "btn btn-primary",
                      data: { card_set_form_target: "submitButton" } %>
     <% else %>
