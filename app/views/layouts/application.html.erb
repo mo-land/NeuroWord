@@ -22,10 +22,10 @@
   </head>
 
   <body>
-    <div class="fixed sticky lg:top-0 z-1">
+    <div class="fixed sticky lg:top-0 z-2">
       <%= render 'shared/header' %>
     </div>
-    <div id="flash">
+    <div id="flash" class="relative z-1">
       <%= render 'shared/flash_messages' %>
     </div>
     <%= yield %>
