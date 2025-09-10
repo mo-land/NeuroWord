@@ -1,12 +1,12 @@
 <footer class="footer sm:footer-horizontal footer-center bg-base-300 text-base-content p-4">
   <aside>
   <nav class="grid grid-flow-col gap-4">
-    <%= link_to '利用規約（準備中）', '#', class: 'link link-hover' %>
-    <%= link_to 'プライバシーポリシー（準備中）', '#', class: 'link link-hover' %>
-    <%= link_to 'お問い合わせ', 'https://x.com/MO_study2408', class: 'link link-hover' %>
+    <%= link_to t('shared.defaults.terms_of_service'), '#', class: 'link link-hover' %>
+    <%= link_to t('shared.defaults.privacy_policy'), '#', class: 'link link-hover' %>
+    <%= link_to t('shared.defaults.contact'), 'https://x.com/MO_study2408', class: 'link link-hover' %>
   </nav>
         <div div class='copyright'>
-          <p>Copyright © 2025 NeuroWord～仲間の言葉を見つけよう！～</p>
+          <p><%= t('shared.defaults.copyright') %></p>
         </div>
   </aside>
 </footer>
