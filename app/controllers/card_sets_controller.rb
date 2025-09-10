@@ -42,7 +42,7 @@ class CardSetsController < ApplicationController
         format.turbo_stream {
           render turbo_stream: [
             turbo_stream.append("card_sets", partial: "card_sets/card_set", locals: { card_set: @card_set, question: @question }),
-            turbo_stream.update("card_limit_info", partial: "shared/card_limit_info", locals: { question: @question }),
+            turbo_stream.update("card_limit_info", partial: "card_sets/card_limit_info", locals: { question: @question }),
             turbo_stream.update("flash_messages", html: %(<div class="alert alert-success shadow-lg my-2"><span>#{success_message}</span></div>).html_safe),
             turbo_stream.replace("new_card_set_form", partial: "questions/add_card_set_button", locals: { question: @question })
           ]
@@ -54,7 +54,7 @@ class CardSetsController < ApplicationController
         format.turbo_stream {
           render turbo_stream: [
             turbo_stream.update("new_card_set_form", partial: "card_sets/form", locals: { card_set: @card_set, question: @question }),
-            turbo_stream.update("card_limit_info", partial: "shared/card_limit_info", locals: { question: @question })
+            turbo_stream.update("card_limit_info", partial: "card_sets/card_limit_info", locals: { question: @question })
           ]
         }
       end
@@ -75,7 +75,7 @@ class CardSetsController < ApplicationController
         format.turbo_stream {
           render turbo_stream: [
             turbo_stream.replace(@card_set, partial: "card_sets/card_set", locals: { card_set: @card_set, question: @question }),
-            turbo_stream.update("card_limit_info", partial: "shared/card_limit_info", locals: { question: @question }),
+            turbo_stream.update("card_limit_info", partial: "card_sets/card_limit_info", locals: { question: @question }),
             turbo_stream.update("flash_messages", html: %(<div class="alert alert-success shadow-lg my-2"><span>カードセットを更新しました</span></div>).html_safe)
           ]
         }
@@ -114,7 +114,7 @@ class CardSetsController < ApplicationController
     format.turbo_stream {
       render turbo_stream: [
         turbo_stream.remove(view_context.dom_id(@card_set)),
-        turbo_stream.update("card_limit_info", partial: "shared/card_limit_info", locals: { question: @question }),
+        turbo_stream.update("card_limit_info", partial: "card_sets/card_limit_info", locals: { question: @question }),
         turbo_stream.update("flash_messages", html: %(<div class="alert alert-success shadow-lg my-2"><span>カードセットを削除しました</span></div>).html_safe)
       ]
     }
