@@ -61,6 +61,14 @@
     <div data-card-set-form-target="relatedWordsContainer" class="space-y-3">
       <% (card_set.related_words.presence || [""]).each_with_index do |word, index| %>
         <div class="flex gap-2" data-card-set-form-target="relatedWordGroup">
+          <% if index > 0 %>
+            <button type="button" 
+                    class="btn btn-outline btn-error btn-square"
+                    data-action="click->card-set-form#removeRelatedWord">
+              <i class="fas fa-times"></i>
+            </button>
+          <% end %>
+          
           <%= text_field_tag "card_set[related_words][]", word,
                             class: "input input-bordered flex-1",
                             maxlength: 40,
@@ -69,14 +77,6 @@
                               action: "input->card-set-form#updateCharCount",
                               card_set_form_target: "relatedInput"
                             } %>
-          
-          <% if index > 0 %>
-            <button type="button" 
-                    class="btn btn-outline btn-error btn-square"
-                    data-action="click->card-set-form#removeRelatedWord">
-              <i class="fas fa-times"></i>
-            </button>
-          <% end %>
         </div>
         <div class="text-xs text-base-content/70 ml-1">
           残り<span data-card-set-form-target="relatedCount">40</span>文字
