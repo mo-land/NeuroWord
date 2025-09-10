@@ -66,6 +66,12 @@ export default class extends Controller {
     newGroup.setAttribute('data-card-set-form-target', 'relatedWordGroup')
     
     newGroup.innerHTML = `
+      <button type="button" 
+              class="btn btn-outline btn-error btn-square"
+              data-action="click->card-set-form#removeRelatedWord">
+        <i class="fas fa-times"></i>
+      </button>
+      
       <input type="text" 
              name="card_set[related_words][]" 
              class="input input-bordered flex-1"
@@ -73,17 +79,11 @@ export default class extends Controller {
              placeholder="関連語 ${index + 1}"
              data-action="input->card-set-form#updateCharCount"
              data-card-set-form-target="relatedInput">
-      
-      <button type="button" 
-              class="btn btn-outline btn-error btn-square"
-              data-action="click->card-set-form#removeRelatedWord">
-        <i class="fas fa-times"></i>
-      </button>
     `
     
     // カウンター要素を追加
     const countDiv = document.createElement('div')
-    countDiv.className = 'text-xs text-base-content/70 ml-1'
+    countDiv.className = 'text-xs text-base-content/70 ml-1 mb-2'
     countDiv.innerHTML = '残り<span data-card-set-form-target="relatedCount">40</span>文字'
     
     container.appendChild(newGroup)

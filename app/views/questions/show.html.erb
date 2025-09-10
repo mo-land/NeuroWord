@@ -8,7 +8,7 @@
   
   <!-- カード制限情報 -->
   <% if current_user && current_user.own?(@question) %>
-    <%= render "shared/card_limit_info", question: @question %>
+    <%= render "card_sets/card_limit_info", question: @question %>
   <% end %>
 
   <div class="mb-3 grid grid-cols-1 lg:grid-cols-8">
@@ -27,7 +27,9 @@
             by <%= @question.user.name || @question.user.email %> - 
             <%= @question.created_at.strftime("%Y/%m/%d %H:%M") %>
           </span>
+          <div class="flex-initial">
             <%= render 'requests/request_btn' %>
+          </div>
         </div>
       </div>
 

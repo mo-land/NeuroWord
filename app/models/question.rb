@@ -69,7 +69,7 @@ class Question < ApplicationRecord
   end
 
   def total_cards_count
-    card_sets.sum do |card_set|
+    card_sets.where.not(id: nil).sum do |card_set|
       1 + (card_set.related_words&.compact_blank&.count || 0)
     end
   end
