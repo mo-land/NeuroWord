@@ -62,6 +62,13 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   gem "bullet"
+
+  # Rspec etc
+  gem 'rspec-rails'
+  gem 'factory_bot_rails'
+  
+  # coverage
+  gem 'simplecov'
 end
 
 group :development do
@@ -73,4 +80,7 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  gem "webdrivers"
+
+  gem 'shoulda-matchers'
 end
