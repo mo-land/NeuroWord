@@ -64,11 +64,11 @@ group :development, :test do
   gem "bullet"
 
   # Rspec etc
-  gem 'rspec-rails'
-  gem 'factory_bot_rails'
-  
+  gem "rspec-rails"
+  gem "factory_bot_rails"
+
   # coverage
-  gem 'simplecov'
+  gem "simplecov"
 end
 
 group :development do
@@ -82,5 +82,5 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 
-  gem 'shoulda-matchers'
+  gem "shoulda-matchers"
 end
