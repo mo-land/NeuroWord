@@ -5,87 +5,49 @@ RSpec.describe "CardSets", type: :system do
     driven_by(:rack_test)
   end
 
-  describe "#all_cards_shuffled" do
-    context "起点カードと関連語カードが存在する場合" do
-      it "起点カードと関連語カードを含む全カードを取得できる" do
+   describe "カードセット作成・編集機能" do
+    context "カードセット作成時" do
+      it "問題にカードセットを追加できる" do
+        # ログイン → 問題編集 → カードセット追加フォーム → 起点語・関連語入力 → 保存
       end
 
-      it "各カードに適切な属性が設定される" do
-      end
-
-      it "取得したカードがシャッフルされている" do
-      end
-    end
-
-    context "関連語が存在しない場合" do
-      it "起点カードのみを含む配列を返す" do
+      it "関連語を複数追加してカードセットを作成できる" do
+        # ログイン → カードセット作成 → 関連語複数入力 → 保存 → 表示確認
       end
     end
-  end
 
-  describe "#origin_card_data" do
-    context "起点カードデータの生成" do
-      it "適切な属性を持つハッシュを返す" do
+    context "カードセット編集時" do
+      it "既存のカードセットを編集できる" do
+        # ログイン → 問題編集 → 既存カードセット選択 → 内容変更 → 保存
       end
 
-      it "wordにorigin_wordが設定される" do
-      end
-
-      it "typeに:originが設定される" do
-      end
-
-      it "set_idにカードセットのIDが設定される" do
-      end
-
-      it "css_classに'origin-card'が設定される" do
+      it "関連語を追加・削除できる" do
+        # ログイン → カードセット編集 → 関連語追加・削除 → 保存 → 変更確認
       end
     end
   end
 
-  describe "#related_cards_data" do
-    context "関連語カードデータの生成" do
-      it "全ての関連語がカードデータに変換される" do
+  describe "ゲーム中のカード動作" do
+    context "カード表示・選択機能" do
+      it "ゲーム画面でカードが正しく表示される" do
+        # ログイン → ゲーム開始 → 起点カード・関連語カード表示確認
       end
 
-      it "各カードに適切な属性が設定される" do
+      it "カード選択時のマッチング判定が正しく動作する" do
+        # ログイン → ゲーム開始 → 正しいペア選択 → マッチング成功
+        # → 間違ったペア選択 → マッチング失敗
       end
 
-      it "typeに:relatedが設定される" do
-      end
-
-      it "css_classに'related-card'が設定される" do
-      end
-    end
-
-    context "関連語が存在しない場合" do
-      it "空の配列を返す" do
+      it "全てのカードがマッチすると完了画面に遷移する" do
+        # ログイン → ゲーム開始 → 全ペア正解 → 完了画面表示
       end
     end
   end
-  
-  describe "#includes_related_word?" do
-    context "指定した単語が関連語に含まれる場合" do
-      it "trueを返す" do
-      end
-    end
 
-    context "指定した単語が関連語に含まれない場合" do
-      it "falseを返す" do
-      end
-    end
-
-    context "関連語が空の場合" do
-      it "falseを返す" do
-      end
-    end
-
-    context "関連語がnilの場合" do
-      it "falseを返す" do
-      end
-    end
-
-    context "引数がnilの場合" do
-      it "falseを返す" do
+  describe "カードセット制限機能" do
+    context "カード数制限" do
+      it "カード総数上限時に追加制限が正しく動作する" do
+        # ログイン → 問題編集 → カード上限まで追加 → 追加ボタン無効化確認
       end
     end
   end
