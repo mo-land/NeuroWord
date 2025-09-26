@@ -4,7 +4,7 @@ RSpec.describe "Questions", type: :system do
   before do
     driven_by(:rack_test)
   end
-  
+
   describe "問題作成・編集機能" do
     context "問題作成時" do
       it "ログインユーザーが新しい問題を作成できる" do

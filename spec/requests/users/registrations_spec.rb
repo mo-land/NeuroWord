@@ -12,8 +12,8 @@ RSpec.describe "Users::Registrations", type: :request do
 
   describe "POST #create" do
     context "有効なパラメータの場合" do
-#       let(:create_params) { { user: { name: "テストユーザー", email: "test@example.com", password:
-# "password123", password_confirmation: "password123" } } }
+      #       let(:create_params) { { user: { name: "テストユーザー", email: "test@example.com", password:
+      # "password123", password_confirmation: "password123" } } }
 
       it "ユーザーが作成される" do
       end
