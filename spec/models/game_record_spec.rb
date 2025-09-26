@@ -166,22 +166,4 @@ RSpec.describe GameRecord, type: :model do
       end
     end
   end
-
-  describe "レコード作成・更新のテスト" do
-    context "有効なデータでの作成" do
-      it "全ての必須項目が設定された場合は正常に作成される" do
-      end
-
-      it "completion_time_secondsがnilでも正常に作成される" do
-      end
-    end
-
-    context "データ更新のテスト" do
-      it "有効な値で更新できる" do
-      end
-
-      it "無効な値では更新できない" do
-      end
-    end
-  end
 end
