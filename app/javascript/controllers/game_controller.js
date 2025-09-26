@@ -122,7 +122,6 @@ export default class extends Controller {
           related_word: relatedWord,
           clicked_set_id: setId,
           current_state: this.gameState,
-          is_already_selected: cardElement.classList.contains('opacity-50')
         })
       })
 

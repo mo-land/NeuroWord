@@ -101,20 +101,6 @@ class GamesController < ApplicationController
     related_word = params[:related_word]
     clicked_set_id = params[:clicked_set_id].to_i
     current_state = params[:current_state]
-    is_already_selected = params[:is_already_selected]
-
-    # 既に選択済みのカードをクリックした場合
-    if is_already_selected
-      render json: {
-        valid_action: false,
-        correct: false,
-        message: "このカードは既に選択済みです",
-        total_clicks: session[:total_clicks],
-        correct_clicks: session[:correct_clicks],
-        current_accuracy: calculate_current_accuracy
-      }
-      return
-    end
 
     # 起点カードが選択されていない場合
     if selected_origin_id.nil? || current_state != "SELECT_RELATED"
