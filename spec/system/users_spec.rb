@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "Users", type: :system do
-  include LoginMacros
-
   before do
     driven_by(:rack_test)
   end
