@@ -8,7 +8,6 @@ RSpec.describe "Users", type: :system do
   describe 'Deviseの認証機能' do
     context 'ユーザー登録' do
       it '有効な情報でユーザーを作成できる' do
-        # トップページ → 新規登録ページ → メール・パスワード入力 → 登録完了 → マイページ表示
         visit new_user_registration_path
         fill_in 'ユーザー名', with: 'test_user'
         fill_in 'Eメール', with: 'test@example.com'
@@ -20,7 +19,6 @@ RSpec.describe "Users", type: :system do
       end
 
       it '重複するメールアドレスでは作成できない' do
-        # 既存ユーザー作成 → 新規登録ページ → 同じメール入力 → エラーメッセージ表示
         create(:user, email: 'test@example.com')
         visit new_user_registration_path
         fill_in 'Eメール', with: 'test@example.com'
@@ -42,7 +40,6 @@ RSpec.describe "Users", type: :system do
       let!(:user) { User.create(name: "username", email: "test@example.com", password: "password") }
 
       it '正しい認証情報でログインできる' do
-        # ユーザー作成 → ログインページ → 正しい情報入力 → ログイン成功 → マイページ表示
         login(user)
         expect(page).to have_content "ログインしました"
       end
@@ -54,6 +51,7 @@ RSpec.describe "Users", type: :system do
         fill_in 'パスワード', with: 'wrong_password'
         click_button "ログイン"
         expect(page).to have_content "Eメールまたはパスワードが違います"
+        expect(current_path).to eq new_user_session_path
       end
 
       it 'ログアウトが正しく動作する' do
@@ -62,6 +60,7 @@ RSpec.describe "Users", type: :system do
         first(:link_or_button, 'ログアウト').click
         expect(current_path).to eq root_path
         expect(page).to have_content "ログアウトしました。"
+        expect(current_path).to eq root_path
       end
     end
 
