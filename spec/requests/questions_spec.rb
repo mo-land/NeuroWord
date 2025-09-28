@@ -24,7 +24,7 @@ RSpec.describe "Questions", type: :request do
       xit "タグ一覧が表示される" do
       end
     end
-    
+
     context "ログインしているユーザー" do
       before { sign_in user }
 
@@ -46,7 +46,7 @@ RSpec.describe "Questions", type: :request do
       end
     end
   end
-  
+
   describe "GET #show" do
     it "問題詳細ページが正常に表示される" do
       get question_path(question)
@@ -138,7 +138,7 @@ RSpec.describe "Questions", type: :request do
     context "他のユーザーの問題の場合" do
       let!(:other_user) { create(:user) }  # 別のユーザーを作成
       let!(:other_question) { create(:question, user: other_user) }  # 別のユーザーの問題を作成
-      
+
       it "404エラーが返される" do
         get edit_question_path(other_question)
         expect(response).to have_http_status(404)

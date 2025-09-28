@@ -7,7 +7,7 @@ RSpec.describe "Questions", type: :system do
 
   let(:user) { create(:user) }
   let(:question) { create(:question) }
-  
+
   describe "未ログイン時" do
     context "問題作成時" do
       it "未ログイン時は問題作成できない" do
@@ -16,10 +16,10 @@ RSpec.describe "Questions", type: :system do
         expect(current_path).to eq new_user_session_path
       end
     end
-    
+
     context "問題編集時" do
       let!(:question) { create(:question) }
-      
+
       it "未ログイン時は問題編集できない" do
         visit edit_question_path(question)
         expect(page).to have_content('ログインもしくはアカウント登録してください')
@@ -30,7 +30,7 @@ RSpec.describe "Questions", type: :system do
 
   describe "ログイン時" do
     before { login(user) }
-    
+
     context "問題作成時" do
       it "ログインユーザーが新しい問題を作成できる" do
         # ログイン → 問題作成ページ → タイトル・説明入力 → 保存 → 問題一覧で確認
@@ -39,12 +39,12 @@ RSpec.describe "Questions", type: :system do
         fill_in '説明', with: '説明'
         click_button '次へ：カードセットを追加'
         expect(page).to have_content('カードセットを追加してください')
-        
+
         created_question = Question.last
         expect(current_path).to eq new_question_card_set_path(created_question)
       end
     end
-    
+
     context "問題作成時" do
       it "ログインユーザーが新しい問題を作成できる" do
         # ログイン → 問題作成ページ → タイトル・説明入力 → 保存 → 問題一覧で確認
@@ -53,16 +53,16 @@ RSpec.describe "Questions", type: :system do
         fill_in '説明', with: '説明'
         click_button '次へ：カードセットを追加'
         expect(page).to have_content('カードセットを追加してください')
-        
+
         created_question = Question.last
         expect(current_path).to eq new_question_card_set_path(created_question)
       end
     end
-    
+
     describe "問題編集時" do
       context "ログインユーザーが作成した問題" do
         let!(:question) { create(:question, user: user) }
-        
+
         it "問題編集ができる" do
           visit edit_question_path(question)
           fill_in 'タイトル', with: '新問題タイトル'
@@ -71,13 +71,13 @@ RSpec.describe "Questions", type: :system do
           expect(page).to have_content('問題を更新しました')
           expect(current_path).to eq question_path(question)
         end
-        
+
         it "カードセット追加制限が正しく動作する" do
           # 9枚分のカードセット（1起点+2関連語×3セット）を事前作成
           3.times do |i|
-            create(:card_set, question: question, origin_word: "起点#{i}", related_words: ["関連語#{i}-1", "関連語#{i}-2"])
+            create(:card_set, question: question, origin_word: "起点#{i}", related_words: [ "関連語#{i}-1", "関連語#{i}-2" ])
           end
-          
+
           visit question_path(question)
 
           expect(page).to have_no_content('新しいカードセットを追加')
@@ -92,7 +92,7 @@ RSpec.describe "Questions", type: :system do
       it "カードが十分な問題でゲーム開始ボタンが表示される" do
         valid_question = create(:question, user: user)
         2.times do |i|
-          create(:card_set, question: valid_question, origin_word: "起点#{i}", related_words: ["関連語#{i}-1", "関連語#{i}-2"])
+          create(:card_set, question: valid_question, origin_word: "起点#{i}", related_words: [ "関連語#{i}-1", "関連語#{i}-2" ])
         end
 
         visit question_path(valid_question)
@@ -104,7 +104,7 @@ RSpec.describe "Questions", type: :system do
     context "ゲーム開始不可能な問題" do
       it "カード不足の問題でゲーム開始ボタンが無効になる" do
         invalid_question = create(:question, user: user)
-        create(:card_set, question: invalid_question, origin_word: "起点1", related_words: ["関連語1"])
+        create(:card_set, question: invalid_question, origin_word: "起点1", related_words: [ "関連語1" ])
 
         visit question_path(invalid_question)
         expect(page).not_to have_link('ゲーム開始')
@@ -118,16 +118,16 @@ RSpec.describe "Questions", type: :system do
     before do
       driven_by(:remote_chrome)
     end
-    
+
     context "ゲーム画面でのカード表示" do
       it "起点カードと関連語カードが正しく表示される" do
         game_question = create(:question, user: user)
-        card_set1 = create(:card_set, question: game_question, origin_word: "Java", related_words: ["Spring", "Maven"])
-        card_set2 = create(:card_set, question: game_question, origin_word: "Ruby", related_words: ["Rails", "Gem"])
-        
+        card_set1 = create(:card_set, question: game_question, origin_word: "Java", related_words: [ "Spring", "Maven" ])
+        card_set2 = create(:card_set, question: game_question, origin_word: "Ruby", related_words: [ "Rails", "Gem" ])
+
         visit question_path(game_question)
         click_link 'ゲーム開始'
-        
+
         expect(page).to have_content('Java')
         expect(page).to have_content('Ruby')
         expect(page).to have_content('Spring')
@@ -137,17 +137,17 @@ RSpec.describe "Questions", type: :system do
         expect(page).to have_css('.origin-card', count: 2)
         expect(page).to have_css('.related-card', count: 4)
       end
-      
+
       it "カード選択時に判定用のポップが出る ※正誤判定結果が正しいかどうかのテストは不可" do
         # APIエラー（テスト環境のみ）のため、正誤判定結果が正しいかどうかのテストは不可
         # ログインユーザーが作成した問題を使用
         game_question = create(:question, user: user)
-        card_set1 = create(:card_set, question: game_question, origin_word: "Java", related_words: ["Spring", "Maven"])
-        card_set2 = create(:card_set, question: game_question, origin_word: "Ruby", related_words: ["Rails", "Gem"])
-        
+        card_set1 = create(:card_set, question: game_question, origin_word: "Java", related_words: [ "Spring", "Maven" ])
+        card_set2 = create(:card_set, question: game_question, origin_word: "Ruby", related_words: [ "Rails", "Gem" ])
+
         visit question_path(game_question)
         click_link 'ゲーム開始'
-        
+
         # 正しい組み合わせをクリック
         find('.origin-card', text: 'Java').click
         sleep(1)

@@ -20,7 +20,7 @@ RSpec.describe CardSet, type: :model do
       end
 
       it "関連語がすべて空白の場合は無効である" do
-        card_set = build(:card_set, related_words: ["", " ", nil])
+        card_set = build(:card_set, related_words: [ "", " ", nil ])
         expect(card_set).to be_invalid
         expect(card_set.errors[:related_words]).to include("は1つ以上必要です")
       end
@@ -31,16 +31,16 @@ RSpec.describe CardSet, type: :model do
 
     context "関連語の長さ制限チェック" do
       it "関連語は40文字以下の場合のみ有効か" do
-        card_set = build(:card_set, related_words: ["a" * 40])
+        card_set = build(:card_set, related_words: [ "a" * 40 ])
         expect(card_set).to be_valid
 
-        card_set_invalid = build(:card_set, related_words: ["a" * 41])
+        card_set_invalid = build(:card_set, related_words: [ "a" * 41 ])
         expect(card_set_invalid).to be_invalid
         expect(card_set_invalid.errors[:related_words]).to include("の1番目は40文字以内で入力してください")
       end
 
       it "複数の関連語で長さ制限を超える場合は適切なエラーメッセージを表示する" do
-        card_set = build(:card_set, related_words: ["a" * 41, "b" * 41])
+        card_set = build(:card_set, related_words: [ "a" * 41, "b" * 41 ])
         expect(card_set).to be_invalid
         expect(card_set.errors[:related_words]).to include("の1番目は40文字以内で入力してください")
         expect(card_set.errors[:related_words]).to include("の2番目は40文字以内で入力してください")
@@ -50,15 +50,15 @@ RSpec.describe CardSet, type: :model do
     context "質問全体のカード総数制限チェック" do
       it "追加後の総カード数が10枚以下の場合は有効である" do
         question = create(:question)
-        create(:card_set, question: question, related_words: ["関連語1", "関連語2", "関連語3"])
-        card_set = build(:card_set, question: question, related_words: ["新関連語1", "新関連語2", "新関連語3", "新関連語4", "新関連語5"])
+        create(:card_set, question: question, related_words: [ "関連語1", "関連語2", "関連語3" ])
+        card_set = build(:card_set, question: question, related_words: [ "新関連語1", "新関連語2", "新関連語3", "新関連語4", "新関連語5" ])
         expect(card_set).to be_valid
       end
-      
+
       it "追加後の総カード数が11枚以上になる場合は無効である" do
         question = create(:question)
-        create(:card_set, question: question, related_words: ["関連語1", "関連語2", "関連語3", "関連語4"])
-        add_card_set = create(:card_set, question: question, related_words: ["新関連語1", "新関連語2", "新関連語3", "新関連語4", "新関連語5", "新関連語6"])
+        create(:card_set, question: question, related_words: [ "関連語1", "関連語2", "関連語3", "関連語4" ])
+        add_card_set = create(:card_set, question: question, related_words: [ "新関連語1", "新関連語2", "新関連語3", "新関連語4", "新関連語5", "新関連語6" ])
         expect(question).to be_invalid
         expect(question.errors[:base]).to include("カードの総数は10枚以内にしてください（現在：12枚）")
       end
@@ -71,9 +71,9 @@ RSpec.describe CardSet, type: :model do
 
       it "他のカードセットとの合計カード数を正しく計算する" do
         question = create(:question)
-        create(:card_set, question: question, related_words: ["関連語1"])
-        create(:card_set, question: question, related_words: ["関連語2", "関連語3"])
-        card_set = build(:card_set, question: question, related_words: ["新関連語1", "新関連語2", "新関連語3", "新関連語4", "新関連語5"])
+        create(:card_set, question: question, related_words: [ "関連語1" ])
+        create(:card_set, question: question, related_words: [ "関連語2", "関連語3" ])
+        card_set = build(:card_set, question: question, related_words: [ "新関連語1", "新関連語2", "新関連語3", "新関連語4", "新関連語5" ])
         expect(card_set).to be_valid
       end
     end
@@ -95,7 +95,7 @@ RSpec.describe CardSet, type: :model do
   describe "#cards_count" do
     context "関連語が存在する場合" do
       it "起点カード1枚＋関連語カード数の合計を返す" do
-        card_set = build(:card_set, related_words: ["関連語1", "関連語2", "関連語3"])
+        card_set = build(:card_set, related_words: [ "関連語1", "関連語2", "関連語3" ])
         expect(card_set.cards_count).to eq(4)
       end
     end
@@ -109,7 +109,7 @@ RSpec.describe CardSet, type: :model do
 
     context "関連語に空文字が含まれる場合" do
       it "空文字を除外してカウントする" do
-        card_set = build(:card_set, related_words: ["関連語1", "", " ", "関連語2", nil])
+        card_set = build(:card_set, related_words: [ "関連語1", "", " ", "関連語2", nil ])
         expect(card_set.cards_count).to eq(3)
       end
     end
@@ -202,7 +202,7 @@ RSpec.describe CardSet, type: :model do
 
     context "特殊文字を含む単語の場合" do
       it "特殊文字を含む単語も正しく処理する" do
-        card_set = build(:card_set, origin_word: "特殊文字！@#$%", related_words: ["記号&*()"])
+        card_set = build(:card_set, origin_word: "特殊文字！@#$%", related_words: [ "記号&*()" ])
         expect(card_set).to be_valid
       end
     end
