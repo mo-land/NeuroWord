@@ -52,7 +52,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       clean_up_passwords resource
       set_minimum_password_length
 
-　　　# claudeで変更（明示的なTurbo化）
+      # claudeで変更（明示的なTurbo化）
       # respond_with resource
       respond_to do |format|
         format.turbo_stream { render :update, status: :unprocessable_entity }
