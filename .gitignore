@@ -42,4 +42,4 @@
 .DS_Store
 /vendor/bundle
 
-echo coverage >> .gitignore
+coverage/
