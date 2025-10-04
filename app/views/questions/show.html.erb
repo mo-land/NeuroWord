@@ -6,83 +6,99 @@
     <!-- %= render "shared/flash_messages" if notice || alert %-->
   </div>
   
-  <!-- カード制限情報 -->
-  <% if current_user && current_user.own?(@question) %>
-    <%= render "card_sets/card_limit_info", question: @question %>
-  <% end %>
+    <div class="mb-3 grid grid-cols-1 lg:grid-cols-8">
+      <div class="lg:col-start-2 lg:col-span-6">
 
-  <div class="mb-3 grid grid-cols-1 lg:grid-cols-8">
-    <div class="lg:col-start-2 lg:col-span-6">
-      <!-- ヘッダー部分 -->
-      <div class="mb-8">
-        <div class="lg:flex gap-2">
-          <% if has_incompleted_requests?(@question) %>
-            <%= render 'requests/incompleted_request_btn', question: @question %>
-          <% end %>
-          <h1 class="text-3xl font-bold mb-2"><%= @question.title %></h1>
-        </div>
-        <p class="text-lg text-base-content/70 mb-4"><%= @question.description %></p>
-        <div class="text-sm text-base-content/60 flex justify-between items-center">
-          <span>
-            by <%= @question.user.name || @question.user.email %> - 
-            <%= @question.created_at.strftime("%Y/%m/%d %H:%M") %>
-          </span>
-          <div class="flex-initial">
-            <%= render 'requests/request_btn' %>
-          </div>
-        </div>
-      </div>
-
-      <!-- シェアセクション -->
-      <% if current_user && current_user.own?(@question) %>
-        <p class="text-center">このボタンは、問題作成者のみに表示されます</p>
-        <h3 class="card-title justify-center text-2xl">
-        <div class="flex flex-wrap justify-center gap-4">
-          <!-- Twitter/X シェア -->
-          <%= link_to "https://twitter.com/intent/tweet?text=#{CGI.escape("NeuroWordで「#{@question.title}」を作ったよ！\n挑戦してみてね🙌\n\n#仲間言葉探し #単語ゲーム")}&url=#{CGI.escape("#{request.base_url}/games/#{@question.id}?from=creator")}", 
-                  target: "_blank",
-                  class: "btn btn-neutral text-2xl shadow-xl mb-8" do %>
-            <div>
-            <i class="fab fa-x-twitter mr-2"></i>
-            でこの問題をシェア！
+        <!-- ヘッダー部分 -->
+        <div class="card-body shadow-md">
+          <div class="flex justify-between items-start gap-4 mb-4">
+            <div class="flex-1">
+              <div class="lg:flex gap-2 items-center mb-3">
+                <% if has_incompleted_requests?(@question) %>
+                  <%= render 'requests/incompleted_request_btn', question: @question %>
+                <% end %>
+                <h1 class="text-3xl font-bold mb-2"><%= @question.title %></h1>
+              </div>
+              <p class="text-lg text-base-content/70 mb-4"><%= @question.description %></p>
+              <div class="text-sm text-base-content/60 flex justify-between items-center">
+                <span>
+                  by <%= @question.user.name %> - 
+                  <%= @question.created_at.strftime("%Y/%m/%d %H:%M") %>
+                </span>
+              </div>
             </div>
-          <% end %>
+            <div class="flex flex-col gap-2">
+              <!-- シェアセクション -->
+              <% if current_user && current_user.own?(@question) %>
+                <div class="card-title justify-end">
+                  <div class="flex flex-wrap justify-center gap-4">
+                    <!-- Twitter/X シェア -->
+                    <%= link_to "https://twitter.com/intent/tweet?text=#{CGI.escape("NeuroWordで「#{@question.title}」を作ったよ！\n挑戦してみてね🙌\n\n#仲間言葉探し #単語ゲーム")}&url=#{CGI.escape("#{request.base_url}/games/#{@question.id}?from=creator")}", 
+                            target: "_blank",
+                            class: "btn btn-neutral" do %>
+                      <div>
+                      <i class="fab fa-x-twitter"></i>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+              <% if @question.user == current_user %>
+                <%= link_to edit_question_path(@question), id: "button-edit-#{@question.id}",
+                            class: "btn btn-outline btn-accent btn-sm lg:btn-md" do %>
+                  <i class="fas fa-edit mr-2"></i>
+                  問題内容を編集
+                <% end %>
+                <%= link_to question_path(@question), id: "button-delete-#{@question.id}",
+                            class: "btn btn-outline btn-error btn-sm lg:btn-md",
+                            data: { turbo_method: :delete, turbo_confirm: t('defaults.delete_confirm') }  do %>
+                  <i class="fas fa-trash mr-2"></i>
+                  この問題を削除
+                <% end %>
+              <% else %>
+                <%= render 'requests/request_btn', question: @question %>
+              <% end %>
+            </div>
+          </div>
+      <!-- カード制限情報 -->
+        <% if current_user && current_user.own?(@question) %>
+          <%= render "card_sets/card_limit_info", question: @question %>
+        <% end %>
         </div>
-        </h3>
-      <% end %>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- メインコンテンツ -->
-        <div class="lg:col-span-2">
-          <h2 class="text-2xl font-bold mb-6">
-            <i class="fas fa-layer-group text-primary mr-2"></i>
-            カードセット一覧
-          </h2>
-          
-          <div id="card_sets" class="space-y-4">
-            <% @question.card_sets.each do |card_set| %>
-              <%= render "card_sets/card_set", card_set: card_set, question: @question %>
-            <% end %>
+
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
+          <!-- メインコンテンツ -->
+          <div class="lg:col-span-2">
+            <h2 class="text-2xl font-bold mb-6">
+              <i class="fas fa-layer-group text-primary mr-2"></i>
+              カードセット一覧
+            </h2>
+            
+            <div id="card_sets" class="space-y-4">
+              <% @question.card_sets.each do |card_set| %>
+                <%= render "card_sets/card_set", card_set: card_set, question: @question %>
+              <% end %>
+            </div>
+
+            <!-- 新規追加ボタン -->
+            <%= render "questions/add_card_set_button", question: @question %>
           </div>
 
-          <!-- 新規追加ボタン -->
-          <%= render "questions/add_card_set_button", question: @question %>
-        </div>
+          <!-- サイドバー -->
+          <div class="lg:col-span-1">
+            <!-- ゲーム開始ボタン -->
+            <%= render "questions/game_section", question: @question %>
 
-        <!-- サイドバー -->
-        <div class="lg:col-span-1">
-          <!-- ゲーム開始ボタン -->
-          <%= render "questions/game_section", question: @question %>
-
-          <!-- 統計情報 -->
-          <%= render "questions/stats_section", question: @question %>
-
-          <!-- 管理ボタン -->
-          <%= render "questions/admin_section", question: @question if @question.user == current_user %>
+            <!-- 統計情報 -->
+            <%= render "questions/stats_section", question: @question %>
+          </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
   <%# コメントフォーム %>
   <div class="grid grid-cols-1 lg:grid-cols-8">
