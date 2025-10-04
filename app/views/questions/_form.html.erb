@@ -48,10 +48,18 @@
             </div>
 
             <div class="card-actions justify-end">
-              <%= f.submit "次へ：カードセットを追加", 
-                          class: "btn btn-primary btn-lg" do %>
-                次へ：カードセットを追加
-                <i class="fas fa-arrow-right ml-2"></i>
+              <% if @question.persisted? %>
+                <%= f.submit "更新",
+                            class: "btn btn-primary btn-lg" do %>
+                  更新
+                  <i class="fas fa-check ml-2"></i>
+                <% end %>
+              <% else %>
+                <%= f.submit "次へ：カードセットを追加",
+                            class: "btn btn-primary btn-lg" do %>
+                  次へ：カードセットを追加
+                  <i class="fas fa-arrow-right ml-2"></i>
+                <% end %>
               <% end %>
             </div>
           <% end %>
@@ -59,11 +67,13 @@
       </div>
 
       <!-- ヘルプ情報 -->
-      <div class="alert alert-info mt-6">
-        <i class="fas fa-info-circle"></i>
-        <div>
-          <h4 class="font-bold">次のステップについて</h4>
-          <p>基本情報の入力後、カードセット（起点単語と関連語のペア）を2組以上追加していただきます。</p>
+      <% if @question.new_record? %>
+        <div class="alert alert-info mt-6">
+          <i class="fas fa-info-circle"></i>
+          <div>
+            <h4 class="font-bold">次のステップについて</h4>
+            <p>基本情報の入力後、カードセット（起点単語と関連語のペア）を2組以上追加していただきます。</p>
+          </div>
         </div>
-      </div>
+      <% end %>
     
