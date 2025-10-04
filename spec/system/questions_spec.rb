@@ -67,7 +67,7 @@ RSpec.describe "Questions", type: :system do
           visit edit_question_path(question)
           fill_in 'タイトル', with: '新問題タイトル'
           fill_in '説明', with: '新説明'
-          click_button '次へ：カードセットを追加'
+          click_button '更新'
           expect(page).to have_content('問題を更新しました')
           expect(current_path).to eq question_path(question)
         end
