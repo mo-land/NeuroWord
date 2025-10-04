@@ -3,18 +3,6 @@
   <div class="grid grid-cols-1 lg:grid-cols-8">
     <div class="lg:col-start-2 lg:col-span-6">
       
-      <!-- ステップ表示 -->
-      <div class="steps mb-8 w-full">
-        <div class="step step-primary">
-          <i class="fas fa-edit mr-2"></i>
-          基本情報
-        </div>
-        <div class="step">
-          <i class="fas fa-layer-group mr-2"></i>
-          カードセット
-        </div>
-      </div>
-
       <!-- ヘッダー -->
       <div class="mb-8">
         <h1 class="text-3xl font-bold mb-2">
@@ -22,7 +10,7 @@
           <%= t('.title') %>
         </h1>
         <p class="text-lg text-base-content/70">
-          ステップ1: 問題の基本情報を編集してください
+          問題の基本情報を編集してください
         </p>
       </div>
       <%= render 'form', question: @question %>
