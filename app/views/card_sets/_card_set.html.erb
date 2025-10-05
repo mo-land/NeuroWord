@@ -1,60 +1,62 @@
-<div id="<%= dom_id(card_set) %>" class="card bg-base-100 shadow-lg mb-4">
+
+<!-- カードセット表示 -->
+<div class="card bg-base-100 shadow-xl mb-6">
   <div class="card-body">
-    <div class="flex justify-between items-start">
-      <div class="flex-grow">
-        <!-- 起点単語 -->
-        <div class="flex items-center gap-2 mb-3">
-          <div class="badge badge-primary badge-lg">
+    <!-- 起点語とボタン -->
+    <div class="flex justify-between mb-6">
+      <div>
+        <h2 class="text-xl font-bold mb-3">
+          <span class="badge badge-primary badge-lg mr-3">
             <i class="fas fa-star mr-1"></i>
-            起点
-          </div>
-          <h3 class="text-lg font-bold"><%= card_set.origin_word %></h3>
-        </div>
-        
-        <!-- 関連語 -->
-        <div class="mb-3">
-          <p class="text-sm text-base-content/70 mb-2">関連語:</p>
-          <div class="flex flex-wrap gap-2">
-            <% card_set.related_words.each do |word| %>
-              <span class="badge badge-secondary"><%= word %></span>
-            <% end %>
-          </div>
-        </div>
-        
-        <!-- カード数情報 -->
-        <div class="flex items-center gap-4 text-sm text-base-content/70">
-          <span>
-            <i class="fas fa-layer-group mr-1"></i>
-            カード数: <%= card_set.cards_count %>枚
+            起点単語
           </span>
-          <span>
-            <i class="fas fa-clock mr-1"></i>
-            <%= card_set.created_at.strftime("%m/%d %H:%M") %>
-          </span>
+        </h2>
+        <div class="card bg-base-200 shadow-inner w-fit">
+          <div class="card-body py-3 px-4">
+            <p class="text-xl font-bold break-words"><%= card_set.origin_word %></p>
+          </div>
         </div>
       </div>
-      
-      <!-- アクションボタン -->
+
+      <!-- 編集・削除ボタン（show_actions が true の場合のみ表示） -->
       <% if current_user && current_user.own?(question) %>
-      <div class="flex flex-col gap-2">
-        <%= link_to edit_question_card_set_path(question, card_set), 
-                    class: "btn btn-outline btn-accent btn-sm" do %>
-          <i class="fas fa-edit mr-1"></i>
-          編集
-        <% end %>
-        
-        <%= link_to question_card_set_path(question, card_set), 
-                    method: :delete,
-                    class: "btn btn-outline btn-error btn-sm",
-                    data: { 
-                      confirm: "このカードセットを削除しますか？\n起点: #{card_set.origin_word}",
-                      turbo_method: :delete
-                    } do %>
-          <i class="fas fa-trash mr-1"></i>
-          削除
-        <% end %>
-      </div>
+        <div class="flex gap-2 self-start">
+          <%= link_to '#', class: "btn btn-sm lg:btn-md btn-outline btn-accent shadow-sm" do %>
+            <i class="fas fa-edit mr-1"></i>
+            編集
+          <% end %>
+
+          <%= button_to '#', class: "btn btn-sm lg:btn-md btn-outline btn-error shadow-sm" do %>
+            <i class="fas fa-trash mr-1"></i>
+            削除
+          <% end %>
+        </div>
       <% end %>
     </div>
-</div>
+
+    <!-- 関連語 -->
+    <div class="mb-6">
+      <h3 class="text-xl font-bold mb-3">
+        <span class="badge badge-secondary badge-lg mr-3">
+          <i class="fas fa-tags mr-1"></i>
+          関連語
+        </span>
+      </h3>
+      <% if card_set.related_words.any? %>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          <% card_set.related_words.each do |word| %>
+            <div class="card bg-base-200 shadow-inner">
+              <div class="card-body py-3 px-4">
+                <p class="text-base break-words"><%= word.related_word %></p>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="alert alert-info">
+          <span>関連語がまだ登録されていません</span>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>

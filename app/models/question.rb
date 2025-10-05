@@ -66,12 +66,12 @@ class Question < ApplicationRecord
   end
 
   def valid_for_game?
-    card_sets.count >= 2 && card_sets.all?(&:valid?) && total_cards_count <= 10
+    origin_words.count >= 2 && total_cards_count <= 10
   end
 
   def total_cards_count
-    card_sets.where.not(id: nil).sum do |card_set|
-      1 + (card_set.related_words&.compact_blank&.count || 0)
+    origin_words.sum do |origin_word|
+      1 + origin_word.related_words.size
     end
   end
 

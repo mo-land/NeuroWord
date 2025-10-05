@@ -1,15 +1,9 @@
 <!--  app/views/questions/show.html.erb  -->
 <div class="container mx-auto pt-5 px-4">
-  <!-- Hotwire用フラッシュメッセージ（CardSet操作用） -->
-  <div id="flash_messages" class="mb-4">
-    <!-- 通常のページ遷移時のフラッシュメッセージもここに表示 -->
-    <!-- %= render "shared/flash_messages" if notice || alert %-->
-  </div>
-  
-    <div class="mb-3 grid grid-cols-1 lg:grid-cols-8">
-      <div class="lg:col-start-2 lg:col-span-6">
-
-        <!-- ヘッダー部分 -->
+  <div class="mb-3 grid grid-cols-1 lg:grid-cols-8">
+    <div class="lg:col-start-2 lg:col-span-6">
+      <!-- ヘッダー部分 -->
+       <!-- ヘッダー部分 -->
         <div class="card-body shadow-md">
           <div class="flex justify-between items-start gap-4 mb-4">
             <div class="flex-1">
@@ -42,8 +36,6 @@
                     <% end %>
                   </div>
                 </div>
-              <% end %>
-              <% if @question.user == current_user %>
                 <%= link_to edit_question_path(@question), id: "button-edit-#{@question.id}",
                             class: "btn btn-outline btn-accent btn-sm lg:btn-md" do %>
                   <i class="fas fa-edit mr-2"></i>
@@ -66,39 +58,63 @@
         <% end %>
         </div>
 
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
+        <!-- メインコンテンツ -->
+        <div class="lg:col-span-2">
+          <div class="card bg-base-100 shadow-lg">
+            <div class="card-body">
+            <div class="flex justify-between items-center">
+              <h1 class="text-3xl font-bold">カードセット一覧</h1>
+            </div>
+              <% if current_user && current_user.own?(@question) %>
+                <div class="my-2">
+                  <% remaining_count = @question.remaining_cards_count %>
+                  <% if remaining_count > 1 %>
+                    <%= link_to new_question_card_set_path(@question),
+                                class: "btn btn-primary" do %>
+                      <i class="fas fa-plus mr-2"></i>
+                      新しいカードセットを追加
+                    <% end %>
+                  <% else %>
+                    <button class="btn btn-disabled btn-block">
+                      <i class="fas fa-lock mr-2"></i>
+                      カード数上限に達しました
+                    </button>
+                  <% end %>
+                </div>
+              <% end %>
 
+            <!-- 起点語・関連語リスト -->
+            <div class="space-y-4">
+              <% @card_sets.each do |card_set| %>
+                <%= render 'card_sets/card_set', card_set: card_set, question: @question, show_actions: true %>
+              <% end %>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
-          <!-- メインコンテンツ -->
-          <div class="lg:col-span-2">
-            <h2 class="text-2xl font-bold mb-6">
-              <i class="fas fa-layer-group text-primary mr-2"></i>
-              カードセット一覧
-            </h2>
-            
-            <div id="card_sets" class="space-y-4">
-              <% @question.card_sets.each do |card_set| %>
-                <%= render "card_sets/card_set", card_set: card_set, question: @question %>
+              <% if @card_sets.empty? %>
+                <div class="text-center py-12">
+                  <div class="alert alert-warning">
+                    <span>起点語がまだ登録されていません</span>
+                  </div>
+                </div>
               <% end %>
             </div>
 
-            <!-- 新規追加ボタン -->
-            <%= render "questions/add_card_set_button", question: @question %>
+            </div>
           </div>
+        </div>
 
-          <!-- サイドバー -->
-          <div class="lg:col-span-1">
-            <!-- ゲーム開始ボタン -->
-            <%= render "questions/game_section", question: @question %>
+        <!-- サイドバー -->
+        <div class="lg:col-span-1">
+          <!-- ゲーム開始ボタン -->
+          <%= render "questions/game_section", question: @question %>
 
-            <!-- 統計情報 -->
-            <%= render "questions/stats_section", question: @question %>
-          </div>
+          <!-- 統計情報 -->
+          <%= render "questions/stats_section", question: @question %>
+
         </div>
       </div>
     </div>
   </div>
-</div>
 
   <%# コメントフォーム %>
   <div class="grid grid-cols-1 lg:grid-cols-8">
