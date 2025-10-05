@@ -6,6 +6,6 @@ class CreateRelatedWords < ActiveRecord::Migration[7.2]
 
       t.timestamps
     end
-    add_index :related_words, [:origin_word_id, :related_word], unique: true
+    add_index :related_words, [ :origin_word_id, :related_word ], unique: true
   end
 end
