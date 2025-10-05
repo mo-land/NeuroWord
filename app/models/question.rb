@@ -1,5 +1,6 @@
 class Question < ApplicationRecord
   has_many :card_sets, dependent: :destroy
+  has_many :origin_words, dependent: :destroy
   has_many :question_tags, dependent: :destroy
   has_many :tags, through: :question_tags
 
