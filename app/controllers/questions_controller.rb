@@ -36,7 +36,8 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @question = Question.find(params[:id])
+    @question = Question.includes(origin_words: :related_words).find(params[:id])
+    @card_sets = @question.origin_words
     @question_tags = @question.tags
   end
 

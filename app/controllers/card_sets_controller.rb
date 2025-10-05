@@ -2,17 +2,8 @@
 class CardSetsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_question
-  before_action :set_card_set, only: [ :show, :edit, :update, :destroy ]
+  before_action :set_card_set, only: [ :edit, :update, :destroy ]
   before_action :ensure_question_owner, except: [ :show ]
-
-  # GET /questions/:question_id/card_sets
-  def index
-    @card_sets = @question.card_sets.order(:created_at)
-  end
-
-  # GET /questions/:question_id/card_sets/:id
-  def show
-  end
 
   # GET /questions/:question_id/card_sets/new
   def new
