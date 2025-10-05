@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_09_07_081808) do
+ActiveRecord::Schema[7.2].define(version: 2025_10_05_024949) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -39,12 +39,19 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_07_081808) do
     t.index ["user_id"], name: "index_game_records_on_user_id"
   end
 
+  create_table "origin_words", force: :cascade do |t|
+    t.bigint "question_id", null: false
+    t.string "origin_word", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_origin_words_on_question_id"
+  end
+
   create_table "question_tags", force: :cascade do |t|
     t.bigint "question_id", null: false
     t.bigint "tag_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["question_id", "tag_id"], name: "index_question_tags_on_question_id_and_tag_id", unique: true
     t.index ["question_id"], name: "index_question_tags_on_question_id"
     t.index ["tag_id"], name: "index_question_tags_on_tag_id"
   end
@@ -57,6 +64,15 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_07_081808) do
     t.datetime "updated_at", null: false
     t.index ["title"], name: "index_questions_on_title", unique: true
     t.index ["user_id"], name: "index_questions_on_user_id"
+  end
+
+  create_table "related_words", force: :cascade do |t|
+    t.bigint "origin_word_id", null: false
+    t.string "related_word", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["origin_word_id", "related_word"], name: "index_related_words_on_origin_word_id_and_related_word", unique: true
+    t.index ["origin_word_id"], name: "index_related_words_on_origin_word_id"
   end
 
   create_table "request_responses", force: :cascade do |t|
@@ -105,9 +121,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_07_081808) do
   add_foreign_key "card_sets", "questions"
   add_foreign_key "game_records", "questions"
   add_foreign_key "game_records", "users"
+  add_foreign_key "origin_words", "questions"
   add_foreign_key "question_tags", "questions"
   add_foreign_key "question_tags", "tags"
   add_foreign_key "questions", "users"
+  add_foreign_key "related_words", "origin_words"
   add_foreign_key "request_responses", "requests"
   add_foreign_key "request_responses", "users"
   add_foreign_key "requests", "questions"
