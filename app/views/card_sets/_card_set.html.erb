@@ -3,7 +3,7 @@
 <div class="card bg-base-100 shadow-xl mb-6">
   <div class="card-body">
     <!-- 起点語とボタン -->
-    <div class="flex justify-between mb-6">
+    <div id="card_set-<%= card_set.id %>" class="flex justify-between mb-6">
       <div>
         <h2 class="text-xl font-bold mb-3">
           <span class="badge badge-primary badge-lg mr-3">
@@ -26,7 +26,7 @@
             編集
           <% end %>
 
-          <%= button_to '#', class: "btn btn-sm lg:btn-md btn-outline btn-error shadow-sm" do %>
+          <%= link_to question_card_set_path(question, card_set), class: "btn btn-sm lg:btn-md btn-outline btn-error shadow-sm", data: { turbo_method: :delete, turbo_confirm: t('card_sets.card_set.delete_confirm') } do %>
             <i class="fas fa-trash mr-1"></i>
             削除
           <% end %>

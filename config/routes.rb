@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   end
 
   resources :questions, only: %i[index new create show edit update destroy] do
-    resources :card_sets do
+    resources :card_sets,  only: %i[new create destroy] do
       resources :related_words,  only: %i[new create], shallow: true
     end
     collection do
