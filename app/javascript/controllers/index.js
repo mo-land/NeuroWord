@@ -4,9 +4,6 @@
 
 import { application } from "./application"
 
-import CardSetFormController from "./card_set_form_controller"
-application.register("card-set-form", CardSetFormController)
-
 import GameController from "./game_controller"
 application.register("game", GameController)
 
