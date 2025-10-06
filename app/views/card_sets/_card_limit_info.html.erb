@@ -4,11 +4,11 @@
       <div>
         <h3 class="card-title text-lg">
           <i class="fas fa-layer-group text-primary"></i>
-          保存済みカード数: <%= question.total_cards_count %>/10枚
+          <%= t('.saved_cards') %><%= question.total_cards_count %><%= t('.per_10_cards') %>
         </h3>
         <div class="text-sm text-base-content/80 pl-4">
-          <p>残り<%= question.remaining_cards_count %>枚まで追加可能</p>
-          <p>※起点カードも含まれます。</p>
+          <p><%= t('.remaining') %><%= question.remaining_cards_count %><%= t('.addable_cards') %></p>
+          <p><%= t('.include_start_card') %></p>
         </div>
       </div>
 
@@ -25,12 +25,12 @@
           <% if question.valid_for_game? %>
             <div class="badge badge-success gap-2">
               <i class="fas fa-check"></i>
-              ゲーム可能
+              <%= t('.playable') %>
             </div>
           <% else %>
             <div class="badge badge-warning gap-2">
               <i class="fas fa-exclamation-triangle"></i>
-              2組以上必要
+              <%= t('.need_2_sets') %>
             </div>
           <% end %>
         <% end %>
@@ -39,7 +39,7 @@
     <% if local_assigns[:show_game_status] != false && !question.valid_for_game? %>
       <div class="alert alert-warning mt-4">
         <i class="fas fa-info-circle"></i>
-        <span>ゲームを開始するには2組以上のカードセットが必要です</span>
+        <span><%= t('.need_2_sets_to_start') %></span>
       </div>
     <% end %>
   </div>

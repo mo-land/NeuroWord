@@ -6,8 +6,6 @@ class Question < ApplicationRecord
 
   validates :title, uniqueness: true, presence: true, length: { maximum: 40 }
   validates :description, presence: true, length: { maximum: 150 }
-  # validate :minimum_card_sets_required, on: :create
-  validate :maximum_total_cards_limit
   validate :validate_tag_names
 
   attr_accessor :tag_names
@@ -70,8 +68,14 @@ class Question < ApplicationRecord
   end
 
   def total_cards_count
-    origin_words.sum do |origin_word|
-      1 + origin_word.related_words.size
+    # origin_wordsが読み込まれているかチェック
+    if origin_words.loaded?
+      origin_words.sum do |origin_word|
+        1 + (origin_word.related_words.loaded? ? origin_word.related_words.size : origin_word.related_words.count)
+      end
+    else
+      # eager loadingされていない場合は直接SQLで計算
+      origin_words.count + RelatedWord.joins(:origin_word).where(origin_words: { question_id: id }).count
     end
   end
 
@@ -79,8 +83,19 @@ class Question < ApplicationRecord
     10 - total_cards_count
   end
 
-  def can_add_card_set?(origin_word_count = 1, related_words_count = 0)
-    (total_cards_count + origin_word_count + related_words_count) <= 11
+  def total_related_words_count
+    RelatedWord.joins(:origin_word).where(origin_words: { question_id: id }).count
+  end
+
+  def can_add_related_word?
+    # 問題全体のワード数が9未満かつ、origin_wordsが1つの場合はrelated_wordsが6未満
+    return false if total_cards_count >= 9
+
+    if origin_words.count == 1
+      total_related_words_count < 6
+    else
+      true
+    end
   end
 
   def save_tag(sent_tags)
@@ -104,16 +119,6 @@ class Question < ApplicationRecord
   end
 
   private
-
-  # def minimum_card_sets_required
-  #   errors.add(:base, 'カードセットは2組以上必要です') if card_sets.count < 2
-  # end
-
-  def maximum_total_cards_limit
-    if total_cards_count > 10
-      errors.add(:base, "カードの総数は10枚以内にしてください（現在：#{total_cards_count}枚）")
-    end
-  end
 
   def validate_tag_names
     return unless tag_names.present?

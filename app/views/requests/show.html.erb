@@ -21,11 +21,11 @@
             <% end %>
           </ul>
         </div>
-          <h5 class="text-lg font-semibold pl-6"><%= t('.content') %></h5>
+          <h5 class="text-lg font-semibold pl-6 mb-2"><%= t('.content') %></h5>
           <div class="pl-6">
             <p><%= simple_format(@request.content) %></p>
           </div>
-          <h5 class="text-lg font-semibold pl-6 mt-6"><%= t('.responses') %></h5>
+          <h5 class="text-lg font-semibold pl-6 mt-6 mb-2"><%= t('.responses') %></h5>
           <div class="pl-2">
             <%= render @request_responses %>
               <% if @request.status != "completed" %>

@@ -1,0 +1,13 @@
+<% if @question.can_add_related_word? %>
+  <%= form.button type: "submit",
+    name: "add_more",
+    value: "true",
+    class: "btn btn-outline btn-sm" do %>
+    <i class="fas fa-plus mr-2"></i>
+    関連語を追加
+  <% end %>
+<% end %>
+
+<div class="card-actions">
+  <%= form.submit 'このワードセットを保存', class: "btn btn-primary mt-4" %>
+</div>

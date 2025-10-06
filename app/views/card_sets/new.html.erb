@@ -1,37 +1,39 @@
-<!-- app/views/card_sets/new.html.erb -->
-<div class="container mx-auto px-4 py-8 max-w-4xl">
-  <div class="breadcrumbs text-sm mb-6">
-    <ul>
-      <li><%= link_to "問題一覧", questions_path, class: "link link-hover" %></li>
-      <li><%= link_to @question.title, @question, class: "link link-hover" %></li>
-      <li class="text-base-content/70">カードセット作成</li>
-    </ul>
-  </div>
-  <%= turbo_frame_tag "new_card_set_form" do %>
-    <div class="card bg-base-100 mb-6">
-      <div class="card-body">
-        <h1 class="card-title">
-          <i class="fas fa-plus-circle text-primary mr-2"></i>
-          新しいカードセット
-        </h1>
-        <p class="text-base-content/70 mb-4">
-          問題「<%= @question.title %>」にカードセットを追加
-        </p>
+<div class="container mx-auto px-4 py-8">
+  <div class="grid grid-cols-1 lg:grid-cols-8">
+    <div class="lg:col-start-2 lg:col-span-6">
+      <%= render('card_sets/breadcrumbs', action:'card_sets#new') %>
+      <div class="card bg-base-100 shadow-lg p-4">
+      <h1 class="text-2xl font-bold text-left px-6 mb-2"><%= t('.title') %></h1>
+          <%= render "card_sets/card_limit_info", question: @question %>
 
         <div class="card bg-base-100 shadow-lg">
           <div class="card-body">
-          <!-- フォーム -->
-            <%= render "form", question: @question, card_set: @card_set %>
-            
-            <!-- キャンセルボタン -->
-            <div class="card-actions justify-start">
-              <%= link_to "キャンセル", @question, 
-                          class: "btn btn-ghost",
-                          data: { turbo_frame: "_top" } %>
-            </div>
+            <%= form_with(model: @card_set, url: question_card_sets_path, local: true) do |form| %>
+            <%= render 'shared/error_messages', object: @card_set %>
+
+              <div class="form-control mb-4">
+                <%= form.label :origin_word do %>
+                  <span class="label-text"><%= CardSet.human_attribute_name(:origin_word) %></span>
+                <% end %>
+                <%= form.text_field :origin_word, 
+                                class: "input input-bordered w-full",
+                                placeholder: t('.origin_word_placeholder') %>
+              </div>
+
+              <div class="form-control mb-4">
+                <%= form.label :related_word do %>
+                  <span class="label-text"><%= CardSet.human_attribute_name(:related_word) %></span>
+                <% end %>
+                <%= form.text_field :related_word, 
+                                class: "input input-bordered w-full",
+                                placeholder: t('.related_word_placeholder') %>
+              </div>
+
+              <%= render 'card_sets/form_buttons', form: form %>
+            <% end %>
           </div>
         </div>
       </div>
     </div>
-  <% end %>
+  </div>
 </div>

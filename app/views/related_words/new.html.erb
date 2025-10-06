@@ -1,0 +1,37 @@
+  <!--TODOを入力（これはテンプレです）-->
+<div class="container mx-auto px-4 py-8">
+  <div class="grid grid-cols-1 lg:grid-cols-8">
+    <div class="lg:col-start-2 lg:col-span-6">
+  <%= render('card_sets/breadcrumbs', action:'related_word#new') %>
+      <div class="card bg-base-100 shadow-lg p-4">
+
+
+        <%= render "card_sets/card_limit_info", question: @question %>
+        <div class="card bg-base-100 shadow-lg">
+          <h5 class="text-xl font-bold pl-4">関連語を追加</h5>
+          <div class="card-body">
+            <%= form_with(model: @related_word, url: question_card_set_related_words_path(@question, @card_set), local: true) do |form| %>
+            <!--TODO_エラー・フラッシュメッセージ確認-->
+            <%= render 'shared/error_messages', object: @related_word %>
+
+
+              <!--TODO_複数の関連語を入力できるようにする-->
+              <!--TODO_入力できる関連語は 入力済のワード数‐1（このセットの起点語分）とする-->
+              <div class="form-control mb-4">
+                <%= form.label :related_word do %>
+                  <span class="label-text"><%= RelatedWord.human_attribute_name(:related_word) %></span>
+                <% end %>
+                <%= form.text_field :related_word, 
+                                class: "input input-bordered w-full",
+                                placeholder: t('.related_word_placeholder') %>
+              </div>
+
+              <%= render 'card_sets/form_buttons', form: form %>
+            <% end %>
+          </div>
+        </div>
+        <h5 class="text-xl font-bold mt-4 pl-4">追加先ワードセット</h5>
+        <%= render 'card_sets/card_set', question: @question, card_set: @card_set%>
+      </div>
+    </div>
+</div>

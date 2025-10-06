@@ -49,6 +49,32 @@ ja:
       title: 問題一覧
     edit:
       title: 問題編集
+  card_sets:
+    breadcrumbs:
+      question_index: 問題一覧
+      card_set_new: カードセット作成
+      card_set_edit: カードセット編集
+      add_related_word: に関連語を追加
+    card_limit_info:
+      saved_cards: "保存済みカード数: "
+      per_10_cards: "/10枚"
+      remaining: "残り"
+      addable_cards: "枚まで追加可能"
+      include_start_card: "※起点カードも含まれます。"
+      playable: "ゲーム可能"
+      need_2_sets: "2組以上必要"
+      need_2_sets_to_start: "ゲームを開始するには2組以上のカードセットが必要です"
+    card_set:
+    form:
+    edit:
+    new:
+      title: カードセットを作成
+      to_question: 問題を確認する
+      origin_word_placeholder: 例：尊敬語
+      related_word_placeholder: 例：召し上がる
+  related_words:
+    new:
+      related_word_placeholder: 追加する関連語を入力
   users:
     mypage:
       title: マイページ
