@@ -12,7 +12,7 @@ class CardSetsController < ApplicationController
   end
 
   def create
-    @card_set = CardForm.new(card_set_params.merge(question_id: @question.id))
+    @card_set = CardForm.new(card_set_params)
     origin_word_record = @card_set.save
 
     if origin_word_record
@@ -35,61 +35,42 @@ class CardSetsController < ApplicationController
   def edit
   end
 
-  # PATCH/PUT /questions/:question_id/card_sets/:id
-  # def update
-  #   if @card_set.update(card_set_params)
-  #     @question.touch
+   # PATCH/PUT /questions/:question_id/card_sets/:id
+   # def update
+   #   if @card_set.update(card_set_params)
+   #     @question.touch
 
-  #     respond_to do |format|
-  #       format.html { redirect_to @question, notice: "カードセットを更新しました" }
-  #       format.turbo_stream {
-  #         render turbo_stream: [
-  #           turbo_stream.replace(@card_set, partial: "card_sets/card_set", locals: { card_set: @card_set, question: @question }),
-  #           turbo_stream.update("card_limit_info", partial: "card_sets/card_limit_info", locals: { question: @question }),
-  #           turbo_stream.update("flash_messages", html: %(<div class="alert alert-success shadow-lg my-2"><span>カードセットを更新しました</span></div>).html_safe)
-  #         ]
-  #       }
-  #     end
-  #   else
-  #     respond_to do |format|
-  #       format.html { render :edit, status: :unprocessable_entity }
-  #       format.turbo_stream {
-  #         render turbo_stream: turbo_stream.update("edit_card_set_#{@card_set.id}", partial: "card_sets/form", locals: { card_set: @card_set, question: @question })
-  #       }
-  #     end
-  #   end
-  # end
+   #     respond_to do |format|
+   #       format.html { redirect_to @question, notice: "カードセットを更新しました" }
+   #       format.turbo_stream {
+   #         render turbo_stream: [
+   #           turbo_stream.replace(@card_set, partial: "card_sets/card_set", locals: { card_set: @card_set, question: @question }),
+   #           turbo_stream.update("card_limit_info", partial: "card_sets/card_limit_info", locals: { question: @question }),
+   #           turbo_stream.update("flash_messages", html: %(<div class="alert alert-success shadow-lg my-2"><span>カードセットを更新しました</span></div>).html_safe)
+   #         ]
+   #       }
+   #     end
+   #   else
+   #     respond_to do |format|
+   #       format.html { render :edit, status: :unprocessable_entity }
+   #       format.turbo_stream {
+   #         render turbo_stream: turbo_stream.update("edit_card_set_#{@card_set.id}", partial: "card_sets/form", locals: { card_set: @card_set, question: @question })
+   #       }
+   #     end
+   #   end
+   # end
 
-  # DELETE /questions/:question_id/card_sets/:id
-  #   def destroy
-  #   # 最小カードセット数のチェック
-  #   if @question.card_sets.count <= 2
-  #     respond_to do |format|
-  #       format.html { redirect_to @question, alert: "カードセットは2組以上必要です" }
-  #       format.turbo_stream {
-  #         render turbo_stream: turbo_stream.update(
-  #           "flash_messages",
-  #           html: %(<div class="alert alert-error shadow-lg my-2"><span>カードセットは2組以上必要です</span></div>).html_safe
-  #         )
-  #       }
-  #     end
-  #     return
-  #   end
+   def destroy
+    @card_set = @question.origin_words.find(params[:id])
+    @card_sets = @question.origin_words
+    if @card_sets.size > 2
+      @card_set.destroy!
+      redirect_to question_path(@question), notice: "カードセットを削除しました"
+    else
+      redirect_to question_path(@question), alert: "ゲーム不可となるため、カードセットを追加してから削除してください"
+    end
+  end
 
-  #   @card_set.destroy
-  #   @question.touch
-
-  #   respond_to do |format|
-  #     format.html { redirect_to @question, notice: "カードセットを削除しました" }
-  #     format.turbo_stream {
-  #       render turbo_stream: [
-  #         turbo_stream.remove(view_context.dom_id(@card_set)),
-  #         turbo_stream.update("card_limit_info", partial: "card_sets/card_limit_info", locals: { question: @question }),
-  #         turbo_stream.update("flash_messages", html: %(<div class="alert alert-success shadow-lg my-2"><span>カードセットを削除しました</span></div>).html_safe)
-  #       ]
-  #     }
-  #   end
-  # end
   private
 
   def set_question

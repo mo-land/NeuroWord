@@ -34,6 +34,11 @@ class RelatedWordsController < ApplicationController
     redirect_to redirect_path
   end
 
+  def destroy
+    @related_word = @origin_word.related_words.find(params[:id])
+    @related_word.destroy!
+  end
+
   private
 
   def set_card_set

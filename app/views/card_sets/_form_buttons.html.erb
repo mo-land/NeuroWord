@@ -1,4 +1,4 @@
-<% if @question.can_add_related_word? %>
+<% if @question.can_add_related_word?(context: context) %>
   <%= form.button type: "submit",
     name: "add_more",
     value: "true",
