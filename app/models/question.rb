@@ -87,9 +87,10 @@ class Question < ApplicationRecord
     RelatedWord.joins(:origin_word).where(origin_words: { question_id: id }).count
   end
 
-  def can_add_related_word?
-    # 問題全体のワード数が9未満かつ、origin_wordsが1つの場合はrelated_wordsが6未満
-    return false if total_cards_count >= 9
+  def can_add_related_word?(context: :related_words)
+    # カードセット追加画面では8枚まで、関連語追加画面では9枚まで
+    max_count = context == :card_sets ? 8 : 9
+    return false if total_cards_count >= max_count
 
     if origin_words.count == 1
       total_related_words_count < 6
