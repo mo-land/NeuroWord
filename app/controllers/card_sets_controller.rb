@@ -35,30 +35,30 @@ class CardSetsController < ApplicationController
   def edit
   end
 
-  # PATCH/PUT /questions/:question_id/card_sets/:id
-  # def update
-  #   if @card_set.update(card_set_params)
-  #     @question.touch
+   # PATCH/PUT /questions/:question_id/card_sets/:id
+   # def update
+   #   if @card_set.update(card_set_params)
+   #     @question.touch
 
-  #     respond_to do |format|
-  #       format.html { redirect_to @question, notice: "カードセットを更新しました" }
-  #       format.turbo_stream {
-  #         render turbo_stream: [
-  #           turbo_stream.replace(@card_set, partial: "card_sets/card_set", locals: { card_set: @card_set, question: @question }),
-  #           turbo_stream.update("card_limit_info", partial: "card_sets/card_limit_info", locals: { question: @question }),
-  #           turbo_stream.update("flash_messages", html: %(<div class="alert alert-success shadow-lg my-2"><span>カードセットを更新しました</span></div>).html_safe)
-  #         ]
-  #       }
-  #     end
-  #   else
-  #     respond_to do |format|
-  #       format.html { render :edit, status: :unprocessable_entity }
-  #       format.turbo_stream {
-  #         render turbo_stream: turbo_stream.update("edit_card_set_#{@card_set.id}", partial: "card_sets/form", locals: { card_set: @card_set, question: @question })
-  #       }
-  #     end
-  #   end
-  # end
+   #     respond_to do |format|
+   #       format.html { redirect_to @question, notice: "カードセットを更新しました" }
+   #       format.turbo_stream {
+   #         render turbo_stream: [
+   #           turbo_stream.replace(@card_set, partial: "card_sets/card_set", locals: { card_set: @card_set, question: @question }),
+   #           turbo_stream.update("card_limit_info", partial: "card_sets/card_limit_info", locals: { question: @question }),
+   #           turbo_stream.update("flash_messages", html: %(<div class="alert alert-success shadow-lg my-2"><span>カードセットを更新しました</span></div>).html_safe)
+   #         ]
+   #       }
+   #     end
+   #   else
+   #     respond_to do |format|
+   #       format.html { render :edit, status: :unprocessable_entity }
+   #       format.turbo_stream {
+   #         render turbo_stream: turbo_stream.update("edit_card_set_#{@card_set.id}", partial: "card_sets/form", locals: { card_set: @card_set, question: @question })
+   #       }
+   #     end
+   #   end
+   # end
 
    def destroy
     @card_set = @question.origin_words.find(params[:id])
