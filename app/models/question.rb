@@ -89,7 +89,7 @@ class Question < ApplicationRecord
 
   def can_add_related_word?(context: :related_words)
     # カードセット追加画面では8枚まで、関連語追加画面では9枚まで
-    max_count = context == :card_sets ? 8 : 9
+    max_count = context == :card_sets_new ? 8 : 9
     return false if total_cards_count >= max_count
 
     if origin_words.count == 1
