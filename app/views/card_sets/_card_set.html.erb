@@ -21,12 +21,12 @@
       <!-- 編集・削除ボタン（show_actions が true の場合のみ表示） -->
       <% if current_user && current_user.own?(question) %>
         <div class="flex gap-2 self-start">
-          <%= link_to '#', class: "btn btn-sm lg:btn-md btn-outline btn-accent shadow-sm" do %>
+          <%= link_to edit_question_card_set_path(question, card_set), class: "btn btn-sm lg:btn-md btn-outline btn-accent shadow-sm" do %>
             <i class="fas fa-edit mr-1"></i>
             編集
           <% end %>
 
-          <%= link_to question_card_set_path(question, card_set), class: "btn btn-sm lg:btn-md btn-outline btn-error shadow-sm", data: { turbo_method: :delete, turbo_confirm: t('card_sets.card_set.delete_confirm') } do %>
+          <%= link_to question_card_set_path(question, card_set), class: "btn btn-sm lg:btn-md btn-outline btn-error shadow-sm", data: { turbo_method: :delete, turbo_confirm: t('card_sets.card_set.card_set_delete_confirm') } do %>
             <i class="fas fa-trash mr-1"></i>
             削除
           <% end %>
@@ -49,7 +49,7 @@
               <div class="card-body py-3 px-4">
                 <div class="flex !flex-row items-center justify-between">
                   <p class="text-base break-words"><%= word.related_word %></p>
-                  <%= link_to question_card_set_related_word_path(question, card_set, word),  data: { turbo_method: :delete, turbo_confirm: t('card_sets.card_set.delete_confirm') } do %>
+                  <%= link_to question_card_set_related_word_path(question, card_set, word),  data: { turbo_method: :delete, turbo_confirm: t('card_sets.card_set.related_word_delete_confirm') } do %>
                     <i class="fas fa-circle-xmark ml-3"></i>
                   <% end %>
                 </div>

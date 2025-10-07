@@ -65,9 +65,11 @@ ja:
       need_2_sets: "2組以上必要"
       need_2_sets_to_start: "ゲームを開始するには2組以上のカードセットが必要です"
     card_set:
-      delete_confirm: カードセットを削除しますか？
+      card_set_delete_confirm: カードセットを削除しますか？
+      related_word_delete_confirm: 関連語を削除しますか？
     form:
     edit:
+      title: カードセットを編集
     new:
       title: カードセットを作成
       to_question: 問題を確認する
