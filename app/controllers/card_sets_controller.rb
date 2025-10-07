@@ -4,6 +4,7 @@ class CardSetsController < ApplicationController
 
   before_action :authenticate_user!
   before_action :set_question
+  before_action :set_card_set, only: %i[edit update destroy]
   before_action :authorize_question_owner!
 
   # GET /questions/:question_id/card_sets/new
@@ -33,35 +34,29 @@ class CardSetsController < ApplicationController
 
   # GET /questions/:question_id/card_sets/:id/edit
   def edit
+    @card_set = @question.origin_words.find(params[:id])
   end
 
-   # PATCH/PUT /questions/:question_id/card_sets/:id
-   # def update
-   #   if @card_set.update(card_set_params)
-   #     @question.touch
+  def update
+    unless @card_set.update(update_params)
+      render :edit, status: :unprocessable_entity
+      return
+    end
 
-   #     respond_to do |format|
-   #       format.html { redirect_to @question, notice: "カードセットを更新しました" }
-   #       format.turbo_stream {
-   #         render turbo_stream: [
-   #           turbo_stream.replace(@card_set, partial: "card_sets/card_set", locals: { card_set: @card_set, question: @question }),
-   #           turbo_stream.update("card_limit_info", partial: "card_sets/card_limit_info", locals: { question: @question }),
-   #           turbo_stream.update("flash_messages", html: %(<div class="alert alert-success shadow-lg my-2"><span>カードセットを更新しました</span></div>).html_safe)
-   #         ]
-   #       }
-   #     end
-   #   else
-   #     respond_to do |format|
-   #       format.html { render :edit, status: :unprocessable_entity }
-   #       format.turbo_stream {
-   #         render turbo_stream: turbo_stream.update("edit_card_set_#{@card_set.id}", partial: "card_sets/form", locals: { card_set: @card_set, question: @question })
-   #       }
-   #     end
-   #   end
-   # end
+    # 関連語の更新
+    update_related_words if params[:origin_word][:related_words].present?
 
-   def destroy
-    @card_set = @question.origin_words.find(params[:id])
+    # リダイレクト先の決定
+    if params[:add_more].present?
+      redirect_to new_question_card_set_related_word_path(@question, @card_set)
+    elsif @question.origin_words.count == 1
+      redirect_to new_question_card_set_path(@question)
+    else
+      redirect_to question_path(@question), notice: "カードセットを更新しました"
+    end
+  end
+
+  def destroy
     @card_sets = @question.origin_words
     if @card_sets.size > 2
       @card_set.destroy!
@@ -77,7 +72,23 @@ class CardSetsController < ApplicationController
     @question = Question.find(params[:question_id])
   end
 
+  def set_card_set
+    @card_set = @question.origin_words.find(params[:id])
+  end
+
   def card_set_params
     params.require(:card_form).permit(:origin_word, :related_word).merge(question_id: @question.id)
+  end
+
+  def update_params
+    params.require(:origin_word).permit(:origin_word)
+  end
+
+  def update_related_words
+    permitted_related_words = params.require(:origin_word).permit(related_words: [ :related_word ])
+    permitted_related_words[:related_words]&.each do |id, rw_params|
+      related_word = @card_set.related_words.find_by(id: id)
+      related_word&.update(related_word: rw_params[:related_word])
+    end
   end
 end
