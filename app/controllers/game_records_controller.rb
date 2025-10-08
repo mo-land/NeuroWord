@@ -1,4 +1,6 @@
 class GameRecordsController < ApplicationController
+  include FindQuestion
+
   before_action :authenticate_user!, only: %i[create]
   before_action :set_question, only: %i[create show]
 
@@ -51,10 +53,6 @@ class GameRecordsController < ApplicationController
 
   def game_record_params
     params.require(:game_record).permit(:total_matches, :accuracy, :completion_time_seconds, :given_up)
-  end
-
-  def set_question
-    @question = Question.find(params[:id])
   end
 
   def calculate_current_accuracy
