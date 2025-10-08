@@ -42,26 +42,29 @@
           関連語
         </span>
       </h3>
-      <% if card_set.related_words.any? %>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-          <% card_set.related_words.each do |word| %>
-            <div id="related_word-<%= word.id %>" class="card bg-base-200 shadow-inner">
-              <div class="card-body py-3 px-4">
-                <div class="flex !flex-row items-center justify-between">
-                  <p class="text-base break-words"><%= word.related_word %></p>
-                  <%= link_to question_card_set_related_word_path(question, card_set, word),  data: { turbo_method: :delete, turbo_confirm: t('card_sets.card_set.related_word_delete_confirm') } do %>
-                    <i class="fas fa-circle-xmark ml-3"></i>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-          <% end %>
-        </div>
-      <% else %>
+      <% if card_set.related_words.empty? %>
         <div class="alert alert-info">
           <span>関連語がまだ登録されていません</span>
         </div>
+        <% return %>
       <% end %>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <% card_set.related_words.each do |word| %>
+          <div id="related_word-<%= word.id %>" class="card bg-base-200 shadow-inner">
+            <div class="card-body py-3 px-4">
+              <div class="flex !flex-row items-center justify-between">
+                <p class="text-base break-words"><%= word.related_word %></p>
+                <% if current_user && current_user.own?(question) %>
+                  <%= link_to question_card_set_related_word_path(question, card_set, word),  data: { turbo_method: :delete, turbo_confirm: t('card_sets.card_set.related_word_delete_confirm') } do %>
+                    <i class="fas fa-circle-xmark ml-3"></i>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>

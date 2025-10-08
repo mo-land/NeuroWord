@@ -1,4 +1,6 @@
 class GamesController < ApplicationController
+  include FindQuestion
+
   before_action :set_question, only: [ :show, :check_match ]
   before_action :session_delete, only: [ :show ], if: :new_game_start?
 
@@ -42,10 +44,6 @@ class GamesController < ApplicationController
   end
 
   private
-
-  def set_question
-    @question = Question.find(params[:id])
-  end
 
   # games#showへのOGP画像を動的に設定するメソッド
   def set_dynamic_ogp_image
@@ -116,8 +114,8 @@ class GamesController < ApplicationController
     end
 
     # マッチング判定
-    card_set = @question.card_sets.find(selected_origin_id)
-    is_correct = card_set.includes_related_word?(related_word)
+    origin_word = @question.origin_words.find(selected_origin_id)
+    is_correct = origin_word.related_words.pluck(:related_word).include?(related_word)
     is_valid_match = (clicked_set_id == selected_origin_id)
 
     if is_correct && is_valid_match && !session[:correct_matches].include?("#{selected_origin_id}-#{related_word}")

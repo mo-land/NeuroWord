@@ -30,20 +30,20 @@ class Question < ApplicationRecord
     origin_cards = []
     related_cards = []
 
-    card_sets.each do |card_set|
+    origin_words.each do |origin_word|
       # 起点カード
       origin_cards << {
-        word: card_set.origin_word,
-        set_id: card_set.id,
+        word: origin_word.origin_word,
+        set_id: origin_word.id,
         type: :origin,
         css_class: "origin-card"
       }
 
-      # 関連語カード
-      card_set.related_words.each do |word|
+       # 関連語カード
+       origin_word.related_words.each do |related_word|
         related_cards << {
-          word: word,
-          set_id: card_set.id,
+          word: related_word.related_word,
+          set_id: origin_word.id,
           type: :related,
           css_class: "related-card"
         }
@@ -53,14 +53,14 @@ class Question < ApplicationRecord
     {
       origins: origin_cards.shuffle,
       relateds: related_cards.shuffle,
-      total_sets: card_sets.count
+      total_sets: origin_words.size
     }
   end
 
   # ゲームの正答チェック用
   def check_match(origin_card_id, related_word)
-    card_set = card_sets.find(origin_card_id)
-    card_set&.related_words&.include?(related_word)
+    origin_word = origin_words.find(origin_card_id)
+    origin_word&.related_words&.pluck(:related_word)&.include?(related_word)
   end
 
   def valid_for_game?
