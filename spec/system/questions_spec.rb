@@ -75,7 +75,7 @@ RSpec.describe "Questions", type: :system do
         it "カードセット追加制限が正しく動作する" do
           # 9枚分のカードセット（1起点+2関連語×3セット）を事前作成
           3.times do |i|
-            create(:card_set, question: question, origin_word: "起点#{i}", related_words: [ "関連語#{i}-1", "関連語#{i}-2" ])
+            create(:origin_word, question: question, origin_word: "起点#{i}", related_words_list: [ "関連語#{i}-1", "関連語#{i}-2" ])  # 3枚
           end
 
           visit question_path(question)
@@ -92,7 +92,7 @@ RSpec.describe "Questions", type: :system do
       it "カードが十分な問題でゲーム開始ボタンが表示される" do
         valid_question = create(:question, user: user)
         2.times do |i|
-          create(:card_set, question: valid_question, origin_word: "起点#{i}", related_words: [ "関連語#{i}-1", "関連語#{i}-2" ])
+          create(:origin_word, question: valid_question, origin_word: "起点#{i}", related_words_list: [ "関連語#{i}-1", "関連語#{i}-2" ])
         end
 
         visit question_path(valid_question)
@@ -104,7 +104,7 @@ RSpec.describe "Questions", type: :system do
     context "ゲーム開始不可能な問題" do
       it "カード不足の問題でゲーム開始ボタンが無効になる" do
         invalid_question = create(:question, user: user)
-        create(:card_set, question: invalid_question, origin_word: "起点1", related_words: [ "関連語1" ])
+        create(:origin_word, question: question, origin_word: "起点1", related_words_list: [ "関連語1" ])  # 2枚
 
         visit question_path(invalid_question)
         expect(page).not_to have_link('ゲーム開始')
@@ -122,8 +122,8 @@ RSpec.describe "Questions", type: :system do
     context "ゲーム画面でのカード表示" do
       it "起点カードと関連語カードが正しく表示される" do
         game_question = create(:question, user: user)
-        card_set1 = create(:card_set, question: game_question, origin_word: "Java", related_words: [ "Spring", "Maven" ])
-        card_set2 = create(:card_set, question: game_question, origin_word: "Ruby", related_words: [ "Rails", "Gem" ])
+        card_set1 = create(:origin_word, question: game_question, origin_word: "Java", related_words_list: [ "Spring", "Maven" ])  # 3枚
+        card_set2 = create(:origin_word, question: game_question, origin_word: "Ruby", related_words_list: [ "Rails", "Gem" ])  # 3枚
 
         visit question_path(game_question)
         click_link 'ゲーム開始'
@@ -142,8 +142,8 @@ RSpec.describe "Questions", type: :system do
         # APIエラー（テスト環境のみ）のため、正誤判定結果が正しいかどうかのテストは不可
         # ログインユーザーが作成した問題を使用
         game_question = create(:question, user: user)
-        card_set1 = create(:card_set, question: game_question, origin_word: "Java", related_words: [ "Spring", "Maven" ])
-        card_set2 = create(:card_set, question: game_question, origin_word: "Ruby", related_words: [ "Rails", "Gem" ])
+        card_set1 = create(:origin_word, question: game_question, origin_word: "Java", related_words_list: [ "Spring", "Maven" ])  # 3枚
+        card_set2 = create(:origin_word, question: game_question, origin_word: "Ruby", related_words_list: [ "Rails", "Gem" ])  # 3枚
 
         visit question_path(game_question)
         click_link 'ゲーム開始'

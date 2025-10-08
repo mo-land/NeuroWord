@@ -19,7 +19,7 @@ RSpec.describe OriginWord, type: :model do
       end
 
       it "origin_wordを削除すると関連するrelated_wordsも削除される" do
-        origin_word = create(:origin_word, related_words_list: ["関連語1", "関連語2"])
+        origin_word = create(:origin_word, related_words_list: [ "関連語1", "関連語2" ])
         expect { origin_word.destroy }.to change { RelatedWord.count }.by(-2)
       end
     end

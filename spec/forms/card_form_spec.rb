@@ -40,7 +40,7 @@ RSpec.describe CardForm, type: :model do
 
     context "question内での関連語の重複チェック" do
       it "同じquestion内で既に使用されている関連語の場合は無効である" do
-        create(:origin_word, question: question, origin_word: "起点1", related_words_list: ["重複語"])
+        create(:origin_word, question: question, origin_word: "起点1", related_words_list: [ "重複語" ])
         form = CardForm.new(origin_word: "起点2", related_word: "重複語", question_id: question.id)
         expect(form).to be_invalid
         expect(form.errors[:related_word]).to include("は既にこの問題内で使用されています")
@@ -48,7 +48,7 @@ RSpec.describe CardForm, type: :model do
 
       it "異なるquestion間では同じ関連語を使用できる" do
         question2 = create(:question)
-        create(:origin_word, question: question, origin_word: "起点1", related_words_list: ["共通語"])
+        create(:origin_word, question: question, origin_word: "起点1", related_words_list: [ "共通語" ])
         form = CardForm.new(origin_word: "起点2", related_word: "共通語", question_id: question2.id)
         expect(form).to be_valid
       end
@@ -56,16 +56,16 @@ RSpec.describe CardForm, type: :model do
 
     context "質問全体のカード総数制限チェック" do
       it "追加後の総カード数が10枚以下の場合は有効である" do
-        create(:origin_word, question: question, origin_word: "起点1", related_words_list: ["関連1", "関連2", "関連3"])  # 4枚
-        create(:origin_word, question: question, origin_word: "起点2", related_words_list: ["関連4", "関連5"])  # 3枚
+        create(:origin_word, question: question, origin_word: "起点1", related_words_list: [ "関連1", "関連2", "関連3" ])  # 4枚
+        create(:origin_word, question: question, origin_word: "起点2", related_words_list: [ "関連4", "関連5" ])  # 3枚
         # 現在7枚、新規追加で2枚 → 合計9枚
         form = CardForm.new(origin_word: "起点3", related_word: "関連6", question_id: question.id)
         expect(form).to be_valid
       end
 
       it "追加後の総カード数が11枚以上になる場合は無効である" do
-        create(:origin_word, question: question, origin_word: "起点1", related_words_list: ["関連1", "関連2", "関連3"])  # 4枚
-        create(:origin_word, question: question, origin_word: "起点2", related_words_list: ["関連4", "関連5", "関連6", "関連7"])  # 5枚
+        create(:origin_word, question: question, origin_word: "起点1", related_words_list: [ "関連1", "関連2", "関連3" ])  # 4枚
+        create(:origin_word, question: question, origin_word: "起点2", related_words_list: [ "関連4", "関連5", "関連6", "関連7" ])  # 5枚
         # 現在9枚、新規追加で2枚 → 合計11枚
         form = CardForm.new(origin_word: "起点3", related_word: "関連8", question_id: question.id)
         expect(form).to be_invalid

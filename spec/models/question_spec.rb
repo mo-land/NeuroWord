@@ -31,19 +31,19 @@ RSpec.describe Question, type: :model do
     context "カード総数制限のテスト" do
       it "カード総数が10枚以下の場合は有効である" do
         question = create(:question)
-        create(:origin_word, question: question, origin_word: "起点1", related_words_list: ["関連1", "関連2"])  # 3枚
-        create(:origin_word, question: question, origin_word: "起点2", related_words_list: ["関連3", "関連4"])  # 3枚
-        create(:origin_word, question: question, origin_word: "起点3", related_words_list: ["関連5", "関連6", "関連7"])  # 4枚
+        create(:origin_word, question: question, origin_word: "起点1", related_words_list: [ "関連1", "関連2" ])  # 3枚
+        create(:origin_word, question: question, origin_word: "起点2", related_words_list: [ "関連3", "関連4" ])  # 3枚
+        create(:origin_word, question: question, origin_word: "起点3", related_words_list: [ "関連5", "関連6", "関連7" ])  # 4枚
         expect(question.total_cards_count).to eq(10)
         expect(question).to be_valid
       end
-      
+
       it "カード総数が11枚以上の場合は無効である" do
         question = create(:question)
         # 11枚になるように設定
-        create(:origin_word, question: question, origin_word: "起点1", related_words_list: ["関連1", "関連2"])  # 3枚
-        create(:origin_word, question: question, origin_word: "起点2", related_words_list: ["関連3", "関連4", "関連5"])  # 4枚
-        create(:origin_word, question: question, origin_word: "起点3", related_words_list: ["関連6", "関連7", "関連8"])  # 4枚
+        create(:origin_word, question: question, origin_word: "起点1", related_words_list: [ "関連1", "関連2" ])  # 3枚
+        create(:origin_word, question: question, origin_word: "起点2", related_words_list: [ "関連3", "関連4", "関連5" ])  # 4枚
+        create(:origin_word, question: question, origin_word: "起点3", related_words_list: [ "関連6", "関連7", "関連8" ])  # 4枚
         expect(question.total_cards_count).to eq(11)
         expect(question).to be_invalid
       end
@@ -107,8 +107,8 @@ RSpec.describe Question, type: :model do
     context "複数のカードセットが存在する場合" do
       it "起点カードと関連語カードの合計を正しく計算する" do
         question = create(:question)
-        create(:origin_word, question: question, origin_word: "起点1", related_words_list: ["関連1", "関連2"])  # 3枚
-        create(:origin_word, question: question, origin_word: "起点2", related_words_list: ["関連3"])  # 2枚
+        create(:origin_word, question: question, origin_word: "起点1", related_words_list: [ "関連1", "関連2" ])  # 3枚
+        create(:origin_word, question: question, origin_word: "起点2", related_words_list: [ "関連3" ])  # 2枚
         expect(question.total_cards_count).to eq(5)
       end
     end
@@ -125,7 +125,7 @@ RSpec.describe Question, type: :model do
     context "カードが存在する場合" do
       it "10から現在のカード数を引いた値を返す" do
         question = create(:question)
-        create(:origin_word, question: question, origin_word: "起点1", related_words_list: ["関連1", "関連2"])  # 3枚
+        create(:origin_word, question: question, origin_word: "起点1", related_words_list: [ "関連1", "関連2" ])  # 3枚
         expect(question.remaining_cards_count).to eq(7)
       end
     end
@@ -133,9 +133,9 @@ RSpec.describe Question, type: :model do
     context "カードが10枚の場合" do
       it "0を返す" do
         question = create(:question)
-        create(:origin_word, question: question, origin_word: "起点1", related_words_list: ["関連1", "関連2"])  # 3枚
-        create(:origin_word, question: question, origin_word: "起点2", related_words_list: ["関連3", "関連4"])  # 3枚
-        create(:origin_word, question: question, origin_word: "起点3", related_words_list: ["関連5", "関連6", "関連7"])  # 4枚
+        create(:origin_word, question: question, origin_word: "起点1", related_words_list: [ "関連1", "関連2" ])  # 3枚
+        create(:origin_word, question: question, origin_word: "起点2", related_words_list: [ "関連3", "関連4" ])  # 3枚
+        create(:origin_word, question: question, origin_word: "起点3", related_words_list: [ "関連5", "関連6", "関連7" ])  # 4枚
         expect(question.total_cards_count).to eq(10)
         expect(question.remaining_cards_count).to eq(0)
       end
