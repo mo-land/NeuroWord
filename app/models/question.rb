@@ -6,6 +6,7 @@ class Question < ApplicationRecord
 
   validates :title, uniqueness: true, presence: true, length: { maximum: 40 }
   validates :description, presence: true, length: { maximum: 150 }
+  validate :maximum_total_cards_limit
   validate :validate_tag_names
 
   attr_accessor :tag_names
@@ -120,6 +121,12 @@ class Question < ApplicationRecord
   end
 
   private
+
+  def maximum_total_cards_limit
+    if total_cards_count > 10
+      errors.add(:base, "カードの総数は10枚以内にしてください（現在：#{total_cards_count}枚）")
+    end
+  end
 
   def validate_tag_names
     return unless tag_names.present?
