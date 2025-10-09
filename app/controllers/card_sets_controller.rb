@@ -10,6 +10,12 @@ class CardSetsController < ApplicationController
   # GET /questions/:question_id/card_sets/new
   def new
     @card_set = CardForm.new(question_id: @question.id)
+
+    # カード上限チェック
+    unless @question.can_add_card_set?(1, 1) # 最小構成での確認
+      redirect_to @question, alert: "カード数が上限に達しています"
+      nil
+    end
   end
 
   def create
@@ -44,7 +50,12 @@ class CardSetsController < ApplicationController
     end
 
     # 関連語の更新
-    update_related_words if params[:origin_word][:related_words].present?
+    if params[:origin_word][:related_words].present?
+      unless update_related_words
+        render :edit, status: :unprocessable_entity
+        return
+      end
+    end
 
     # リダイレクト先の決定
     if params[:add_more].present?
@@ -86,9 +97,21 @@ class CardSetsController < ApplicationController
 
   def update_related_words
     permitted_related_words = params.require(:origin_word).permit(related_words: [ :related_word ])
+    success = true
+
     permitted_related_words[:related_words]&.each do |id, rw_params|
       related_word = @card_set.related_words.find_by(id: id)
-      related_word&.update(related_word: rw_params[:related_word])
+      next unless related_word
+
+      unless related_word.update(related_word: rw_params[:related_word])
+        # エラーを親の@card_setに転記
+        related_word.errors.full_messages.each do |message|
+          @card_set.errors.add(:base, message)
+        end
+        success = false
+      end
     end
+
+    success
   end
 end
