@@ -6,6 +6,7 @@ class Question < ApplicationRecord
 
   validates :title, uniqueness: true, presence: true, length: { maximum: 40 }
   validates :description, presence: true, length: { maximum: 150 }
+  validate :maximum_total_cards_limit
   validate :validate_tag_names
 
   attr_accessor :tag_names
@@ -87,9 +88,20 @@ class Question < ApplicationRecord
     RelatedWord.joins(:origin_word).where(origin_words: { question_id: id }).count
   end
 
+  def can_add_card_set?(origin_word_count = 1, related_words_count = 0)
+    (total_cards_count + origin_word_count + related_words_count) <= 10
+  end
+
   def can_add_related_word?(context: :related_words)
-    # カードセット追加画面では8枚まで、関連語追加画面では9枚まで
-    max_count = context == :card_sets_new ? 8 : 9
+    # カードセット追加画面では8枚まで、編集画面では10枚まで、関連語追加画面では9枚まで
+    max_count = case context
+    when :card_sets_new
+                  8
+    when :card_sets_edit
+                  10
+    else
+                  9
+    end
     return false if total_cards_count >= max_count
 
     if origin_words.count == 1
@@ -120,6 +132,12 @@ class Question < ApplicationRecord
   end
 
   private
+
+  def maximum_total_cards_limit
+    if total_cards_count > 10
+      errors.add(:base, "カードの総数は10枚以内にしてください（現在：#{total_cards_count}枚）")
+    end
+  end
 
   def validate_tag_names
     return unless tag_names.present?

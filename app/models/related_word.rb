@@ -1,6 +1,7 @@
 class RelatedWord < ApplicationRecord
   belongs_to :origin_word
 
+  validates :related_word, presence: true, length: { maximum: 100 }
   validates :related_word, uniqueness: { scope: :origin_word_id }
   validate :uniqueness_within_question
 
