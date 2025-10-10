@@ -50,6 +50,8 @@ gem "kaminari"
 gem "ransack"
 
 group :development, :test do
+  gem "dotenv"
+
   gem "faker"
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
@@ -69,6 +71,8 @@ group :development, :test do
 
   # coverage
   gem "simplecov"
+
+  gem "letter_opener_web", "~> 3.0"
 end
 
 group :development do
