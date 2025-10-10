@@ -29,7 +29,7 @@
                     <!-- Twitter/X シェア -->
                     <%= link_to "https://twitter.com/intent/tweet?text=#{CGI.escape("NeuroWordで「#{@question.title}」を作ったよ！\n挑戦してみてね🙌\n\n#仲間言葉探し #単語ゲーム")}&url=#{CGI.escape("#{request.base_url}/games/#{@question.id}?from=creator")}", 
                             target: "_blank",
-                            class: "btn btn-neutral" do %>
+                            class: "btn btn-neutral shadow-sm" do %>
                       <div>
                       <i class="fab fa-x-twitter"></i>
                       </div>
@@ -37,12 +37,12 @@
                   </div>
                 </div>
                 <%= link_to edit_question_path(@question), id: "button-edit-#{@question.id}",
-                            class: "btn btn-outline btn-accent btn-sm lg:btn-md" do %>
+                            class: "btn btn-outline btn-accent btn-sm lg:btn-md shadow-sm" do %>
                   <i class="fas fa-edit mr-2"></i>
                   問題内容を編集
                 <% end %>
                 <%= link_to question_path(@question), id: "button-delete-#{@question.id}",
-                            class: "btn btn-outline btn-error btn-sm lg:btn-md",
+                            class: "btn btn-outline btn-error btn-sm lg:btn-md shadow-sm",
                             data: { turbo_method: :delete, turbo_confirm: t('defaults.delete_confirm') }  do %>
                   <i class="fas fa-trash mr-2"></i>
                   この問題を削除
@@ -71,7 +71,7 @@
                   <% remaining_count = @question.remaining_cards_count %>
                   <% if remaining_count > 1 %>
                     <%= link_to new_question_card_set_path(@question),
-                                class: "btn btn-primary" do %>
+                                class: "btn btn-primary shadow-sm" do %>
                       <i class="fas fa-plus mr-2"></i>
                       新しいカードセットを追加
                     <% end %>
