@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: {
-    registrations: "users/registrations"
+    registrations: "users/registrations",
+    passwords: "users/passwords"
   }
+  mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
   # resources :static_pages
   root "static_pages#top"
 
@@ -43,6 +45,7 @@ Rails.application.routes.draw do
   # Render dynamic PWA files from app/views/pwa/*
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
+
 
   # Defines the root path route ("/")
   # root "posts#index"
