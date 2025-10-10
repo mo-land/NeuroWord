@@ -7,7 +7,7 @@
 
     <% if question.valid_for_game? %>
       <p class="mb-4">カードの仲間分けゲームで遊ぼう！</p>
-      <%= link_to game_path(question), class: "btn btn-accent" do %>
+      <%= link_to game_path(question), class: "btn btn-accent shadow-sm" do %>
         <i class="fas fa-play mr-2"></i>
         ゲーム開始
       <% end %>
