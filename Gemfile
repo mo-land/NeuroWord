@@ -38,6 +38,10 @@ gem "tailwindcss-rails", "~> 4.0"
 gem "tailwindcss-ruby"
 
 gem "devise"
+gem "omniauth"
+gem "omniauth-google-oauth2"
+gem "omniauth-rails_csrf_protection"
+
 gem "devise-i18n"
 
 gem "rails-i18n"

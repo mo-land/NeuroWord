@@ -8,32 +8,36 @@
 
   <fieldset class="fieldset">
     <%= f.label :name, class: "fieldset-legend" %>
-    <%= f.text_field :name, class: "input", placeholder: "ユーザー名を入力", autofocus: true %>
+    <%= f.text_field :name, class: "input w-full mx-auto", placeholder: "ユーザー名を入力", autofocus: true %>
   </fieldset>
 
-  <fieldset class="fieldset">
+  <fieldset class="fieldset mt-2">
     <%= f.label :email, class: "fieldset-legend" %>
-    <%= f.email_field :email, class: "input", autocomplete: "email", placeholder: "例：sample@example.com"  %>
+    <%= f.email_field :email, class: "input w-full mx-auto", autocomplete: "email", placeholder: "例：sample@example.com"  %>
   </fieldset>
 
-  <fieldset class="fieldset">
-    <%= f.label :password, class: "fieldset-legend" %>
-    <% if @minimum_password_length %>
-    <em>(英数字<%= @minimum_password_length %> 文字以上)</em>
-    <% end %><br />
-    <%= f.password_field :password, class: "input", placeholder: "パスワードを入力", autocomplete: "new-password" %>
+  <fieldset class="fieldset mt-2">
+    <div class="flex fieldset-legend inline">
+      <%= f.label :password %>
+      <% if @minimum_password_length %>
+        <em>(英数字 <%= @minimum_password_length %> 文字以上)</em>
+      <% end %>
+    </div>
+    <%= f.password_field :password, class: "input w-full mx-auto", placeholder: "パスワードを入力", autocomplete: "new-password" %>
   </fieldset>
 
-  <fieldset class="fieldset">
+  <fieldset class="fieldset mt-2">
     <%= f.label :password_confirmation, class: "fieldset-legend" %>
-    <%= f.password_field :password_confirmation, class: "input", placeholder: "もう1度パスワードを入力", autocomplete: "new-password" %>
+    <%= f.password_field :password_confirmation, class: "input w-full mx-auto", placeholder: "もう1度パスワードを入力", autocomplete: "new-password" %>
   </fieldset>
 
-  <div class="actions py-2">
-    <%= f.submit "登録", class:"btn btn-primary" %>
+  <div class="actions my-8">
+    <%= f.submit "登録", class:"btn btn-primary w-full mx-auto" %>
   </div>
 <% end %>
 
-<p><%= link_to "ログインはこちら", new_user_session_path, class: "link mt-12" %></p>
+<%= render "devise/shared/links" %>
+
+
 </div>
 </div>
