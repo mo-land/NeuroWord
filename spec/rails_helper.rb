@@ -91,3 +91,15 @@ RSpec.configure do |config|
     Capybara.ignore_hidden_elements = false
   end
 end
+
+OmniAuth.configure do |c|
+  c.test_mode = true
+  c.mock_auth[:google_oauth2] = OmniAuth::AuthHash.new({
+    provider: "google_oauth2",
+    uid: "12345abcde",
+    info: {
+      name: "john",
+      email: "john@example.com"
+    }
+  })
+end
