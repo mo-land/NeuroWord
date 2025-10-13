@@ -34,6 +34,12 @@ RSpec.describe "Users", type: :system do
         expect(page).to have_content('ユーザー名を入力してください')
         expect(page).to have_content('Eメールを入力してください')
       end
+
+      it "Google認証が成功する" do
+        visit new_user_registration_path
+        click_button('Googleでログイン')
+        expect(page).to have_content('Google アカウントによる認証に成功しました。')
+      end
     end
 
     context 'ログイン機能' do
