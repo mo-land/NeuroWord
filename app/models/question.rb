@@ -12,6 +12,7 @@ class Question < ApplicationRecord
   attr_accessor :tag_names
 
   belongs_to :user
+  belongs_to :category
   has_many :game_records, dependent: :destroy
   has_many :requests, dependent: :destroy
 
