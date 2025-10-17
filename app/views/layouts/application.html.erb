@@ -29,6 +29,9 @@
       <%= render 'shared/flash_messages' %>
     </div>
     <div class="mb-28 lg:mb-0">
+      <div class="px-6 pt-2">
+        <%= breadcrumbs separator: " &rsaquo; " %>
+      </div>
       <%= yield %>
     </div>
     <div class="hidden lg:flex">
