@@ -15,19 +15,19 @@
     <div class="px-4 lg:px-6 pt-2">
       <%= breadcrumbs separator: " &rsaquo; " %>
     </div>
-<div class="p-2">
-  <%= render 'search_form' %>
-  <%= paginate @search_questions %>
-  <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 mx-auto max-w-screen-6xl py-8 items-stretch">
-  <!-- 問題一覧 -->
-    <% if @search_questions.present? %>
-      <%= render @search_questions %>
-    <% else %>
-      <div class="m-8">問題がありません</div>
-    <% end %>
-  </div>
-  <%= paginate @search_questions %>
-</div>
+      <div class="p-2">
+        <%= render 'search_form' %>
+        <%= paginate @search_questions %>
+        <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 mx-auto max-w-screen-6xl py-8 items-stretch">
+        <!-- 問題一覧 -->
+          <% if @search_questions.present? %>
+            <%= render @search_questions %>
+          <% else %>
+            <div class="m-8">問題がありません</div>
+          <% end %>
+        </div>
+        <%= paginate @search_questions %>
+      </div>
 
   </div>
   <div class="drawer-side">
