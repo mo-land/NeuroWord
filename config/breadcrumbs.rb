@@ -21,9 +21,9 @@ crumb :passwords_new do
 end
 
 #   パスワードリセット (devise/passwords#edit, edit_user_password_path)
-  # <% breadcrumb :passwords_edit %>
-  # crumb :passwords_edit do |password|
-  #   link "パスワードリセット", edit_user_password_path(user_password)
+# <% breadcrumb :passwords_edit %>
+# crumb :passwords_edit do |password|
+#   link "パスワードリセット", edit_user_password_path(user_password)
 #   parent :root
 # end
 
