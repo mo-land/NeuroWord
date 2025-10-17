@@ -1,37 +1,7 @@
 {
   "ignored_warnings": [
     {
-      "warning_type": "Dynamic Render Path",
-      "warning_code": 15,
       "fingerprint": "1fd2ec2d867a3024acd56909aa0ad4269201520f4107399aa8c4bc7f000e4fa7",
-      "check_name": "Render",
-      "message": "Render path contains parameter value",
-      "file": "app/views/questions/index.html.erb",
-      "line": 24,
-      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
-      "code": "render(action => Question.all.where(:category_id => Category.find(params[:category_id]).subtree_ids).ransack(params[:q]).result(:distinct => true).includes(:user, :tags).order(:created_at => :desc).page(params[:page]), {})",
-      "render_path": [
-        {
-          "type": "controller",
-          "class": "QuestionsController",
-          "method": "index",
-          "line": 4,
-          "file": "app/controllers/questions_controller.rb",
-          "rendered": {
-            "name": "questions/index",
-            "file": "app/views/questions/index.html.erb"
-          }
-        }
-      ],
-      "location": {
-        "type": "template",
-        "template": "questions/index"
-      },
-      "user_input": "params[:category_id]",
-      "confidence": "Weak",
-      "cwe_id": [
-        22
-      ],
       "note": "@search_questionsはコントローラーで安全に定義されたActiveRecord::Relationであり、セキュリティリスクはありません"
     }
   ],
