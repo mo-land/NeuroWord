@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_17_082957) do
+ActiveRecord::Schema[7.2].define(version: 2025_10_17_111907) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -69,6 +69,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_17_082957) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "category_id", null: false
+    t.index ["category_id"], name: "index_questions_on_category_id"
     t.index ["title"], name: "index_questions_on_title", unique: true
     t.index ["user_id"], name: "index_questions_on_user_id"
   end
@@ -140,6 +142,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_17_082957) do
   add_foreign_key "origin_words", "questions"
   add_foreign_key "question_tags", "questions"
   add_foreign_key "question_tags", "tags"
+  add_foreign_key "questions", "categories"
   add_foreign_key "questions", "users"
   add_foreign_key "related_words", "origin_words"
   add_foreign_key "request_responses", "requests"
