@@ -10,7 +10,19 @@
       "line": 24,
       "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
       "code": "render(action => Question.all.where(:category_id => Category.find(params[:category_id]).subtree_ids).ransack(params[:q]).result(:distinct => true).includes(:user, :tags).order(:created_at => :desc).page(params[:page]), {})",
-      "render_path": null,
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "QuestionsController",
+          "method": "index",
+          "line": 4,
+          "file": "app/controllers/questions_controller.rb",
+          "rendered": {
+            "name": "questions/index",
+            "file": "app/views/questions/index.html.erb"
+          }
+        }
+      ],
       "location": {
         "type": "template",
         "template": "questions/index"
