@@ -50,11 +50,6 @@ ja:
     edit:
       title: 問題編集
   card_sets:
-    breadcrumbs:
-      question_index: 問題一覧
-      card_set_new: カードセット作成
-      card_set_edit: カードセット編集
-      add_related_word: に関連語を追加
     card_limit_info:
       saved_cards: "保存済みカード数: "
       per_10_cards: "/10枚"

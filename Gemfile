@@ -53,6 +53,8 @@ gem "kaminari"
 
 gem "ransack"
 
+gem "gretel"
+
 group :development, :test do
   gem "dotenv"
 
