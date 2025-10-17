@@ -4,10 +4,10 @@ class QuestionsController < ApplicationController
   def index
     @tag_list = Tag.all
     @categories = Category.roots
-    
+
     # ベースとなるクエリを作成
     base_query = Question.all
-    
+
     # カテゴリ絞り込み
     if params[:category_id].present?
       @selected_category = Category.find(params[:category_id])
