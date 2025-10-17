@@ -38,6 +38,17 @@ end
 crumb :questions_index do
   link "問題一覧", questions_path
 end
+
+crumb :questions_category_index do |selected_category|
+  link "#{selected_category.name}（#{selected_category.questions_count}問）", questions_path(selected_category)
+  parent :questions_index
+end
+
+crumb :questions_category_index_for_show do |question_category|
+  link "#{question_category.name}（#{question_category.questions_count}問）", questions_path(category_id: question_category.id)
+  parent :questions_index
+end
+
 #   問題作成 (questions#new, new_question_path)
 crumb :questions_new do
   link "問題作成", new_question_path
@@ -45,7 +56,7 @@ end
 #   問題詳細 (questions#show, question_path)
 crumb :questions_show do |question|
   link "#{question.title}", question_path(question)
-  parent :questions_index
+  parent :questions_category_index_for_show, question.category
 end
 
 #   問題編集 (questions#edit, edit_question_path)
@@ -62,8 +73,9 @@ crumb :card_sets_new do |question|
   parent :questions_show, question
 end
 
+#   カードセット作成 (card_sets#new, new_question_card_set_path)
 crumb :card_sets_edit do |question|
-  link "カードセットを編集", edit_question_card_set_path(question)
+  link "カードセットを作成", edit_question_card_set_path(question)
   parent :questions_show, question
 end
 
@@ -77,7 +89,7 @@ end
 #   ゲーム (games#show, game_path)
 crumb :games_show do |question|
   link "#{question.title}", game_path(question)
-  parent :questions_index
+  parent :questions_category_index_for_show, question.category
 end
 #   ゲーム結果 (game_records#show, game_record_path)
 crumb :game_records_show do |question|
