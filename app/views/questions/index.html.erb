@@ -1,5 +1,21 @@
-<div class="p-2">
+<% content_for :hide_breadcrumbs, true %>
+<% if @selected_category.present? %>
+  <% breadcrumb :questions_category_index, @selected_category %>
+<% else %>
   <% breadcrumb :questions_index %>
+<% end %>
+<div class="drawer lg:drawer-open">
+  <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
+  <div class="drawer-content flex flex-col lg:ml-72">
+    <!-- Page content here -->
+    <label for="my-drawer-3" class="btn drawer-button lg:hidden self-start m-4">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor" class="inline-block size-4 my-1.5"><path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path><path d="M9 4v16"></path><path d="M14 10l2 2l-2 2"></path></svg>
+      カテゴリ一覧
+    </label>
+    <div class="px-4 lg:px-6 pt-2">
+      <%= breadcrumbs separator: " &rsaquo; " %>
+    </div>
+<div class="p-2">
   <%= render 'search_form' %>
   <%= paginate @search_questions %>
   <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 mx-auto max-w-screen-6xl py-8 items-stretch">
@@ -11,4 +27,31 @@
     <% end %>
   </div>
   <%= paginate @search_questions %>
+</div>
+
+  </div>
+  <div class="drawer-side">
+    <label for="my-drawer-3" aria-label="close sidebar" class="drawer-overlay"></label>
+    <ul class="menu bg-base-200 min-h-full w-72 px-4 py-20 lg:fixed lg:top-0 lg:left-0 lg:h-screen lg:overflow-y-auto flex-nowrap">
+      <!-- Sidebar content here -->
+      <li><%= link_to "全て (#{Question.count})", questions_path, class: "link link-hover #{params[:category_id].blank? ? 'font-bold text-error' : ''}" %></li>
+      <% @categories.each do |parent| %>
+        <div class="category">
+          <li><%= link_to "#{parent.name} (#{parent.questions_count})", questions_path(category_id: parent.id), class: "link link-hover #{@selected_category == parent ? 'font-bold text-error' : ''}" %></li>
+
+          <% parent.children.each do |child| %>
+            <div class="ml-2">
+              <h3>└ <%= link_to "#{child.name} (#{child.questions_count})", questions_path(category_id: child.id), class: "link link-hover #{@selected_category == child ? 'font-bold text-error' : ''}" %></h3>
+
+              <% child.children.each do |grandchild| %>
+                <div class="ml-4 text-gray-600">
+                  ・<%= link_to "#{grandchild.name} (#{grandchild.questions_count})", questions_path(category_id: grandchild.id), class: "link link-hover #{@selected_category == grandchild ? 'font-bold text-error' : ''}" %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </ul>
+  </div>
 </div>
