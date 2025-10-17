@@ -55,6 +55,8 @@ gem "ransack"
 
 gem "gretel"
 
+gem "ancestry"
+
 group :development, :test do
   gem "dotenv"
 
