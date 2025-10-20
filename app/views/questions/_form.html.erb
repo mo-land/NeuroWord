@@ -5,11 +5,12 @@
             <%= render 'shared/error_messages', object: f.object %>
 
             <div class="form-control mb-4">
-              <%= f.label :title, class: "label" do %>
+              <%= f.label :title do %>
                 <span class="label-text">
                   <i class="fas fa-heading text-accent mr-1"></i>
                   問題タイトル
                 </span>
+                <div class="badge badge-soft badge-warning text-xs">必須</div>
               <% end %>
               <%= f.text_field :title, 
                               class: "input input-bordered w-full",
@@ -17,11 +18,12 @@
             </div>
 
             <div class="form-control mb-6">
-              <%= f.label :description, class: "label" do %>
+              <%= f.label :description do %>
                 <span class="label-text">
                   <i class="fas fa-align-left text-accent mr-1"></i>
                   問題説明
                 </span>
+                <div class="badge badge-soft badge-warning text-xs">必須</div>
               <% end %>
               <%= f.text_area :description, 
                              class: "textarea textarea-bordered w-full", 
@@ -30,11 +32,174 @@
             </div>
 
             <div class="form-control mb-3">
-              <%= f.label :tag, class: "label" do %>
+              <%= f.label :category_id do %>
+                <span class="label-text">
+                  <i class="fas fa-folder text-accent mr-1"></i>
+                  カテゴリ
+                </span>
+                <div class="badge badge-soft badge-warning text-xs">必須</div>
+              <% end %>
+              <%= f.select :category_id,
+                category_options_for_select(categories, question.category_id),
+                { prompt: '当てはまるカテゴリを選択してください' },
+                { class: "select select-bordered w-full" }
+              %>
+            </div>
+
+            <div class= "text-base-content/70 p-2">
+              <h6 class= "font-bold">※ 基本情報関連のカテゴリについて</h6>
+              <p class= "px-2"><%= link_to('情報処理技術者試験・情報処理安全確保支援士試験試験要綱（Ver.5.4、IPA）', 'https://www.ipa.go.jp/shiken/syllabus/nl10bi0000007smr-att/youkou_ver5_4.pdf', class: "link") %> > 〔試験区分別出題分野一覧表〕より、
+              分野・大分類を引用しています。</p>
+              <p class= "px-2">またカテゴリ判断の参考として、以下に中分類も引用記載します。</p>
+            </div>
+            <div tabindex="0" class="collapse collapse-plus">
+              <input type="checkbox" />
+              <div class="collapse-title font-semibold text-base-content/70 after:start-5 after:end-auto pe-4 ps-12">基本情報 > テクノロジ系 に含まれる内容は？</div>
+              <div class="collapse-content text-sm !m-0 !p-0">
+                <table class="table-fixed w-full border border-base-300 mt-2">
+                  <thead>
+                    <tr class="bg-base-200 text-base-content">
+                      <th class="border border-base-300 px-4 py-2 w-1/3">大分類</th>
+                      <th class="border border-base-300 px-4 py-2 w-2/3">中分類</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="border border-base-300 px-4 py-2 align-middle text-center font-medium">基礎理論</td>
+                      <td class="border border-base-300 px-4 py-2">
+                        <ul class="lg:ml-4 space-y-1">
+                          <li>・基礎理論</li>
+                          <li>・アルゴリズムとプログラミング</li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="border border-base-300 px-4 py-2 align-middle text-center font-medium">コンピュータシステム</td>
+                      <td class="border border-base-300 px-4 py-2">
+                        <ul class="lg:ml-4 space-y-1">
+                          <li>・コンピュータ構成要素</li>
+                          <li>・システム構成要素</li>
+                          <li>・ソフトウェア</li>
+                          <li>・ハードウェア</li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="border border-base-300 px-4 py-2 align-middle text-center font-medium">技術要素</td>
+                      <td class="border border-base-300 px-4 py-2">
+                        <ul class="lg:ml-4 space-y-1">
+                          <li>・ユーザーインタフェース</li>
+                          <li>・情報メディア</li>
+                          <li>・データベース</li>
+                          <li>・ネットワーク</li>
+                          <li>・セキュリティ</li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="border border-base-300 px-4 py-2 align-middle text-center font-medium">開発技術</td>
+                      <td class="border border-base-300 px-4 py-2">
+                        <ul class="lg:ml-4 space-y-1">
+                          <li>・システム開発技術</li>
+                          <li>・ソフトウェア開発管理技術</li>
+                        </ul>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div tabindex="0" class="collapse collapse-plus">
+              <input type="checkbox" />
+              <div class="collapse-title font-semibold text-base-content/70 after:start-5 after:end-auto pe-4 ps-12">
+                基本情報 > マネジメント系 に含まれる内容は？
+              </div>
+              <div class="collapse-content text-sm !m-0 !p-0">
+                <table class="table-fixed w-full border border-base-300 mt-2">
+                  <thead>
+                    <tr class="bg-base-200 text-base-content">
+                      <th class="border border-base-300 px-4 py-2 w-1/3">大分類</th>
+                      <th class="border border-base-300 px-4 py-2 w-2/3">中分類</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="border border-base-300 px-4 py-2 align-middle text-center font-medium">プロジェクトマネジメント</td>
+                      <td class="border border-base-300 px-4 py-2">
+                        <ul class="lg:ml-4 space-y-1">
+                          <li>・プロジェクトマネジメント</li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="border border-base-300 px-4 py-2 align-middle text-center font-medium">サービスマネジメント</td>
+                      <td class="border border-base-300 px-4 py-2">
+                        <ul class="lg:ml-4 space-y-1">
+                          <li>・サービスマネジメント</li>
+                          <li>・システム監査</li>
+                        </ul>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div tabindex="0" class="collapse collapse-plus">
+              <input type="checkbox" />
+              <div class="collapse-title font-semibold text-base-content/70 after:start-5 after:end-auto pe-4 ps-12">
+                基本情報 > ストラテジ系 に含まれる内容は？
+              </div>
+              <div class="collapse-content text-sm !m-0 !p-0">
+                <table class="table-fixed w-full border border-base-300 mt-2">
+                  <thead>
+                    <tr class="bg-base-200 text-base-content">
+                      <th class="border border-base-300 px-4 py-2 w-1/3">大分類</th>
+                      <th class="border border-base-300 px-4 py-2 w-2/3">中分類</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="border border-base-300 px-4 py-2 align-middle text-center font-medium">システム戦略</td>
+                      <td class="border border-base-300 px-4 py-2">
+                        <ul class="lg:ml-4 space-y-1">
+                          <li>・システム戦略</li>
+                          <li>・システム企画</li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="border border-base-300 px-4 py-2 align-middle text-center font-medium">経営戦略</td>
+                      <td class="border border-base-300 px-4 py-2">
+                        <ul class="lg:ml-4 space-y-1">
+                          <li>・経営戦略マネジメント</li>
+                          <li>・技術戦略マネジメント</li>
+                          <li>・ビジネスインダストリ</li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="border border-base-300 px-4 py-2 align-middle text-center font-medium">企業と法務</td>
+                      <td class="border border-base-300 px-4 py-2">
+                        <ul class="lg:ml-4 space-y-1">
+                          <li>・企業活動</li>
+                          <li>・法務</li>
+                        </ul>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="form-control my-3">
+              <%= f.label :tag do %>
               <span class="label-text">
                   <i class="fas fa-tags text-accent mr-1"></i>
                   タグ
                 </span>
+                <div class="badge badge-soft badge-success text-xs">任意</div>
               <% end %>
               <%= f.text_field :tag, 
                 id: 'tag-input',
