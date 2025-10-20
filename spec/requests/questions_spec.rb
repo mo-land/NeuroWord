@@ -3,8 +3,9 @@ require 'rails_helper'
 RSpec.describe "Questions", type: :request do
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
-  let(:valid_params) { { question: { title: "テスト問題", description: "説明" } } }
-  let(:invalid_params) { { question: { title: "", description: "" } } }
+  let(:category) { create(:category) }
+  let(:valid_params) { { question: { title: "テスト問題", description: "説明", category_id: category.id } } }
+  let(:invalid_params) { { question: { title: "", description: "", category_id: category.id } } }
 
   describe "GET #index" do
     context "ログインしていないユーザー" do

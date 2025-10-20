@@ -33,26 +33,20 @@ RSpec.describe "Questions", type: :system do
 
     context "問題作成時" do
       it "ログインユーザーが新しい問題を作成できる" do
+        # ルートカテゴリを作成（セレクトボックスに表示されるため）
+        category = create(:category, :uncategorized)
+
         # ログイン → 問題作成ページ → タイトル・説明入力 → 保存 → 問題一覧で確認
         visit new_question_path
+
+        # デバッグ: カテゴリが表示されているか確認
+        expect(page).to have_select('question_category_id', with_options: [ '息抜き系・未分類' ])
+
         fill_in 'タイトル', with: '問題タイトル'
         fill_in '説明', with: '説明'
+        select '息抜き系・未分類', from: 'question_category_id'
         click_button '次へ：カードセットを追加'
-        expect(page).to have_content('カードセットを追加してください')
-
-        created_question = Question.last
-        expect(current_path).to eq new_question_card_set_path(created_question)
-      end
-    end
-
-    context "問題作成時" do
-      it "ログインユーザーが新しい問題を作成できる" do
-        # ログイン → 問題作成ページ → タイトル・説明入力 → 保存 → 問題一覧で確認
-        visit new_question_path
-        fill_in 'タイトル', with: '問題タイトル'
-        fill_in '説明', with: '説明'
-        click_button '次へ：カードセットを追加'
-        expect(page).to have_content('カードセットを追加してください')
+        expect(page).to have_content('ステップ1完了')
 
         created_question = Question.last
         expect(current_path).to eq new_question_card_set_path(created_question)
