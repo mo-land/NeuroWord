@@ -1,9 +1,9 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, except: [ :index, :show, :search_tag ]
+  before_action :authenticate_user!, except: %i[index show search_tag ]
+  before_action :set_category, only: %i[index new create edit update]
 
   def index
     @tag_list = Tag.all
-    @categories = Category.roots
 
     # ベースとなるクエリを作成
     base_query = Question.all
@@ -116,10 +116,14 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit(:title, :description)
+    params.require(:question).permit(:title, :description, :category_id)
   end
 
   def tag_params
     params.require(:question).permit(:name)
+  end
+
+  def set_category
+    @categories = Category.roots
   end
 end
