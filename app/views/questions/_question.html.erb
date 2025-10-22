@@ -14,11 +14,10 @@
         <p><%= truncate("#{question.description}", omission: "…") %></p>
       <% end %>
 
-      <div class="flex justify-start items-start text-sm opacity-70 w-full mt-auto mb-6">
-        <div class="flex flex-wrap gap-1 justify-start max-w-xs">
-          <% question.tags.each do |tag| %>
-            <%= link_to truncate(tag.name, length: 10, omission: "…"), search_tag_path(tags_name: tag.name), class: 'tag-badge badge badge-outline badge-info shadow-lg text-xs flex-shrink-0', title: tag.name %>
-          <% end %>
+      <div class="justify-start items-start text-sm opacity-70 w-full mt-auto mb-6">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-folder"></i>
+          <%= question.category.name %>
         </div>
       </div>
 
