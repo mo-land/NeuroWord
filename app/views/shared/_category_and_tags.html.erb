@@ -3,7 +3,9 @@
   <%= @question.category.name %>
 </div>
 <div class="flex flex-wrap items-center gap-1 justify-start max-w-xs mb-3">
-  <i class="fa-solid fa-tag mr-1 text-base-content/70"></i>
+  <% if @question.tags.present? %>
+    <i class="fa-solid fa-tag mr-1 text-base-content/70"></i>
+  <% end %>
   <% @question.tags.each do |tag| %>
     <%= link_to truncate(tag.name, length: 10, omission: "…"), search_tag_path(tags_name: tag.name), class: 'tag-badge badge badge-outline badge-info shadow-sm text-xs flex-shrink-0', title: tag.name %>
   <% end %>
