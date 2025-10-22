@@ -8,13 +8,16 @@
         <div class="card-body shadow-md">
           <div class="flex justify-between items-start gap-4 mb-4">
             <div class="flex-1">
-              <div class="lg:flex gap-2 items-center mb-3">
+              <div class="lg:flex gap-2 items-center">
                 <% if has_incompleted_requests?(@question) %>
                   <%= render 'requests/incompleted_request_btn', question: @question %>
                 <% end %>
                 <h1 class="text-3xl font-bold mb-2"><%= @question.title %></h1>
               </div>
+              <%= render 'shared/category_and_tags' %>
+
               <p class="text-lg text-base-content/70 mb-4"><%= @question.description %></p>
+
               <div class="text-sm text-base-content/60 flex justify-between items-center">
                 <span>
                   by <%= @question.user.name %> - 
