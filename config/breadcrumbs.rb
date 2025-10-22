@@ -64,7 +64,12 @@ crumb :questions_edit do |question|
   link "問題情報を編集", edit_question_path(question)
   parent :questions_show, question
 end
+
 #   タグ検索結果 (questions#search_tag, search_tag_path)
+crumb :search_tag do |tag, questions|
+  link "【タグ】#{tag.name}（#{questions.count}問）", search_tag_path(tags_name: tag.name)
+  parent :root
+end
 
 # card_set
 #   カードセット作成 (card_sets#new, new_question_card_set_path)
