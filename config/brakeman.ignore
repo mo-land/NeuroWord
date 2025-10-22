@@ -3,19 +3,19 @@
     {
       "warning_type": "Dynamic Render Path",
       "warning_code": 15,
-      "fingerprint": "fea9b2fc6ff041c59a703be746e034f713e01aea52b2446dbb57b76a9399ab47",
+      "fingerprint": "00883078cfc7f86b80a87af25990e4bdfea41e71b856d535f971fb4129feb148",
       "check_name": "Render",
       "message": "Render path contains parameter value",
       "file": "app/views/questions/index.html.erb",
-      "line": 24,
+      "line": 25,
       "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
-      "code": "render(action => Question.all.where(:category_id => Category.find(params[:category_id]).subtree_ids).ransack(params[:q]).result(:distinct => true).includes(:user, :tags).order(:created_at => :desc).page(params[:page]), {})",
+      "code": "render(action => Question.all.where(:category_id => Category.find(params[:category_id]).subtree_ids).ransack(params[:q]).result(:distinct => true).includes(:user, :category).order(:created_at => :desc).page(params[:page]), {})",
       "render_path": [
         {
           "type": "controller",
           "class": "QuestionsController",
           "method": "index",
-          "line": 22,
+          "line": 20,
           "file": "app/controllers/questions_controller.rb",
           "rendered": {
             "name": "questions/index",
