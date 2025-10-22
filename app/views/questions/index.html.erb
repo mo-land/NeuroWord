@@ -8,15 +8,16 @@
   <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
   <div class="drawer-content flex flex-col lg:ml-72">
     <!-- Page content here -->
-    <label for="my-drawer-3" class="btn drawer-button lg:hidden self-start m-4">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor" class="inline-block size-4 my-1.5"><path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path><path d="M9 4v16"></path><path d="M14 10l2 2l-2 2"></path></svg>
-      カテゴリ一覧
-    </label>
     <div class="px-4 lg:px-6 pt-2">
       <%= breadcrumbs separator: " &rsaquo; " %>
     </div>
-      <div class="p-2">
-        <%= render 'search_form' %>
+    <div class="flex gap-1">
+      <label for="my-drawer-3" class="btn drawer-button lg:hidden self-start ml-3 mb-2">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor" class="inline-block size-4 my-1.5"><path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path><path d="M9 4v16"></path><path d="M14 10l2 2l-2 2"></path></svg>
+        カテゴリ一覧
+      </label>
+      <%= render 'search_form' %>
+    </div>
         <%= paginate @search_questions %>
         <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 mx-auto max-w-screen-6xl py-8 items-stretch">
         <!-- 問題一覧 -->
@@ -26,6 +27,7 @@
             <div class="m-8">問題がありません</div>
           <% end %>
         </div>
+      <div class="p-2">
         <%= paginate @search_questions %>
       </div>
 

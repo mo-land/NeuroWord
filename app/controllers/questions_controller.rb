@@ -3,8 +3,6 @@ class QuestionsController < ApplicationController
   before_action :set_category, only: %i[index new create edit update]
 
   def index
-    @tag_list = Tag.all
-
     # ベースとなるクエリを作成
     base_query = Question.all
 
@@ -19,7 +17,7 @@ class QuestionsController < ApplicationController
     # Ransack検索
     @search = base_query.ransack(params[:q])
     @search_questions = @search.result(distinct: true)
-    .includes(:user, :tags)
+    .includes(:user, :category)
     .order(created_at: :desc)
     .page(params[:page])
   end
@@ -47,7 +45,7 @@ class QuestionsController < ApplicationController
       @question.save_tag(tag_list)
       # ステップ2（CardSet追加）にリダイレクト
       redirect_to new_question_card_set_path(@question),
-                  notice: "ステップ1完了！カードセットを追加してください（2組以上）"
+      notice: "ステップ1完了！カードセットを追加してください（2組以上）"
     else
       flash.now[:alert] = t("defaults.flash_message.not_created", item: Question.model_name.human)
       render :new, status: :unprocessable_entity
@@ -57,6 +55,7 @@ class QuestionsController < ApplicationController
   def show
     @question = Question.includes(origin_words: :related_words).find(params[:id])
     @card_sets = @question.origin_words
+    @tag_list = Tag.all
     @question_tags = @question.tags
   end
 
@@ -100,7 +99,7 @@ class QuestionsController < ApplicationController
     # パラメータ名を明示的に指定
     @tag = Tag.find_by(name: params[:tags_name])
     if @tag
-      @questions = @tag.questions.includes(:user, :tags).order(created_at: :desc).page(params[:page])
+      @questions = @tag.questions.includes(:user, :category).order(created_at: :desc).page(params[:page])
     else
       @questions = Question.none
     end
