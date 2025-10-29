@@ -18,7 +18,7 @@ class RelatedWord < ApplicationRecord
                                         .where.not(id: id) # 自分自身は除外
 
     if existing_related_words.exists?
-      errors.add(:related_word, "は既にこの問題内で使用されています")
+      errors.add(:base, "【#{related_word}】は既にこの問題内で使用されています")
     end
   end
 end

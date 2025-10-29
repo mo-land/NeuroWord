@@ -63,7 +63,7 @@ class CardForm
                                         .where(related_word: related_word)
 
     if existing_related_words.exists?
-      errors.add(:related_word, "は既にこの問題内で使用されています")
+      errors.add(:base, "【#{related_word}】は既にこの問題内で使用されています")
     end
   end
 
@@ -72,10 +72,10 @@ class CardForm
 
     question = Question.find(question_id)
     # 同じ問題内の全てのrelated_wordsと重複チェック
-    existing_origin_words = OriginWord.where(origin_words: { question_id: question.id })
+    existing_origin_words = OriginWord.where(origin_words: { question_id: question.id }).where(origin_word: origin_word)
 
     if existing_origin_words.exists?
-      errors.add(:origin_word, "は既にこの問題内で使用されています")
+      errors.add(:base, "【#{origin_word}】は既にこの問題内で使用されています")
     end
   end
 end

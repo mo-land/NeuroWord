@@ -15,7 +15,7 @@ class OriginWord < ApplicationRecord
                                        .where.not(id: id) # 自分自身は除外
 
     if existing_origin_words.exists?
-      errors.add(:origin_word, "は既にこの問題内で使用されています")
+      errors.add(:base, "【#{origin_word}】は既にこの問題内で使用されています")
     end
   end
 end
