@@ -43,3 +43,6 @@
 /vendor/bundle
 
 coverage/
+
+# Ignore CSV import files
+/db/seeds/*.csv

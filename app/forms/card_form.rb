@@ -10,6 +10,7 @@ class CardForm
   validates :related_word, presence: true, length: { maximum: 100 }
   validate :question_total_cards_limit
   validate :related_word_uniqueness_within_question
+  validate :origin_word_uniqueness_within_question
 
   def save
     return false unless valid?
@@ -63,6 +64,18 @@ class CardForm
 
     if existing_related_words.exists?
       errors.add(:related_word, "は既にこの問題内で使用されています")
+    end
+  end
+
+  def origin_word_uniqueness_within_question
+    return unless question_id.present? && origin_word.present?
+
+    question = Question.find(question_id)
+    # 同じ問題内の全てのrelated_wordsと重複チェック
+    existing_origin_words = OriginWord.where(origin_words: { question_id: question.id })
+
+    if existing_origin_words.exists?
+      errors.add(:origin_word, "は既にこの問題内で使用されています")
     end
   end
 end
