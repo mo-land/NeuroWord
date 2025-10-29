@@ -43,7 +43,7 @@ RSpec.describe CardForm, type: :model do
         create(:origin_word, question: question, origin_word: "起点1", related_words_list: [ "重複語" ])
         form = CardForm.new(origin_word: "起点2", related_word: "重複語", question_id: question.id)
         expect(form).to be_invalid
-        expect(form.errors[:related_word]).to include("は既にこの問題内で使用されています")
+        expect(form.errors[:base]).to include("【重複語】は既にこの問題内で使用されています")
       end
 
       it "異なるquestion間では同じ関連語を使用できる" do

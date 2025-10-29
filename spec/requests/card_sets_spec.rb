@@ -176,8 +176,8 @@ RSpec.describe "CardSets", type: :request do
   describe "DELETE #destroy" do
     before { sign_in user }
     let!(:base_card_set_to_delete) { create(:origin_word, question: question) }
-    let!(:add1_card_set_to_delete) { create(:origin_word, question: question) }
-    let!(:add2_card_set_to_delete) { create(:origin_word, question: question) }
+    let!(:add1_card_set_to_delete) { create(:origin_word, question: question, origin_word: "起点語2") }
+    let!(:add2_card_set_to_delete) { create(:origin_word, question: question, origin_word: "起点語3") }
 
 
     it "カードセットが削除される" do
