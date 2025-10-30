@@ -18,7 +18,7 @@ ja:
         question: 既存の問題タイトル
       request_response:
         content: 修正依頼に返信
-      card_set:
+      origin_word:
         origin_word: 起点語
         related_word: 関連語
       related_word:

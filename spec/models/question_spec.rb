@@ -68,9 +68,9 @@ RSpec.describe Question, type: :model do
   end
 
   describe "アソシエーション" do
-    context "card_setsとの関係" do
-      it "複数のcard_setsを持つことができ、Question削除時にcard_setsも削除される" do
-        should have_many(:card_sets).dependent(:destroy)
+    context "origin_wordsとの関係" do
+      it "複数のorigin_wordsを持つことができ、Question削除時にorigin_wordsも削除される" do
+        should have_many(:origin_words).dependent(:destroy)
       end
     end
 
