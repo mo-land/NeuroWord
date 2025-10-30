@@ -14,7 +14,7 @@ RSpec.describe OriginWord, type: :model do
     end
 
     context "related_wordsとの関係" do
-      it "related_wordsを持つ" do
+      it "複数のrelated_wordsを持つことができ、OriginWord削除時にrelated_wordsも削除される" do
         should have_many(:related_words).dependent(:destroy)
       end
 
