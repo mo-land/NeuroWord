@@ -1,5 +1,4 @@
 class Question < ApplicationRecord
-  has_many :card_sets, dependent: :destroy
   has_many :origin_words, dependent: :destroy
   has_many :question_tags, dependent: :destroy
   has_many :tags, through: :question_tags
@@ -15,17 +14,6 @@ class Question < ApplicationRecord
   belongs_to :category
   has_many :game_records, dependent: :destroy
   has_many :requests, dependent: :destroy
-
-  # 従来のシャッフル機能（後方互換性）
-  def shuffled_game_cards
-    all_cards = []
-
-    card_sets.each do |card_set|
-      all_cards.concat(card_set.all_cards_shuffled)
-    end
-
-    all_cards.shuffle
-  end
 
   # 新しいゲーム形式用のグループ分けメソッド
   def grouped_game_cards
