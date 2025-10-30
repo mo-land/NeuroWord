@@ -14,15 +14,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_17_111907) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "card_sets", force: :cascade do |t|
-    t.bigint "question_id", null: false
-    t.string "origin_word", limit: 40, null: false
-    t.json "related_words", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["question_id"], name: "index_card_sets_on_question_id"
-  end
-
   create_table "categories", force: :cascade do |t|
     t.string "name", null: false
     t.string "ancestry"
@@ -136,7 +127,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_17_111907) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "card_sets", "questions"
   add_foreign_key "game_records", "questions"
   add_foreign_key "game_records", "users"
   add_foreign_key "origin_words", "questions"
