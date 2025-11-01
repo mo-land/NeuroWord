@@ -12,6 +12,8 @@ class User < ApplicationRecord
   has_many :requests, dependent: :destroy
   has_many :request_responses, dependent: :destroy
 
+  after_validation :replace_email_taken_error
+
   class << self   # ここからクラスメソッドで、メソッドの最初につける'self.'を省略できる
     # SnsCredentialsテーブルにデータがないときの処理
     def without_sns_data(auth)
@@ -75,6 +77,15 @@ class User < ApplicationRecord
   end
 
   private
+
+  def replace_email_taken_error
+    if errors.details[:email]&.any? { |d| d[:error] == :taken }
+      # 既存のすべてのエラーをクリア
+      errors.clear
+      # baseエラーとして追加（属性名が前に付かない）
+      errors.add(:base, "登録できませんでした。入力内容をご確認ください")
+    end
+  end
 
   def self.ransackable_attributes(auth_object = nil)
     [ "name" ]
