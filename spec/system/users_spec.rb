@@ -23,7 +23,7 @@ RSpec.describe "Users", type: :system do
         visit new_user_registration_path
         fill_in 'Eメール', with: 'test@example.com'
         click_button '登録'
-        expect(page).to have_content('Eメールはすでに存在します')
+        expect(page).to have_content('登録できませんでした。入力内容をご確認ください')
       end
 
       it 'ユーザー名・アドレス未入力では登録できない' do

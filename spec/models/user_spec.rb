@@ -20,10 +20,6 @@ RSpec.describe User, type: :model do
         should_not allow_value('test-example.com').for(:email)
       end
 
-      it 'メールアドレスはユニークである場合のみ有効か' do
-        should validate_uniqueness_of(:email).case_insensitive
-      end
-
       it 'パスワードは6文字以上で設定されている場合のみ有効か' do
         should validate_length_of(:password).is_at_least(6)
       end
@@ -52,6 +48,37 @@ RSpec.describe User, type: :model do
     context 'request_responsesとの関係' do
       it '複数のrequest_responsesを持つことができ, ユーザー削除時にrequest_responsesも削除される' do
         should have_many(:request_responses).dependent(:destroy)
+      end
+    end
+  end
+
+  describe 'after_validation :replace_email_taken_error' do
+    context 'メールアドレスが重複している場合' do
+      let!(:existing_user) { create(:user, email: 'test@example.com') }
+      let(:new_user) { build(:user, email: 'test@example.com') }
+
+      it 'email taken エラーがbaseエラーに置き換えられる' do
+        new_user.valid?
+        expect(new_user.errors[:email]).to be_empty
+        expect(new_user.errors[:base]).to include('登録できませんでした。入力内容をご確認ください')
+      end
+    end
+
+    context 'メールアドレスが重複していない場合' do
+      let(:user) { build(:user, email: 'unique@example.com') }
+
+      it 'baseエラーが追加されない' do
+        user.valid?
+        expect(user.errors[:base]).to be_empty
+      end
+    end
+
+    context '他のバリデーションエラーがある場合' do
+      let(:user) { build(:user, name: '') }
+
+      it 'nameのエラーは保持される' do
+        user.valid?
+        expect(user.errors[:name]).to be_present
       end
     end
   end
