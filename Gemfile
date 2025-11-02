@@ -42,6 +42,8 @@ gem "omniauth"
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
 
+gem "rack-attack"
+
 gem "devise-i18n"
 
 gem "rails-i18n"
