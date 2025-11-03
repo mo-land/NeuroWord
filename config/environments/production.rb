@@ -117,4 +117,5 @@ Rails.application.configure do
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
   config.hosts << "neuroword-nk.com"
   config.hosts << "www.neuroword-nk.com"
+  config.hosts << "https://neuroword.onrender.com/"
 end
