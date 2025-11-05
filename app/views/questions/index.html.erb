@@ -1,4 +1,5 @@
 <% content_for :hide_breadcrumbs, true %>
+<% content_for :flash_wrapper_class, "lg:ml-72" %>
 <% if @selected_category.present? %>
   <% breadcrumb :questions_category_index, @selected_category %>
 <% else %>
