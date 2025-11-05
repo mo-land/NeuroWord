@@ -48,8 +48,14 @@ ActiveRecord::Schema[7.2].define(version: 2025_11_05_072717) do
   end
 
   create_table "lists", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name", null: false
+    t.text "description"
+    t.boolean "is_favorite", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_lists_on_user_id"
+    t.index ["user_id"], name: "index_unique_favorite_per_user", unique: true, where: "(is_favorite = true)"
   end
 
   create_table "origin_words", force: :cascade do |t|
@@ -65,6 +71,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_11_05_072717) do
     t.bigint "tag_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["question_id", "tag_id"], name: "index_question_tags_on_question_id_and_tag_id", unique: true
     t.index ["question_id"], name: "index_question_tags_on_question_id"
     t.index ["tag_id"], name: "index_question_tags_on_tag_id"
   end
@@ -146,6 +153,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_11_05_072717) do
   add_foreign_key "game_records", "users"
   add_foreign_key "list_questions", "lists"
   add_foreign_key "list_questions", "questions"
+  add_foreign_key "lists", "users"
   add_foreign_key "origin_words", "questions"
   add_foreign_key "question_tags", "questions"
   add_foreign_key "question_tags", "tags"
