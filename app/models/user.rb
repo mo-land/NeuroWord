@@ -12,6 +12,9 @@ class User < ApplicationRecord
   has_many :game_records, dependent: :destroy
   has_many :requests, dependent: :destroy
   has_many :request_responses, dependent: :destroy
+  has_many :lists, dependent: :destroy
+  has_many :list_questions, through: :lists
+  has_many :liked_questions, through: :list_questions, source: :question
 
   after_validation :replace_email_taken_error
 
@@ -75,6 +78,13 @@ class User < ApplicationRecord
 
   def own?(object)
     id == object&.user_id
+  end
+
+  # お気に入りリスト取得（なければ自動生成しても良い）
+  def favorite_list
+    lists.find_or_create_by!(is_favorite: true) do |list|
+      list.name = "お気に入り"
+    end
   end
 
   private

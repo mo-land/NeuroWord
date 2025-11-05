@@ -14,6 +14,8 @@ class Question < ApplicationRecord
   belongs_to :category
   has_many :game_records, dependent: :destroy
   has_many :requests, dependent: :destroy
+  has_many :list_questions, dependent: :destroy
+  has_many :lists, through: :list_questions
 
   # 新しいゲーム形式用のグループ分けメソッド
   def grouped_game_cards
@@ -85,11 +87,11 @@ class Question < ApplicationRecord
     # カードセット追加画面では8枚まで、編集画面では10枚まで、関連語追加画面では9枚まで
     max_count = case context
     when :card_sets_new
-                  8
+      8
     when :card_sets_edit
-                  10
+      10
     else
-                  9
+      9
     end
     return false if total_cards_count >= max_count
 
@@ -119,6 +121,15 @@ class Question < ApplicationRecord
       tags << new_question_tag
     end
   end
+
+    # 任意：リスト登録状況を確認するメソッド
+    def liked_by?(user)
+      ListQuestion.joins(:list).where(question_id: id, lists: { user_id: user.id }).exists?
+    end
+
+    def liked_users
+      User.joins(lists: :list_questions).where(list_questions: { question_id: id }).distinct
+    end
 
   private
 
