@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_30_130855) do
+ActiveRecord::Schema[7.2].define(version: 2025_11_05_072717) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -35,6 +35,21 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_30_130855) do
     t.index ["created_at"], name: "index_game_records_on_created_at"
     t.index ["question_id"], name: "index_game_records_on_question_id"
     t.index ["user_id"], name: "index_game_records_on_user_id"
+  end
+
+  create_table "list_questions", force: :cascade do |t|
+    t.bigint "list_id", null: false
+    t.bigint "question_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["list_id", "question_id"], name: "index_list_questions_on_list_id_and_question_id", unique: true
+    t.index ["list_id"], name: "index_list_questions_on_list_id"
+    t.index ["question_id"], name: "index_list_questions_on_question_id"
+  end
+
+  create_table "lists", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "origin_words", force: :cascade do |t|
@@ -129,6 +144,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_30_130855) do
 
   add_foreign_key "game_records", "questions"
   add_foreign_key "game_records", "users"
+  add_foreign_key "list_questions", "lists"
+  add_foreign_key "list_questions", "questions"
   add_foreign_key "origin_words", "questions"
   add_foreign_key "question_tags", "questions"
   add_foreign_key "question_tags", "tags"
