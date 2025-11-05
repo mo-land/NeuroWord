@@ -27,17 +27,18 @@
             </div>
             <div class="flex flex-col gap-2">
               <!-- シェアセクション -->
-              <% if current_user && current_user.own?(@question) %>
                 <div class="card-title justify-end">
                   <div class="flex flex-wrap justify-center gap-4">
-                    <!-- Twitter/X シェア -->
-                    <%= link_to "https://twitter.com/intent/tweet?text=#{CGI.escape("NeuroWordで「#{@question.title}」を作ったよ！\n挑戦してみてね🙌\n\n#仲間言葉探し #単語ゲーム")}&url=#{CGI.escape("#{request.base_url}/games/#{@question.id}?from=creator")}", 
-                            target: "_blank",
-                            class: "btn btn-neutral shadow-sm" do %>
-                      <div>
-                      <i class="fab fa-x-twitter"></i>
-                      </div>
-                    <% end %>
+                    <div class="flex items-center gap-2 lg:gap-4">
+                      <%= render 'shared/favorite_btn' %>
+                       <% if current_user && current_user.own?(@question) %>
+                        <!-- Twitter/X シェア -->
+                        <%= link_to "https://twitter.com/intent/tweet?text=#{CGI.escape("NeuroWordで「#{@question.title}」を作ったよ！\n挑戦してみてね🙌\n\n#仲間言葉探し #単語ゲーム")}&url=#{CGI.escape("#{request.base_url}/games/#{@question.id}?from=creator")}",
+                                    target: "_blank",
+                                    class: "btn btn-square btn-sm lg:btn-md btn-neutral shadow-sm flex items-center justify-center" do %>
+                        <i class="fab fa-x-twitter"></i>
+                      <% end %>
+                    </div>
                   </div>
                 </div>
                 <%= link_to edit_question_path(@question), id: "button-edit-#{@question.id}",
@@ -53,6 +54,9 @@
                 <% end %>
               <% else %>
                 <%= render 'requests/request_btn', question: @question %>
+                    </div>
+                  </div>
+                </div>
               <% end %>
             </div>
           </div>

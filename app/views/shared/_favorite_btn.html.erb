@@ -1,0 +1,17 @@
+<% if user_signed_in? %>
+  <% if @question.liked_by?(current_user) %>
+    <%= button_to question_list_questions_path(@question),
+                  method: :delete,
+                  class: "favorite-button text-error flex items-center justify-center text-2xl",
+                  data: { turbo: false } do %>
+      <i class="fa-solid fa-heart"></i>
+    <% end %>
+  <% else %>
+    <%= button_to question_list_questions_path(@question),
+                  method: :post,
+                  class: "favorite-button text-error flex items-center justify-center text-2xl",
+                  data: { turbo: false } do %>
+      <i class="fa-regular fa-heart"></i>
+    <% end %>
+  <% end %>
+<% end %>
