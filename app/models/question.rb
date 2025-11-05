@@ -122,14 +122,14 @@ class Question < ApplicationRecord
     end
   end
 
-    # 任意：リスト登録状況を確認するメソッド
-    def liked_by?(user)
-      ListQuestion.joins(:list).where(question_id: id, lists: { user_id: user.id }).exists?
-    end
+  # 任意：リスト登録状況を確認するメソッド
+  def liked_by?(user)
+    ListQuestion.joins(:list).where(question_id: id, lists: { user_id: user.id }).exists?
+  end
 
-    def liked_users
-      User.joins(lists: :list_questions).where(list_questions: { question_id: id }).distinct
-    end
+  def liked_users
+    User.joins(lists: :list_questions).where(list_questions: { question_id: id }).distinct
+  end
 
   private
 
