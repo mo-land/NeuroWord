@@ -8,6 +8,6 @@ class CreateListQuestions < ActiveRecord::Migration[7.2]
     end
 
     # 同一リスト内で同じ問題を重複登録させない
-    add_index :list_questions, [:list_id, :question_id], unique: true
+    add_index :list_questions, [ :list_id, :question_id ], unique: true
   end
 end

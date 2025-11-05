@@ -9,6 +9,6 @@ class CreateLists < ActiveRecord::Migration[7.2]
       t.timestamps
     end
     # 各ユーザーにお気に入りリストが1つまで
-    add_index :lists, [:user_id], unique: true, where: "is_favorite = true", name: "index_unique_favorite_per_user"
+    add_index :lists, [ :user_id ], unique: true, where: "is_favorite = true", name: "index_unique_favorite_per_user"
   end
 end
