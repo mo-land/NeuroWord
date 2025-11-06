@@ -26,17 +26,20 @@
       </div>
 
       <div class="absolute bottom-4 right-4 flex items-center gap-4 text-sm opacity-70">
+        <div class="button-hover">
         <% @question = question %>
-        <%= render 'shared/favorite_btn' %>
+          <%= render 'shared/favorite_btn' %>
+        </div>
         <% if current_user && current_user.own?(question) %>
-          <div class="flex gap-2">
+          <div class="flex gap-4 items-center justify-center">
+          <div class="text-xl">|</div>
             <%= link_to question_path(question), id: "button-edit-#{question.id}", class: "button-hover" do %>
-              <i class="fa-solid fa-pen text-success"></i>
+              <i class="fa-solid fa-pen text-success text-xl"></i>
             <% end %>
             <%= link_to question_path(question), id: "button-delete-#{question.id}", 
             class: "button-hover", 
             data: { turbo_method: :delete, turbo_confirm: t('defaults.delete_confirm') }  do %>
-              <i class="fa-solid fa-trash text-error"></i>
+              <i class="fa-solid fa-trash text-error text-xl"></i>
             <% end %>
           </div>
         <% end %>
