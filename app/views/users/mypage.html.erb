@@ -15,6 +15,9 @@
                      class: 'tab',
                      aria: { label: t('.user_questions') } %>
   <div class="tab-content bg-base-100 border-base-300 p-6">
+    <div class="alert alert-info mb-4">
+      <span>※ お気に入りボタンを押すと、現在のタブから移動する場合があります。（今後のアップデートで改善予定です。）</span>
+    </div>
     <%= render 'user_questions' %>
   </div>
 
@@ -22,7 +25,17 @@
                      class: 'tab',
                      aria: { label: t('.user_lists') } %>
   <div class="tab-content bg-base-100 border-base-300 p-6">
-    準備中！お楽しみに～～！
+    <h2 class="text-xl font-bold mb-4"><%= @list.name %></h2>
+    <div class="alert alert-info mb-4">
+      <span>※ お気に入りボタンを押すと、現在のタブから移動する場合があります。（今後のアップデートで改善予定です。）</span>
+    </div>
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 mx-auto max-w-screen-6xl py-8 items-stretch">
+      <% if @favorite_questions.present? %>
+        <%= render @favorite_questions %>
+      <% else %>
+        <div class="m-8">問題がありません</div>
+      <% end %>
+    </div>
   </div>
 
   <%= radio_button_tag 'my_tabs_3', 'game_records', @current_tab == 'game_records',
@@ -32,11 +45,14 @@
     <ul class="list bg-base-100 rounded-box shadow-md">
         <!--%= render 'game_records/game_records' %-->
         <% if @game_records.present? %>
-        <%= paginate @game_records, param_name: :game_records_page, params: { tab: 'game_records' } %>
-          <%= render 'game_records/game_record' %>
-        <div class="p-6">
+          <div class="alert alert-info mb-4">
+            <span>※ お気に入りボタンを押すと、現在のタブから移動する場合があります。（今後のアップデートで改善予定です。）</span>
+          </div>
           <%= paginate @game_records, param_name: :game_records_page, params: { tab: 'game_records' } %>
-        </div>
+            <%= render 'game_records/game_record' %>
+          <div class="p-6">
+            <%= paginate @game_records, param_name: :game_records_page, params: { tab: 'game_records' } %>
+          </div>
         <% else %>
           <div class="m-8">履歴がありません</div>
         <% end %>

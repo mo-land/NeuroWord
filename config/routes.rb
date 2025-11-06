@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     resources :card_sets,  only: %i[new create edit update destroy] do
       resources :related_words,  only: %i[new create edit update destroy]
     end
+    resource :list_questions, only: %i[create destroy]
     collection do
       get :autocomplete
     end
@@ -36,6 +37,8 @@ Rails.application.routes.draw do
   resources :requests, only: %i[index new create show] do
     resources :request_responses, only: %i[create], shallow: true
   end
+
+  resources :lists, only: %i[index create show edit update destroy]
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

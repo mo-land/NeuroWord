@@ -35,7 +35,7 @@
     <div class="fixed sticky lg:top-0 z-2">
       <%= render 'shared/header' %>
     </div>
-    <div id="flash" class="relative z-1">
+    <div id="flash" class="relative z-1 <%= content_for(:flash_wrapper_class) %>">
       <%= render 'shared/flash_messages' %>
     </div>
     <div class="mb-28 lg:mb-0">

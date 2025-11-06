@@ -1,5 +1,6 @@
 
 <% flash.each do |type, message| %>
+  <% next unless message.is_a?(String) && message.present? %>
   <% alert_class = case type.to_sym
     when :notice then "alert-success"
     when :alert  then "alert-error"
