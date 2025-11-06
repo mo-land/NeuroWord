@@ -5,6 +5,8 @@ class UsersController < ApplicationController
   def mypage
     @questions = @user.questions.includes(:category).page(params[:questions_page])
     @game_records = @user.game_records.includes(:question).order(created_at: :desc).page(params[:game_records_page]).per(10)
+    @list = @user.favorite_list
+    @favorite_questions = @list.questions
     @current_tab = params[:tab] || "user_questions"
   end
 

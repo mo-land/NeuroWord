@@ -22,7 +22,14 @@
                      class: 'tab',
                      aria: { label: t('.user_lists') } %>
   <div class="tab-content bg-base-100 border-base-300 p-6">
-    準備中！お楽しみに～～！
+    <h2 class="text-xl font-bold mb-4"><%= @list.name %></h2>
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 mx-auto max-w-screen-6xl py-8 items-stretch">
+      <% if @favorite_questions.present? %>
+        <%= render @favorite_questions %>
+      <% else %>
+        <div class="m-8">問題がありません</div>
+      <% end %>
+    </div>
   </div>
 
   <%= radio_button_tag 'my_tabs_3', 'game_records', @current_tab == 'game_records',
