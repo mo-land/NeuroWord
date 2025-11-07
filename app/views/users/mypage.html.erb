@@ -24,18 +24,31 @@
   <%= radio_button_tag 'my_tabs_3', 'user_lists', @current_tab == 'user_lists',
                      class: 'tab',
                      aria: { label: t('.user_lists') } %>
-  <div class="tab-content bg-base-100 border-base-300 p-6">
-    <h2 class="text-xl font-bold mb-4"><%= @list.name %></h2>
+  <div class="tab-content bg-base-100 border-base-300 p-6" data-controller="list-selector">
+    <div class="mb-4">
+      <label for="list_id" class="block text-sm font-medium mb-2">リストを選択</label>
+      <%= select_tag :list_id,
+                     options_for_select(@lists.map { |list| [list.name, list.id, { "data-is-favorite" => list.is_favorite }] }, @list.id),
+                     class: "select select-bordered w-full max-w-xs",
+                     id: "list_id",
+                     data: {
+                       list_selector_target: "select",
+                       action: "change->list-selector#changeList"
+                     } %>
+    </div>
+    <%= link_to "リスト一覧", lists_path, class: "link link-primary mb-4 inline-block mr-4" %>
+    <%= link_to "リスト編集", edit_list_path(@list),
+                class: "link link-primary mb-4 inline-block mr-4 #{'!hidden' if @list.is_favorite}",
+                data: { list_selector_target: "editLink" } %>
+    <%= link_to "リスト作成", new_list_path, class: "link link-primary mb-4 inline-block" %>
+
     <div class="alert alert-info mb-4">
       <span>※ お気に入りボタンを押すと、現在のタブから移動する場合があります。（今後のアップデートで改善予定です。）</span>
     </div>
-    <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 mx-auto max-w-screen-6xl py-8 items-stretch">
-      <% if @favorite_questions.present? %>
-        <%= render @favorite_questions %>
-      <% else %>
-        <div class="m-8">問題がありません</div>
-      <% end %>
-    </div>
+
+    <%= turbo_frame_tag "list_questions" do %>
+      <%= render partial: "users/list_questions", locals: { list_questions: @list_questions } %>
+    <% end %>
   </div>
 
   <%= radio_button_tag 'my_tabs_3', 'game_records', @current_tab == 'game_records',
