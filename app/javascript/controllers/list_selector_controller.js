@@ -14,17 +14,24 @@ export default class extends Controller {
     frame.src = url.toString()
     frame.reload()
 
-    // 編集リンクのURLを更新と表示/非表示を切り替え
+    // 編集ボタンの表示/非表示を切り替えとTurbo Frameのsrcを更新
     if (this.hasEditLinkTarget) {
       const selectedOption = this.selectTarget.selectedOptions[0]
       const isFavorite = selectedOption.dataset.isFavorite === "true"
 
-      this.editLinkTarget.href = `/lists/${listId}/edit`
+      // 編集ボタンの親要素（モーダル全体）を取得
+      const editModalContainer = this.editLinkTarget.closest('[data-controller="list-modal"]')
+
+      // Turbo Frameのsrcを更新
+      const editFrame = editModalContainer.querySelector('[data-list-modal-target="frame"]')
+      if (editFrame) {
+        editFrame.src = `/lists/${listId}/edit`
+      }
 
       if (isFavorite) {
-        this.editLinkTarget.classList.add("!hidden")
+        editModalContainer.classList.add("hidden")
       } else {
-        this.editLinkTarget.classList.remove("!hidden")
+        editModalContainer.classList.remove("hidden")
       }
     }
   }
