@@ -1,0 +1,18 @@
+<%= form_with(model: list) do |f| %>
+  <% if list.errors.any? %>
+    <div class="text-red-600">
+      <ul>
+        <% list.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-4">
+    <%= f.label :name, "リスト名", class: "block font-semibold" %>
+    <%= f.text_field :name, class: "border rounded w-full p-2" %>
+  </div>
+
+  <%= f.submit list.new_record? ? "作成する" : "更新する", class: "btn btn-primary px-4 py-2 rounded" %>
+<% end %>

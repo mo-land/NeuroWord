@@ -2,17 +2,6 @@ class ListsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_list, only: %i[edit update]
 
-  # 以下、検証のみで使用（）
-  # before_action :set_list, only: %i[show edit update]
-
-  # def index
-  #   @lists = current_user.lists
-  # end
-
-  # def show
-  #   @questions = @list.questions.includes(:user)
-  # end
-
   def new
     @list = current_user.lists.new
   end
@@ -20,7 +9,13 @@ class ListsController < ApplicationController
   def create
     @list = current_user.lists.new(list_params)
     if @list.save
-      redirect_to mypage_user_path(tab: 'user_lists', list_id: @list.id), notice: "リストを作成しました！"
+      respond_to do |format|
+        format.turbo_stream do
+          flash.now[:notice] = "リストを作成しました！"
+          render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_messages")
+        end
+        format.html { redirect_to mypage_user_path(tab: 'user_lists', list_id: @list.id), notice: "リストを作成しました！" }
+      end
     else
       render :new, status: :unprocessable_entity
     end
