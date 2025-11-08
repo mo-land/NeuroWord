@@ -38,7 +38,7 @@ Rails.application.routes.draw do
     resources :request_responses, only: %i[create], shallow: true
   end
 
-  resources :lists, only: %i[index create show edit update destroy]
+  resources :lists, only: %i[index new create show edit update destroy]
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

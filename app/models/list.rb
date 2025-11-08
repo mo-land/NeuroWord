@@ -4,6 +4,7 @@ class List < ApplicationRecord
   has_many :questions, through: :list_questions
 
   validates :name, presence: true, length: { maximum: 255 }
+  validates :description, length: { maximum: 65_535 }
   validates :is_favorite, inclusion: { in: [ true, false ] }
 
   # 各ユーザーにお気に入りリストは1つまで

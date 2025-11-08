@@ -9,3 +9,9 @@ application.register("game", GameController)
 
 import RequestFormController from "./request_form_controller"
 application.register("request-form", RequestFormController)
+
+import ListSelectorController from "./list_selector_controller"
+application.register("list-selector", ListSelectorController)
+
+import ListModalController from "./list_modal_controller"
+application.register("list-modal", ListModalController)
