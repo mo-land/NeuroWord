@@ -22,31 +22,34 @@
   </div>
 
   <%= radio_button_tag 'my_tabs_3', 'user_lists', @current_tab == 'user_lists',
-                     class: 'tab',
-                     aria: { label: t('.user_lists') } %>
+                    class: 'tab',
+                    aria: { label: t('.user_lists') } %>
   <div class="tab-content bg-base-100 border-base-300 p-6" data-controller="list-selector">
     <div class="alert alert-info mb-4">
       <span>※ お気に入りボタンを押すと、現在のタブから移動する場合があります。（今後のアップデートで改善予定です。）</span>
     </div>
-    <div class="mb-4">
-      <label for="list_id" class="block text-sm font-medium mb-2">リストを選択</label>
-      <%= select_tag :list_id,
-                     options_for_select(@lists.map { |list| [list.name, list.id, { "data-is-favorite" => list.is_favorite }] }, @list.id),
-                     class: "select select-bordered w-full max-w-xs",
-                     id: "list_id",
-                     data: {
-                       list_selector_target: "select",
-                       action: "change->list-selector#changeList"
-                     } %>
-    </div>
-    <%= link_to "リスト編集", edit_list_path(@list),
-                class: "link link-primary mb-4 inline-block mr-4 #{'!hidden' if @list.is_favorite}",
-                data: { list_selector_target: "editLink" } %>
+    <div class="lg:flex gap-4">
+      <div id="list_selector_container" class="mb-4">
+        <%= render "list_selector", lists: @lists, selected_list_id: @list.id %>
+      </div>
 
-
-    <!-- Open the modal using ID.showModal() method -->
+    <div class="flex gap-4">
+      <div data-controller="list-modal" data-action="turbo:submit-end->list-modal#handleSubmitEnd" class="<%= 'hidden' if @list.is_favorite %>">
+        <button class="btn btn-outline btn-accent lg:mt-7" onclick="edit_list_modal.showModal()" data-list-selector-target="editLink">リスト名変更</button>
+        <dialog id="edit_list_modal" class="modal modal-bottom sm:modal-middle" data-list-modal-target="dialog">
+          <div class="modal-box">
+            <%= turbo_frame_tag "edit_list", src: edit_list_path(@list), data: { list_modal_target: "frame" } do %>
+              <p>読み込み中...</p>
+            <% end %>
+          </div>
+          <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+          </form>
+        </dialog>
+      </div>
+      
       <div data-controller="list-modal" data-action="turbo:submit-end->list-modal#handleSubmitEnd">
-        <button class="btn" onclick="my_modal_5.showModal()">リスト作成</button>
+        <button class="btn btn-primary lg:mt-7" onclick="my_modal_5.showModal()">新規リスト作成</button>
         <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle" data-list-modal-target="dialog">
           <div class="modal-box">
             <%= turbo_frame_tag "new_list", src: new_list_path, data: { list_modal_target: "frame" } do %>
@@ -58,7 +61,8 @@
           </form>
         </dialog>
       </div>
-    
+    </div>
+    </div>
 
     <%= turbo_frame_tag "list_questions" do %>
       <%= render partial: "users/list_questions", locals: { list_questions: @list_questions } %>
