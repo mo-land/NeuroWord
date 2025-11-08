@@ -14,16 +14,16 @@ class ListsController < ApplicationController
           flash.now[:notice] = "リストを作成しました！"
           render turbo_stream: turbo_stream.update("flash", partial: "shared/flash_messages")
         end
-        format.html { redirect_to mypage_user_path(tab: 'user_lists', list_id: @list.id), notice: "リストを作成しました！" }
+        format.html { redirect_to mypage_user_path(tab: "user_lists", list_id: @list.id), notice: "リストを作成しました！" }
       end
     else
       render :new, status: :unprocessable_entity
     end
   end
-  
+
   def edit
   end
-  
+
   def update
     if @list.update(list_params)
       respond_to do |format|
@@ -35,7 +35,7 @@ class ListsController < ApplicationController
             turbo_stream.update("list_selector_container", partial: "users/list_selector", locals: { lists: @lists, selected_list_id: @list.id })
           ]
         end
-        format.html { redirect_to mypage_user_path(tab: 'user_lists', list_id: @list.id), notice: "リストを更新しました！" }
+        format.html { redirect_to mypage_user_path(tab: "user_lists", list_id: @list.id), notice: "リストを更新しました！" }
       end
     else
       render :edit, status: :unprocessable_entity
