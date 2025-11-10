@@ -15,3 +15,6 @@ application.register("list-selector", ListSelectorController)
 
 import ListModalController from "./list_modal_controller"
 application.register("list-modal", ListModalController)
+
+import FavoriteModalController from "./favorite_modal_controller"
+application.register("favorite-modal", FavoriteModalController)
