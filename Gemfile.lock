@@ -425,7 +425,7 @@ GEM
       railties (>= 6.0.0)
     stringio (3.1.7)
     swimming_fish (0.2.2)
-    tailwindcss-rails (4.2.3)
+    tailwindcss-rails (4.4.0)
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
     tailwindcss-ruby (4.1.13)
@@ -517,7 +517,7 @@ DEPENDENCIES
   sprockets-rails
   stimulus-rails
   swimming_fish (~> 0.2.2)
-  tailwindcss-rails (~> 4.0)
+  tailwindcss-rails (~> 4.4)
   tailwindcss-ruby
   turbo-rails (~> 2.0.20)
   tzinfo-data
