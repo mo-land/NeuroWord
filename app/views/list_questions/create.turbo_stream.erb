@@ -1,0 +1,3 @@
+<%= turbo_stream.replace "favorite-btn-#{@question.id}" do %>
+  <%= render 'shared/favorite_btn', question: @question %>
+<% end %>

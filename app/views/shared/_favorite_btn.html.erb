@@ -18,8 +18,7 @@
           <h3 class="font-bold text-lg">リスト登録を解除</h3>
           <%= button_to question_list_questions_path(question_obj),
                 method: :delete,
-                class: "favorite-button btn btn-error btn-sm",
-                data: { turbo_frame: "_top" } do %>
+                class: "favorite-button btn btn-error btn-sm" do %>
             リスト登録を全て解除
           <% end %>
         </div>
@@ -27,7 +26,7 @@
         <div class="divider"></div>
         <h3 class="font-bold text-lg mb-4">登録リストを変更</h3>
         <%# 複数リストに対応したチェックボックスフォーム %>
-        <%= form_with url: update_multiple_question_list_questions_path(question_obj), method: :patch, data: { turbo_frame: "_top" } do %>
+        <%= form_with url: update_multiple_question_list_questions_path(question_obj), method: :patch do %>
           <div class="space-y-3">
             <% current_user.lists.each do |list| %>
               <% checked = list.questions.exists?(question_obj.id) %>
@@ -57,8 +56,7 @@
     <!-- ♡ 未登録：お気に入りに追加 -->
     <%= button_to question_list_questions_path(question_obj),
                   method: :post,
-                  class: "favorite-button text-error flex items-center justify-center text-2xl",
-                  data: { turbo_frame: "_top" } do %>
+                  class: "favorite-button text-error flex items-center justify-center text-2xl" do %>
       <i class="fa-regular fa-heart"></i>
     <% end %>
   <% end %>

@@ -26,7 +26,7 @@
       </div>
 
       <div class="absolute bottom-4 right-4 flex items-center gap-4 text-sm opacity-70">
-        <div class="button-hover">
+        <div class="button-hover" id="favorite-btn-<%= question.id %>">
           <%= render 'shared/favorite_btn', question: question %>
         </div>
         <% if current_user && current_user.own?(question) %>

@@ -7,7 +7,10 @@ class ListQuestionsController < ApplicationController
     list_question = list.list_questions.new(question: @question)
 
     if list_question.save
-      redirect_back fallback_location: @question, notice: "お気に入りに追加しました！"
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_back fallback_location: @question, notice: "お気に入りに追加しました！" }
+      end
     else
       redirect_back fallback_location: @question, alert: "すでに登録されています。"
     end
@@ -27,7 +30,10 @@ class ListQuestionsController < ApplicationController
       end
     end
 
-    redirect_back fallback_location: @question, notice: "登録リストを更新しました！"
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_back fallback_location: @question, notice: "登録リストを更新しました！" }
+    end
   end
 
   def destroy
@@ -38,7 +44,10 @@ class ListQuestionsController < ApplicationController
     ).destroy_all.count
 
     if deleted_count > 0
-      redirect_back fallback_location: @question, notice: "全てのリスト登録を解除しました。"
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_back fallback_location: @question, notice: "全てのリスト登録を解除しました。" }
+      end
     else
       redirect_back fallback_location: @question, alert: "登録されているリストがありませんでした。"
     end
