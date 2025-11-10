@@ -7,7 +7,7 @@
       </div>
     <% end %>
     <div class="card-body flex flex-col h-full">
-      <%= link_to game_path(question), class: "question-card w-full shadow-xl items-center flex flex-col justify-center flex-grow" do %>
+      <%= link_to game_path(question), class: "question-card w-full shadow-xl items-center flex flex-col justify-center flex-grow", data: { turbo_frame: "_top" } do %>
         <h4 class="card-title font-mplus1 text-center">
           <%= question.title %>
         </h4>
@@ -27,8 +27,7 @@
 
       <div class="absolute bottom-4 right-4 flex items-center gap-4 text-sm opacity-70">
         <div class="button-hover">
-        <% @question = question %>
-          <%= render 'shared/favorite_btn' %>
+          <%= render 'shared/favorite_btn', question: question %>
         </div>
         <% if current_user && current_user.own?(question) %>
           <div class="flex gap-4 items-center justify-center">

@@ -16,8 +16,7 @@ class UsersController < ApplicationController
     @list = @lists.find { |list| list.id == @selected_list_id.to_i } || @user.favorite_list
 
     # リストの問題をリスト追加降順で取得
-    @list_questions = @list.questions.joins(:list_questions)
-                           .where(list_questions: { list_id: @list.id })
+    @list_questions = @list.questions
                            .order("list_questions.created_at DESC")
 
     @current_tab = params[:tab] || "user_questions"

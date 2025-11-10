@@ -20,13 +20,14 @@ Rails.application.routes.draw do
     resources :card_sets,  only: %i[new create edit update destroy] do
       resources :related_words,  only: %i[new create edit update destroy]
     end
-    resource :list_questions, only: %i[create destroy]
+    resource :list_questions, only: %i[create destroy] do
+      patch :update_multiple, on: :collection
+    end
     collection do
       get :autocomplete
     end
   end
 
-  # ゲーム関連ルート
   resources :games, only: [ :show ] do
     member do
       post :check_match
@@ -38,7 +39,7 @@ Rails.application.routes.draw do
     resources :request_responses, only: %i[create], shallow: true
   end
 
-  resources :lists, only: %i[index new create show edit update destroy]
+  resources :lists, only: %i[new create edit update destroy]
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
