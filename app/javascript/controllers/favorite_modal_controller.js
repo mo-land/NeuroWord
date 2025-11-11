@@ -4,23 +4,46 @@ export default class extends Controller {
   static targets = ["modal"]
 
   connect() {
-    // モーダルをbody直下に移動して参照を保持
+    // Turbo Streamによる更新を監視（モーダル内のフォームのみ）
+    this.boundHandleSubmitEnd = this.handleSubmitEnd.bind(this)
     if (this.hasModalTarget) {
-      this.modal = this.modalTarget
-      document.body.appendChild(this.modal)
+      this.modalTarget.addEventListener('turbo:submit-end', this.boundHandleSubmitEnd, true)
     }
   }
 
   disconnect() {
-    // コントローラーが削除される時にモーダルも削除
-    if (this.modal && this.modal.parentNode === document.body) {
-      this.modal.remove()
+    // モーダルが開いていれば閉じる
+    if (this.hasModalTarget && this.modalTarget.open) {
+      this.modalTarget.close()
+    }
+    // イベントリスナーのクリーンアップ
+    if (this.boundHandleSubmitEnd && this.hasModalTarget) {
+      this.modalTarget.removeEventListener('turbo:submit-end', this.boundHandleSubmitEnd, true)
     }
   }
 
   open() {
-    if (this.modal) {
-      this.modal.showModal()
+    if (this.hasModalTarget) {
+      this.modalTarget.showModal()
+    }
+  }
+
+  close() {
+    if (this.hasModalTarget) {
+      this.modalTarget.close()
+    }
+  }
+
+  handleSubmitEnd(event) {
+    // モーダル内のフォームからの送信かチェック
+    const form = event.target
+    const isModalForm = this.hasModalTarget && this.modalTarget.contains(form)
+
+    if (isModalForm && event.detail.success) {
+      // Turbo Streamの更新を待ってからモーダルを閉じる
+      setTimeout(() => {
+        this.close()
+      }, 100)
     }
   }
 }

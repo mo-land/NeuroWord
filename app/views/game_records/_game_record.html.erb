@@ -10,8 +10,7 @@
           <div class="ml-4"><%= "⏱: #{Time.at(game_record.completion_time_seconds).utc.strftime("%M:%S.%2N")}" %></div>
           <div class="ml-4"><%= "正答率: #{game_record.accuracy}%" %></div>
           <div class="ml-6">
-            <% @question = game_record.question %>
-            <%= render 'shared/favorite_btn' %>
+            <%= render 'shared/favorite_button', question: game_record.question, unique_id: "game-record-#{game_record.id}", context: 'game_records' %>
           </div>
         </div>
       </div>

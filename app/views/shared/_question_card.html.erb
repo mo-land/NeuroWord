@@ -1,0 +1,55 @@
+<%
+  # ローカル変数
+  # question: 問題オブジェクト（必須）
+  # list_id: リストID（オプション。指定された場合はリスト専用のお気に入りボタンを使用）
+  list_id = local_assigns[:list_id]
+  use_turbo_frame_top = local_assigns[:use_turbo_frame_top] || false
+%>
+<div id="question-id-<%= question.id %>">
+  <div  class="card w-full bg-base-100 card-s shadow-xl h-full">
+    <% if has_incompleted_requests?(question) %>
+      <div class="absolute">
+        <%= render 'requests/incompleted_request_btn', question: question %>
+      </div>
+    <% end %>
+    <div class="card-body flex flex-col h-full">
+      <%= link_to game_path(question), class: "question-card w-full shadow-xl items-center flex flex-col justify-center flex-grow", data: { turbo_frame: "_top" } do %>
+        <h4 class="card-title font-mplus1 text-center">
+          <%= question.title %>
+        </h4>
+        <p><%= truncate("#{question.description}", omission: "…") %></p>
+      <% end %>
+
+      <div class="justify-start items-start text-sm opacity-70 w-full mt-auto mb-6">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-folder"></i>
+          <%= question.category.name %>
+        </div>
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-user"></i>
+          <%= question.user.name %>
+        </div>
+      </div>
+
+      <div class="absolute bottom-4 right-4 flex items-center gap-4 text-sm opacity-70">
+        <div class="button-hover">
+          <%= render 'shared/favorite_button', question: question, list_id: list_id %>
+        </div>
+        <% if current_user && current_user.own?(question) %>
+          <div class="flex gap-4 items-center justify-center">
+          <div class="text-xl">|</div>
+            <%= link_to question_path(question), id: "button-edit-#{question.id}", class: "button-hover", data: use_turbo_frame_top ? { turbo_frame: "_top" } : {} do %>
+              <i class="fa-solid fa-pen text-success text-xl"></i>
+            <% end %>
+            <%= link_to question_path(question), id: "button-delete-#{question.id}",
+            class: "button-hover",
+            data: { turbo_method: :delete, turbo_confirm: t('defaults.delete_confirm') }.merge(use_turbo_frame_top ? { turbo_frame: "_top" } : {})  do %>
+              <i class="fa-solid fa-trash text-error text-xl"></i>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+</div>
