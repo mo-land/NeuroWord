@@ -30,6 +30,12 @@ class ListQuestionsController < ApplicationController
       end
     end
 
+    # mypage用のリスト問題を取得
+    if params[:list_id].present?
+      @list = current_user.lists.find(params[:list_id])
+      @list_questions = @list.questions.order("list_questions.created_at DESC")
+    end
+
     respond_to do |format|
       format.turbo_stream
       format.html { redirect_back fallback_location: @question, notice: "登録リストを更新しました！" }
@@ -42,6 +48,12 @@ class ListQuestionsController < ApplicationController
       list_id: current_user.lists.pluck(:id),
       question_id: @question.id
     ).destroy_all.count
+
+    # mypage用のリスト問題を取得
+    if params[:list_id].present?
+      @list = current_user.lists.find(params[:list_id])
+      @list_questions = @list.questions.order("list_questions.created_at DESC")
+    end
 
     if deleted_count > 0
       respond_to do |format|

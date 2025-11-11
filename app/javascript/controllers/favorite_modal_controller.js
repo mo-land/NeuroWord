@@ -4,9 +4,11 @@ export default class extends Controller {
   static targets = ["modal"]
 
   connect() {
-    // Turbo Streamによる更新を監視
+    // Turbo Streamによる更新を監視（モーダル内のフォームのみ）
     this.boundHandleSubmitEnd = this.handleSubmitEnd.bind(this)
-    document.addEventListener('turbo:submit-end', this.boundHandleSubmitEnd)
+    if (this.hasModalTarget) {
+      this.modalTarget.addEventListener('turbo:submit-end', this.boundHandleSubmitEnd, true)
+    }
   }
 
   disconnect() {
@@ -15,8 +17,8 @@ export default class extends Controller {
       this.modalTarget.close()
     }
     // イベントリスナーのクリーンアップ
-    if (this.boundHandleSubmitEnd) {
-      document.removeEventListener('turbo:submit-end', this.boundHandleSubmitEnd)
+    if (this.boundHandleSubmitEnd && this.hasModalTarget) {
+      this.modalTarget.removeEventListener('turbo:submit-end', this.boundHandleSubmitEnd, true)
     }
   }
 
@@ -38,8 +40,10 @@ export default class extends Controller {
     const isModalForm = this.hasModalTarget && this.modalTarget.contains(form)
 
     if (isModalForm && event.detail.success) {
-      // モーダルを即座に閉じる
-      this.close()
+      // Turbo Streamの更新を待ってからモーダルを閉じる
+      setTimeout(() => {
+        this.close()
+      }, 100)
     }
   }
 }

@@ -1,3 +1,9 @@
-<%= turbo_stream.replace "favorite-btn-#{@question.id}" do %>
-  <%= render 'shared/favorite_btn', question: @question %>
+<% if @list_questions %>
+  <%= turbo_stream.update "list_questions" do %>
+    <%= render partial: "users/list_questions", locals: { list_questions: @list_questions, list_id: @list.id } %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.replace "favorite-btn-#{@question.id}" do %>
+    <%= render 'shared/favorite_btn', question: @question %>
+  <% end %>
 <% end %>

@@ -1,6 +1,7 @@
+<% @list_id = list_id %>
 <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 mx-auto max-w-screen-6xl py-8 items-stretch">
   <% if list_questions.present? %>
-    <%= render list_questions %>
+    <%= render partial: "list_questions/question", collection: list_questions, as: :question %>
   <% else %>
     <div class="m-8">問題がありません</div>
   <% end %>

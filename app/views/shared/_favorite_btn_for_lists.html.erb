@@ -1,5 +1,6 @@
 <% if user_signed_in? %>
   <% question_obj = local_assigns[:question] || @question %>
+  <% list_id = local_assigns[:list_id] %>
   <% if question_obj.liked_by?(current_user) %>
     <!-- ♥ 登録済み：モーダルを開く -->
     <div id="favorite-btn-<%= question_obj.id %>" data-controller="favorite-modal">
@@ -18,7 +19,7 @@
           <h3 class="font-bold text-lg">リスト登録を解除</h3>
           <%= button_to question_list_questions_path(question_obj),
                 method: :delete,
-                params: { list_id: params[:list_id] },
+                params: { list_id: list_id },
                 class: "favorite-button btn btn-error btn-sm" do %>
             リスト登録を全て解除
           <% end %>
@@ -27,7 +28,7 @@
         <div class="divider"></div>
         <h3 class="font-bold text-lg mb-4">登録リストを変更</h3>
         <%# 複数リストに対応したチェックボックスフォーム %>
-        <%= form_with url: update_multiple_question_list_questions_path(question_obj, list_id: params[:list_id]), method: :patch do %>
+        <%= form_with url: update_multiple_question_list_questions_path(question_obj, list_id: list_id), method: :patch do %>
           <div class="space-y-3">
             <% current_user.lists.each do |list| %>
               <% checked = list.questions.exists?(question_obj.id) %>

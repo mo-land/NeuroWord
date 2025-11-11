@@ -65,7 +65,7 @@
     </div>
 
     <%= turbo_frame_tag "list_questions" do %>
-      <%= render partial: "users/list_questions", locals: { list_questions: @list_questions } %>
+      <%= render partial: "users/list_questions", locals: { list_questions: @list_questions, list_id: @list.id } %>
     <% end %>
   </div>
 
