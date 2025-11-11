@@ -8,7 +8,7 @@ class ListQuestionsController < ApplicationController
     @context = params[:context]
 
     # game_recordsの場合、該当する全てのgame_recordを取得
-    if @context == 'game_records'
+    if @context == "game_records"
       @game_records = current_user.game_records.where(question_id: @question.id)
     end
 
@@ -44,7 +44,7 @@ class ListQuestionsController < ApplicationController
     end
 
     # game_recordsの場合、該当する全てのgame_recordを取得
-    if @context == 'game_records'
+    if @context == "game_records"
       @game_records = current_user.game_records.where(question_id: @question.id)
     end
 
@@ -69,7 +69,7 @@ class ListQuestionsController < ApplicationController
     end
 
     # game_recordsの場合、該当する全てのgame_recordを取得
-    if @context == 'game_records'
+    if @context == "game_records"
       @game_records = current_user.game_records.where(question_id: @question.id)
     end
 
