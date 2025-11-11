@@ -11,23 +11,23 @@
 
 <!-- name of each tab group should be unique -->
 <div class="tabs tabs-lift mt-3 p-4">
-  <%= radio_button_tag 'my_tabs_3', 'user_questions', @current_tab == 'user_questions',
-                     class: 'tab',
-                     aria: { label: t('.user_questions') } %>
-  <div class="tab-content bg-base-100 border-base-300 p-6">
-    <div class="alert alert-info mb-4">
-      <span>※ お気に入りボタンを押すと、現在のタブから移動する場合があります。（今後のアップデートで改善予定です。）</span>
-    </div>
+  <%= link_to mypage_user_path(tab: 'user_questions'),
+              class: "tab #{'tab-active' if @current_tab == 'user_questions'}",
+              role: 'tab',
+              aria: { label: t('.user_questions') } do %>
+    <%= t('.user_questions') %>
+  <% end %>
+  <div class="tab-content bg-base-100 border-base-300 p-6 <%= 'hidden' unless @current_tab == 'user_questions' %>">
     <%= render 'user_questions' %>
   </div>
 
-  <%= radio_button_tag 'my_tabs_3', 'user_lists', @current_tab == 'user_lists',
-                    class: 'tab',
-                    aria: { label: t('.user_lists') } %>
-  <div class="tab-content bg-base-100 border-base-300 p-6" data-controller="list-selector">
-    <div class="alert alert-info mb-4">
-      <span>※ お気に入りボタンを押すと、現在のタブから移動する場合があります。（今後のアップデートで改善予定です。）</span>
-    </div>
+  <%= link_to mypage_user_path(tab: 'user_lists', list_id: @list.id),
+              class: "tab #{'tab-active' if @current_tab == 'user_lists'}",
+              role: 'tab',
+              aria: { label: t('.user_lists') } do %>
+    <%= t('.user_lists') %>
+  <% end %>
+  <div class="tab-content bg-base-100 border-base-300 p-6 <%= 'hidden' unless @current_tab == 'user_lists' %>" data-controller="list-selector">
     <div class="lg:flex gap-4">
       <div id="list_selector_container" class="mb-4">
         <%= render "list_selector", lists: @lists, selected_list_id: @list.id %>
@@ -47,7 +47,7 @@
           </form>
         </dialog>
       </div>
-      
+
       <div data-controller="list-modal" data-action="turbo:submit-end->list-modal#handleSubmitEnd">
         <button class="btn btn-primary lg:mt-7" onclick="my_modal_5.showModal()">新規リスト作成</button>
         <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle" data-list-modal-target="dialog">
@@ -69,16 +69,16 @@
     <% end %>
   </div>
 
-  <%= radio_button_tag 'my_tabs_3', 'game_records', @current_tab == 'game_records',
-                     class: 'tab',
-                     aria: { label: t('.game_records') } %>
-  <div class="tab-content bg-base-100 border-base-300 p-6">
+  <%= link_to mypage_user_path(tab: 'game_records'),
+              class: "tab #{'tab-active' if @current_tab == 'game_records'}",
+              role: 'tab',
+              aria: { label: t('.game_records') } do %>
+    <%= t('.game_records') %>
+  <% end %>
+  <div class="tab-content bg-base-100 border-base-300 p-6 <%= 'hidden' unless @current_tab == 'game_records' %>">
     <ul class="list bg-base-100 rounded-box shadow-md">
         <!--%= render 'game_records/game_records' %-->
         <% if @game_records.present? %>
-          <div class="alert alert-info mb-4">
-            <span>※ お気に入りボタンを押すと、現在のタブから移動する場合があります。（今後のアップデートで改善予定です。）</span>
-          </div>
           <%= paginate @game_records, param_name: :game_records_page, params: { tab: 'game_records' } %>
             <%= render 'game_records/game_record' %>
           <div class="p-6">
