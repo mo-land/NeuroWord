@@ -5,11 +5,11 @@
 <% elsif @context == 'game_records' && @game_records %>
   <% @game_records.each do |game_record| %>
     <%= turbo_stream.replace "game-record-#{game_record.id}" do %>
-      <%= render 'shared/favorite_btn_for_game_records', question: @question, unique_id: "game-record-#{game_record.id}" %>
+      <%= render 'shared/favorite_button', question: @question, unique_id: "game-record-#{game_record.id}", context: 'game_records' %>
     <% end %>
   <% end %>
 <% else %>
   <%= turbo_stream.replace "favorite-btn-#{@question.id}" do %>
-    <%= render 'shared/favorite_btn', question: @question %>
+    <%= render 'shared/favorite_button', question: @question %>
   <% end %>
 <% end %>

@@ -1,9 +1,33 @@
+<%
+  # ローカル変数
+  # question: 問題オブジェクト（必須）
+  # unique_id: HTML要素のユニークID（オプション。デフォルトは "favorite-btn-#{question.id}"）
+  # list_id: リストID（オプション。リスト画面用）
+  # context: コンテキスト（オプション。'game_records'など）
+  question_obj = local_assigns[:question] || @question
+  unique_id = local_assigns[:unique_id] || "favorite-btn-#{question_obj.id}"
+  list_id = local_assigns[:list_id]
+  context = local_assigns[:context]
+
+  # パラメータの構築
+  delete_params = {}
+  delete_params[:list_id] = list_id if list_id.present?
+  delete_params[:unique_id] = unique_id if context == 'game_records'
+  delete_params[:context] = context if context.present?
+
+  update_params = { list_id: list_id }.compact
+  update_params[:unique_id] = unique_id if context == 'game_records'
+  update_params[:context] = context if context.present?
+
+  create_params = {}
+  create_params[:unique_id] = unique_id if context == 'game_records'
+  create_params[:context] = context if context.present?
+%>
+
 <% if user_signed_in? %>
-  <% question_obj = local_assigns[:question] || @question %>
-  <% list_id = local_assigns[:list_id] %>
   <% if question_obj.liked_by?(current_user) %>
     <!-- ♥ 登録済み：モーダルを開く -->
-    <div id="favorite-btn-<%= question_obj.id %>" data-controller="favorite-modal">
+    <div id="<%= unique_id %>" <% if context == 'game_records' %>class="favorite-btn-question-<%= question_obj.id %>"<% end %> data-controller="favorite-modal">
       <button
         type="button"
         class="favorite-button text-error flex items-center justify-center text-2xl"
@@ -13,13 +37,13 @@
       </button>
 
       <!-- モーダル本体 -->
-      <dialog id="list-modal-<%= question_obj.id %>" class="modal" data-favorite-modal-target="modal">
+      <dialog id="list-modal-<%= unique_id %>" class="modal" data-favorite-modal-target="modal">
       <div class="modal-box">
         <div class="flex justify-between items-center mb-4">
           <h3 class="font-bold text-lg">リスト登録を解除</h3>
           <%= button_to question_list_questions_path(question_obj),
                 method: :delete,
-                params: { list_id: list_id },
+                params: delete_params,
                 class: "favorite-button btn btn-error btn-sm" do %>
             リスト登録を全て解除
           <% end %>
@@ -28,7 +52,7 @@
         <div class="divider"></div>
         <h3 class="font-bold text-lg mb-4">登録リストを変更</h3>
         <%# 複数リストに対応したチェックボックスフォーム %>
-        <%= form_with url: update_multiple_question_list_questions_path(question_obj, list_id: list_id), method: :patch do %>
+        <%= form_with url: update_multiple_question_list_questions_path(question_obj, update_params), method: :patch do %>
           <div class="space-y-3">
             <% current_user.lists.each do |list| %>
               <% checked = list.questions.exists?(question_obj.id) %>
@@ -56,9 +80,10 @@
 
   <% else %>
     <!-- ♡ 未登録：お気に入りに追加 -->
-    <div id="favorite-btn-<%= question_obj.id %>">
+    <div id="<%= unique_id %>" <% if context == 'game_records' %>class="favorite-btn-question-<%= question_obj.id %>"<% end %>>
       <%= button_to question_list_questions_path(question_obj),
                     method: :post,
+                    params: create_params,
                     class: "favorite-button text-error flex items-center justify-center text-2xl" do %>
         <i class="fa-regular fa-heart"></i>
       <% end %>

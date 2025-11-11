@@ -33,11 +33,7 @@
 
       <div class="absolute bottom-4 right-4 flex items-center gap-4 text-sm opacity-70">
         <div class="button-hover">
-          <% if list_id.present? %>
-            <%= render 'shared/favorite_btn_for_lists', question: question, list_id: list_id %>
-          <% else %>
-            <%= render 'shared/favorite_btn', question: question %>
-          <% end %>
+          <%= render 'shared/favorite_button', question: question, list_id: list_id %>
         </div>
         <% if current_user && current_user.own?(question) %>
           <div class="flex gap-4 items-center justify-center">
