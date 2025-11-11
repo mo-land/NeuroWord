@@ -4,23 +4,42 @@ export default class extends Controller {
   static targets = ["modal"]
 
   connect() {
-    // モーダルをbody直下に移動して参照を保持
-    if (this.hasModalTarget) {
-      this.modal = this.modalTarget
-      document.body.appendChild(this.modal)
-    }
+    // Turbo Streamによる更新を監視
+    this.boundHandleSubmitEnd = this.handleSubmitEnd.bind(this)
+    document.addEventListener('turbo:submit-end', this.boundHandleSubmitEnd)
   }
 
   disconnect() {
-    // コントローラーが削除される時にモーダルも削除
-    if (this.modal && this.modal.parentNode === document.body) {
-      this.modal.remove()
+    // モーダルが開いていれば閉じる
+    if (this.hasModalTarget && this.modalTarget.open) {
+      this.modalTarget.close()
+    }
+    // イベントリスナーのクリーンアップ
+    if (this.boundHandleSubmitEnd) {
+      document.removeEventListener('turbo:submit-end', this.boundHandleSubmitEnd)
     }
   }
 
   open() {
-    if (this.modal) {
-      this.modal.showModal()
+    if (this.hasModalTarget) {
+      this.modalTarget.showModal()
+    }
+  }
+
+  close() {
+    if (this.hasModalTarget) {
+      this.modalTarget.close()
+    }
+  }
+
+  handleSubmitEnd(event) {
+    // モーダル内のフォームからの送信かチェック
+    const form = event.target
+    const isModalForm = this.hasModalTarget && this.modalTarget.contains(form)
+
+    if (isModalForm && event.detail.success) {
+      // モーダルを即座に閉じる
+      this.close()
     }
   }
 }

@@ -2,7 +2,7 @@
   <% question_obj = local_assigns[:question] || @question %>
   <% if question_obj.liked_by?(current_user) %>
     <!-- ♥ 登録済み：モーダルを開く -->
-    <div data-controller="favorite-modal">
+    <div id="favorite-btn-<%= question_obj.id %>" data-controller="favorite-modal">
       <button
         type="button"
         class="favorite-button text-error flex items-center justify-center text-2xl"
@@ -54,10 +54,12 @@
 
   <% else %>
     <!-- ♡ 未登録：お気に入りに追加 -->
-    <%= button_to question_list_questions_path(question_obj),
-                  method: :post,
-                  class: "favorite-button text-error flex items-center justify-center text-2xl" do %>
-      <i class="fa-regular fa-heart"></i>
-    <% end %>
+    <div id="favorite-btn-<%= question_obj.id %>">
+      <%= button_to question_list_questions_path(question_obj),
+                    method: :post,
+                    class: "favorite-button text-error flex items-center justify-center text-2xl" do %>
+        <i class="fa-regular fa-heart"></i>
+      <% end %>
+    </div>
   <% end %>
 <% end %>
