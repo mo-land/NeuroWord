@@ -30,7 +30,14 @@
                 <div class="card-title justify-end">
                   <div class="flex flex-wrap justify-center gap-4">
                     <div class="flex items-center gap-2 lg:gap-4">
-                      <%= render 'shared/favorite_button' %>
+                      <div class="flex gap-1">
+                        <div class="button-hover flex items-center justify-center">
+                          <%= render 'shared/favorite_button' %>
+                        </div>
+                        <div class="button-hover flex items-center justify-center">
+                          <%= render 'shared/liked_count' %>
+                        </div>
+                      </div>
                        <% if current_user && current_user.own?(@question) %>
                         <!-- Twitter/X シェア -->
                         <%= link_to "https://twitter.com/intent/tweet?text=#{CGI.escape("NeuroWordで「#{@question.title}」を作ったよ！\n挑戦してみてね🙌\n\n#仲間言葉探し #単語ゲーム")}&url=#{CGI.escape("#{request.base_url}/games/#{@question.id}?from=creator")}",

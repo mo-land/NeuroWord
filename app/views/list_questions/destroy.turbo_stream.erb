@@ -2,14 +2,6 @@
   <%= turbo_stream.update "list_questions" do %>
     <%= render partial: "users/list_questions", locals: { list_questions: @list_questions, list_id: @list.id } %>
   <% end %>
-<% elsif @context == 'game_records' && @game_records %>
-  <% @game_records.each do |game_record| %>
-    <%= turbo_stream.replace "game-record-#{game_record.id}" do %>
-      <%= render 'shared/favorite_button', question: @question, unique_id: "game-record-#{game_record.id}", context: 'game_records' %>
-    <% end %>
-  <% end %>
 <% else %>
-  <%= turbo_stream.replace "favorite-btn-#{@question.id}" do %>
-    <%= render 'shared/favorite_button', question: @question %>
-  <% end %>
+  <%= render 'update_favorite_and_liked_count', question: @question, context: @context, game_records: @game_records %>
 <% end %>

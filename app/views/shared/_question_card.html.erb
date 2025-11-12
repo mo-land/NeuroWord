@@ -32,8 +32,13 @@
       </div>
 
       <div class="absolute bottom-4 right-4 flex items-center gap-4 text-sm opacity-70">
-        <div class="button-hover">
-          <%= render 'shared/favorite_button', question: question, list_id: list_id %>
+        <div class="flex gap-2">
+          <div class="button-hover flex items-center justify-center">
+            <%= render 'shared/favorite_button', question: question, list_id: list_id %>
+          </div>
+          <div class="button-hover flex items-center justify-center">
+            <%= render 'shared/liked_count', question: question %>
+          </div>
         </div>
         <% if current_user && current_user.own?(question) %>
           <div class="flex gap-4 items-center justify-center">

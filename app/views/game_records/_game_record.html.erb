@@ -10,7 +10,14 @@
           <div class="ml-4"><%= "⏱: #{Time.at(game_record.completion_time_seconds).utc.strftime("%M:%S.%2N")}" %></div>
           <div class="ml-4"><%= "正答率: #{game_record.accuracy}%" %></div>
           <div class="ml-6">
-            <%= render 'shared/favorite_button', question: game_record.question, unique_id: "game-record-#{game_record.id}", context: 'game_records' %>
+            <div class="flex gap-2">
+              <div class="button-hover flex items-center justify-center">
+                <%= render 'shared/favorite_button', question: game_record.question, unique_id: "game-record-#{game_record.id}", context: 'game_records' %>
+              </div>
+              <div class="button-hover flex items-center justify-center">
+                <%= render 'shared/liked_count', question: game_record.question, unique_id: "liked-count-game-record-#{game_record.id}" %>
+              </div>
+            </div>
           </div>
         </div>
       </div>

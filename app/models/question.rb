@@ -131,6 +131,10 @@ class Question < ApplicationRecord
     User.joins(lists: :list_questions).where(list_questions: { question_id: id }).distinct
   end
 
+  def liked_users_count
+    liked_users.count
+  end
+
   private
 
   def maximum_total_cards_limit
