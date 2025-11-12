@@ -9,30 +9,32 @@
 %>
 
 <%= turbo_frame_tag unique_id do %>
-  <div data-controller="favorite-modal">
-    <button
-      type="button"
-      class="flex items-center cursor-pointer"
-      data-action="click->favorite-modal#open"
-    >
-      <%= question_obj.liked_users_count %>
-    </button>
+<% if user_signed_in? %>
+    <div data-controller="favorite-modal">
+      <button
+        type="button"
+        class="flex items-center cursor-pointer"
+        data-action="click->favorite-modal#open"
+      >
+        <%= question_obj.liked_users_count %>
+      </button>
 
-    <!-- モーダル本体 -->
-    <dialog id="liked-count-modal-<%= unique_id %>" class="modal" data-favorite-modal-target="modal">
-      <div class="modal-box">
-        <h3 class="text-lg font-bold mb-4">いいねしたユーザー</h3>
-        <div class="space-y-2">
-          <% question_obj.liked_users.each do |user| %>
-            <div class="flex items-center space-x-2 gap-2 lg:text-lg">
-              <span><%= user.name %></span>
-            </div>
-          <% end %>
+      <!-- モーダル本体 -->
+      <dialog id="liked-count-modal-<%= unique_id %>" class="modal" data-favorite-modal-target="modal">
+        <div class="modal-box">
+          <h3 class="text-lg font-bold mb-4">いいねしたユーザー</h3>
+          <div class="space-y-2">
+            <% question_obj.liked_users.each do |user| %>
+              <div class="flex items-center space-x-2 gap-2 lg:text-lg">
+                <span><%= user.name %></span>
+              </div>
+            <% end %>
+          </div>
         </div>
-      </div>
-      <form method="dialog" class="modal-backdrop">
-        <button>閉じる</button>
-      </form>
-    </dialog>
-  </div>
+        <form method="dialog" class="modal-backdrop">
+          <button>閉じる</button>
+        </form>
+      </dialog>
+    </div>
+  <% end %>
 <% end %>
