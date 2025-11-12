@@ -4,8 +4,14 @@
       <%= render 'shared/favorite_button', question: @question, unique_id: "game-record-#{game_record.id}", context: 'game_records' %>
     <% end %>
   <% end %>
+  <%= turbo_stream.replace "liked-count-#{@question.id}" do %>
+    <%= render 'shared/liked_count', question: @question %>
+  <% end %>
 <% else %>
   <%= turbo_stream.replace "favorite-btn-#{@question.id}" do %>
     <%= render 'shared/favorite_button', question: @question %>
+  <% end %>
+  <%= turbo_stream.replace "liked-count-#{@question.id}" do %>
+    <%= render 'shared/liked_count', question: @question %>
   <% end %>
 <% end %>
