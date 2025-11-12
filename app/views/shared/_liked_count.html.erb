@@ -1,0 +1,34 @@
+<%
+  # ローカル変数
+  # question: 問題オブジェクト（必須）
+  # unique_id: HTML要素のユニークID（オプション。デフォルトは "liked-count-#{question.id}"）
+  question_obj = local_assigns[:question] || @question
+  unique_id = local_assigns[:unique_id] || "liked-count-#{question_obj.id}"
+%>
+
+<div data-controller="favorite-modal">
+  <button
+    type="button"
+    class="flex items-center cursor-pointer"
+    data-action="click->favorite-modal#open"
+  >
+    <%= question_obj.liked_users_count %>
+  </button>
+
+  <!-- モーダル本体 -->
+  <dialog id="liked-count-modal-<%= unique_id %>" class="modal" data-favorite-modal-target="modal">
+    <div class="modal-box">
+      <h3 class="text-lg font-bold mb-4">いいねしたユーザー</h3>
+      <div class="space-y-2">
+        <% question_obj.liked_users.each do |user| %>
+          <div class="flex items-center space-x-2 gap-2 lg:text-lg">
+            <span><%= user.name %></span>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+      <button>閉じる</button>
+    </form>
+  </dialog>
+</div>
