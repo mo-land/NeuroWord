@@ -17,7 +17,14 @@
                 <%= render 'shared/category_and_tags' %>
               </div>
           </div>
-          <%= render 'shared/favorite_button' %>
+          <div class="flex gap-1">
+            <div class="button-hover flex items-center justify-center">
+              <%= render 'shared/favorite_button' %>
+            </div>
+            <div class="button-hover flex items-center justify-center">
+              <%= render 'shared/liked_count' %>
+            </div>
+          </div>
         </div>
     </div>
 
