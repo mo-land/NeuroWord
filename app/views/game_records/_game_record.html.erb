@@ -15,7 +15,7 @@
                 <%= render 'shared/favorite_button', question: game_record.question, unique_id: "game-record-#{game_record.id}", context: 'game_records' %>
               </div>
               <div class="button-hover flex items-center justify-center">
-                <%= render 'shared/liked_count', question: game_record.question, context: 'game_records' %>
+                <%= render 'shared/liked_count', question: game_record.question, unique_id: "liked-count-game-record-#{game_record.id}" %>
               </div>
             </div>
           </div>
