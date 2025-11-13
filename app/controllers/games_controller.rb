@@ -16,6 +16,14 @@ class GamesController < ApplicationController
     # OGP画像の動的設定（経由元に応じて切り替え）
     set_dynamic_ogp_image
 
+    # まとめてプレイモードの情報をビューに渡す
+    @batch_play_mode = session[:batch_play_mode] || false
+    if @batch_play_mode
+      question_ids = session[:batch_play_question_ids] || []
+      current_index = session[:batch_play_current_index] || 0
+      @batch_play_progress = "#{current_index + 1} / #{question_ids.length}"
+    end
+
     # セッションでゲーム状態管理
     session[:game_question_id] = @question.id
     session[:correct_matches] = []

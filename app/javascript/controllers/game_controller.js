@@ -20,10 +20,11 @@ export default class extends Controller {
     this.correctMatches = 0
     this.totalMatches = parseInt(this.data.get("totalMatches"))
     this.questionId = this.data.get("questionId")
+    this.batchPlayMode = this.data.get("batchPlayMode") === "true"
     this.startTime = Date.now()
     this.timerInterval = setInterval(() => this.updateTimer(), 1000)
     this.gameState = "SELECT_ORIGIN" // "SELECT_ORIGIN" or "SELECT_RELATED"
-    
+
     // クリック数追跡用
     this.totalClicks = 0
     this.correctClicks = 0
@@ -223,7 +224,7 @@ export default class extends Controller {
 
     // ゲーム記録を保存
     try {
-      await fetch(`/game_records`, {
+      const response = await fetch(`/game_records`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -234,18 +235,29 @@ export default class extends Controller {
           give_up: false
         })
       })
+
+      // まとめてプレイモードの場合、JSONレスポンスを確認
+      if (this.batchPlayMode) {
+        const data = await response.json()
+        if (data.batch_play && data.next_url) {
+          // 次のゲームまたは結果画面へ遷移
+          window.location.href = data.next_url
+          return
+        }
+      }
+
+      // 通常モード：モーダルを表示
+      const elapsed = Math.floor((Date.now() - this.startTime) / 1000)
+      const minutes = Math.floor(elapsed / 60)
+      const seconds = elapsed % 60
+
+      this.finalScoreTarget.textContent = this.correctMatches
+      this.finalTimeTarget.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+
+      this.completionModalTarget.classList.add("modal-open")
     } catch (error) {
       console.error('Error saving game record:', error)
     }
-
-    const elapsed = Math.floor((Date.now() - this.startTime) / 1000)
-    const minutes = Math.floor(elapsed / 60)
-    const seconds = elapsed % 60
-    
-    this.finalScoreTarget.textContent = this.correctMatches
-    this.finalTimeTarget.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
-    
-    this.completionModalTarget.classList.add("modal-open")
   }
 
   async giveUp() {

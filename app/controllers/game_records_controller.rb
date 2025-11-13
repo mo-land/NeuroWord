@@ -1,7 +1,7 @@
 class GameRecordsController < ApplicationController
   include FindQuestion
 
-  before_action :authenticate_user!, only: %i[create]
+  before_action :authenticate_user!, only: %i[create batch_results]
   before_action :set_question, only: %i[create show]
 
   def create
@@ -17,7 +17,39 @@ class GameRecordsController < ApplicationController
       )
     end
 
-    redirect_to game_record_path(@question)
+    # まとめてプレイモードの場合
+    if session[:batch_play_mode]
+      # 結果を保存
+      session[:batch_play_results] ||= []
+      session[:batch_play_results] << {
+        question_id: @question.id,
+        game_record_id: @game_record&.id,
+        total_matches: session[:correct_matches]&.length || 0,
+        accuracy: calculate_current_accuracy,
+        completion_time_seconds: Time.current.to_f - start_time,
+        given_up: params[:give_up] == "true"
+      }
+
+      # 次の問題へ
+      session[:batch_play_current_index] = (session[:batch_play_current_index] || 0) + 1
+      question_ids = session[:batch_play_question_ids]
+
+      if session[:batch_play_current_index] < question_ids.length
+        # 次のゲームへ - JSONでリダイレクト先を返す
+        render json: {
+          batch_play: true,
+          next_url: game_path(question_ids[session[:batch_play_current_index]])
+        }
+      else
+        # 全て完了：結果画面へ - JSONでリダイレクト先を返す
+        render json: {
+          batch_play: true,
+          next_url: batch_results_game_records_path
+        }
+      end
+    else
+      redirect_to game_record_path(@question)
+    end
   end
 
   def show
@@ -49,6 +81,44 @@ class GameRecordsController < ApplicationController
     @required_matches = session[:total_required_matches] || @question.card_sets.sum { |cs| cs.related_words.count }
   end
 
+  def batch_results
+    # まとめてプレイの結果を取得
+    @results = session[:batch_play_results] || []
+    @list_id = session[:batch_play_list_id]
+
+    if @results.empty?
+      redirect_to mypage_user_path, alert: "まとめてプレイの結果がありません"
+      return
+    end
+
+    # 結果の詳細を取得（セッションのキーは文字列になっている可能性があるため両方対応）
+    @detailed_results = @results.map do |result|
+      # シンボルと文字列の両方に対応
+      result = result.with_indifferent_access if result.is_a?(Hash)
+
+      question = Question.find(result[:question_id])
+      game_record = result[:game_record_id] ? GameRecord.find(result[:game_record_id]) : nil
+
+      {
+        question: question,
+        game_record: game_record,
+        total_matches: result[:total_matches],
+        accuracy: result[:accuracy],
+        completion_time_seconds: result[:completion_time_seconds],
+        given_up: result[:given_up]
+      }
+    end
+
+    # 統計情報を計算
+    @total_games = @results.length
+    @average_accuracy = (@results.sum { |r| (r[:accuracy] || r['accuracy']).to_f } / @total_games.to_f).round(1)
+    @total_time = @results.sum { |r| (r[:completion_time_seconds] || r['completion_time_seconds']).to_f }
+    @completed_games = @results.count { |r| !(r[:given_up] || r['given_up']) }
+
+    # セッションをクリア
+    clear_batch_play_session
+  end
+
   private
 
   def game_record_params
@@ -58,5 +128,13 @@ class GameRecordsController < ApplicationController
   def calculate_current_accuracy
     return 0 if session[:total_clicks].to_i == 0
     (session[:correct_clicks].to_f / session[:total_clicks] * 100).round(1)
+  end
+
+  def clear_batch_play_session
+    session.delete(:batch_play_mode)
+    session.delete(:batch_play_question_ids)
+    session.delete(:batch_play_current_index)
+    session.delete(:batch_play_results)
+    session.delete(:batch_play_list_id)
   end
 end
