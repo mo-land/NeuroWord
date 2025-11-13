@@ -1,6 +1,6 @@
 <% if user_signed_in? %>
   <%= form_with url: request.path, method: :get, local: true, class: "flex gap-2 items-center" do |f| %>
-    <%= f.check_box :filter_understood, { class: "checkbox", checked: params[:filter_understood] == '1', onchange: "this.form.submit()" }, '1', '0' %>
+    <%= f.check_box :filter_understood, { class: "checkbox", checked: filter_understood_enabled?, onchange: "this.form.submit()" }, '1', '0' %>
     <span class="text-base-content/80">正答率80%以上（直近2週間以内）を除外</span>
     <%= hidden_field_tag :category_id, params[:category_id] if params[:category_id].present? %>
     <%= hidden_field_tag :tab, params[:tab] if params[:tab].present? %>

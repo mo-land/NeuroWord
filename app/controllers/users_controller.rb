@@ -1,13 +1,18 @@
 class UsersController < ApplicationController
+  include Filterable
+
   before_action :authenticate_user!
   before_action :set_user
 
   def mypage
+    # クッキーに設定を保存
+    save_filter_understood_preference
+
     @questions = @user.questions.includes(:category).page(params[:questions_page])
 
     # プレイ履歴のフィルタリング
     game_records_query = @user.game_records.includes(:question).order(created_at: :desc)
-    if params[:filter_understood] == '1'
+    if filter_understood_enabled?
       understood_ids = GameRecord.understood_question_ids_for(@user)
       game_records_query = game_records_query.where.not(question_id: understood_ids) if understood_ids.present?
     end
@@ -24,7 +29,7 @@ class UsersController < ApplicationController
 
     # リストの問題をリスト追加降順で取得（フィルタリング適用）
     list_questions_query = @list.questions.order("list_questions.created_at DESC")
-    if params[:filter_understood] == '1'
+    if filter_understood_enabled?
       understood_ids = GameRecord.understood_question_ids_for(@user)
       list_questions_query = list_questions_query.where.not(id: understood_ids) if understood_ids.present?
     end
