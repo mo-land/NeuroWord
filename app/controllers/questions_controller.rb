@@ -1,8 +1,13 @@
 class QuestionsController < ApplicationController
+  include Filterable
+
   before_action :authenticate_user!, except: %i[index show search_tag ]
   before_action :set_category, only: %i[index new create edit update]
 
   def index
+    # クッキーに設定を保存
+    save_filter_understood_preference
+
     # ベースとなるクエリを作成
     base_query = Question.all
 
@@ -12,6 +17,12 @@ class QuestionsController < ApplicationController
       # 選択されたカテゴリとその子孫カテゴリの問題を取得
       category_ids = @selected_category.subtree_ids
       base_query = base_query.where(category_id: category_ids)
+    end
+
+    # 理解済み問題の除外（ログインユーザーのみ）
+    if current_user && filter_understood_enabled?
+      understood_ids = GameRecord.understood_question_ids_for(current_user)
+      base_query = base_query.where.not(id: understood_ids) if understood_ids.present?
     end
 
     # Ransack検索
