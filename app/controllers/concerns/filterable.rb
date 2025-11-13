@@ -11,10 +11,10 @@ module Filterable
   def filter_understood_enabled?
     # パラメータで明示的に指定されている場合はそれを優先
     if params[:filter_understood].present?
-      params[:filter_understood] == '1'
+      params[:filter_understood] == "1"
     else
       # クッキーから取得（デフォルトはfalse）
-      cookies[:filter_understood] == '1'
+      cookies[:filter_understood] == "1"
     end
   end
 
