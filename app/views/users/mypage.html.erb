@@ -32,12 +32,7 @@
       <div id="list_selector_container" class="mb-4">
         <%= render "list_selector", lists: @lists, selected_list_id: @list.id %>
       </div>
-<%
-=begin%>
-      連続プレイ機能実装時に使用
-      <%= link_to '連続プレイ', '#', class: "btn btn-secondary lg:mt-7" %>
-<%
-=end%>
+
 
       <div class="flex gap-4">
         <div data-controller="list-modal" data-action="turbo:submit-end->list-modal#handleSubmitEnd" class="<%= 'hidden' if @list.is_favorite %>">
@@ -71,6 +66,13 @@
     </div>
 
     <%= render 'shared/filter_out_understood_questions' %>
+
+    <% if @list_questions.present? %>
+      <%= link_to batch_play_list_path(@list), class: "btn btn-secondary mt-4 mb-4" do %>
+        <i class="fa-solid fa-play"></i>
+        このリストをまとめてプレイ
+      <% end %>
+    <% end %>
 
     <%= turbo_frame_tag "list_questions" do %>
       <%= render partial: "users/list_questions", locals: { list_questions: @list_questions, list_id: @list.id } %>
