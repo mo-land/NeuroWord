@@ -1,8 +1,9 @@
 <% breadcrumb :games_show, @question %>
-<div class="min-h-screen bg-gradient-to-br from-primary/10 to-secondary/10 p-4" 
-     data-controller="game" 
+<div class="min-h-screen bg-gradient-to-br from-primary/10 to-secondary/10 p-4"
+     data-controller="game"
      data-game-question-id="<%= @question.id %>"
-     data-game-total-matches="<%= @game_data[:relateds].count %>">
+     data-game-total-matches="<%= @game_data[:relateds].count %>"
+     data-game-batch-play-mode="<%= @batch_play_mode %>">
 
   <!-- ヘッダー -->
   <div class="container mx-auto mb-6">
@@ -11,6 +12,9 @@
       <%= render 'requests/incompleted_request_btn', question: @question %>
     <% end %>
       <div class="flex-1 min-w-0">
+        <% if @batch_play_mode %>
+          <div class="badge badge-secondary mb-2">まとめてプレイ <%= @batch_play_progress %></div>
+        <% end %>
         <h1 class="text-2xl font-bold font-mplus1 break-words"><%= @question.title %></h1>
         <p class="text-base-content/70 break-words mb-2"><%= @question.description %></p>
         <%= render 'shared/category_and_tags' %>
