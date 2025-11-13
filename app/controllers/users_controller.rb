@@ -4,7 +4,14 @@ class UsersController < ApplicationController
 
   def mypage
     @questions = @user.questions.includes(:category).page(params[:questions_page])
-    @game_records = @user.game_records.includes(:question).order(created_at: :desc).page(params[:game_records_page]).per(10)
+
+    # プレイ履歴のフィルタリング
+    game_records_query = @user.game_records.includes(:question).order(created_at: :desc)
+    if params[:filter_understood] == '1'
+      understood_ids = GameRecord.understood_question_ids_for(@user)
+      game_records_query = game_records_query.where.not(question_id: understood_ids) if understood_ids.present?
+    end
+    @game_records = game_records_query.page(params[:game_records_page]).per(10)
 
     # ユーザーの全リストを取得（お気に入りと通常リストを分けて結合）
     favorite_lists = @user.lists.where(is_favorite: true)
@@ -15,9 +22,13 @@ class UsersController < ApplicationController
     @selected_list_id = params[:list_id] || @user.favorite_list.id
     @list = @lists.find { |list| list.id == @selected_list_id.to_i } || @user.favorite_list
 
-    # リストの問題をリスト追加降順で取得
-    @list_questions = @list.questions
-                           .order("list_questions.created_at DESC")
+    # リストの問題をリスト追加降順で取得（フィルタリング適用）
+    list_questions_query = @list.questions.order("list_questions.created_at DESC")
+    if params[:filter_understood] == '1'
+      understood_ids = GameRecord.understood_question_ids_for(@user)
+      list_questions_query = list_questions_query.where.not(id: understood_ids) if understood_ids.present?
+    end
+    @list_questions = list_questions_query
 
     @current_tab = params[:tab] || "user_questions"
   end

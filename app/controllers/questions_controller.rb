@@ -14,6 +14,12 @@ class QuestionsController < ApplicationController
       base_query = base_query.where(category_id: category_ids)
     end
 
+    # 理解済み問題の除外（ログインユーザーのみ）
+    if current_user && params[:filter_understood] == '1'
+      understood_ids = GameRecord.understood_question_ids_for(current_user)
+      base_query = base_query.where.not(id: understood_ids) if understood_ids.present?
+    end
+
     # Ransack検索
     @search = base_query.ransack(params[:q])
     @search_questions = @search.result(distinct: true)

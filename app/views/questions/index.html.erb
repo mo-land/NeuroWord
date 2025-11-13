@@ -9,7 +9,7 @@
   <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
   <div class="drawer-content flex flex-col lg:ml-72">
     <!-- Page content here -->
-    <div class="px-4 lg:px-6 pt-2">
+    <div class="px-4 lg:px-6 py-2">
       <%= breadcrumbs separator: " &rsaquo; " %>
     </div>
     <div class="flex gap-1">
@@ -19,6 +19,9 @@
       </label>
       <%= render 'search_form' %>
     </div>
+        <div class="px-3">
+          <%= render 'shared/filter_out_understood_questions' %>
+        </div>
         <%= paginate @search_questions %>
         <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 mx-auto max-w-screen-6xl py-8 items-stretch">
         <!-- 問題一覧 -->

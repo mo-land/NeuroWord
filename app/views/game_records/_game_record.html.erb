@@ -1,26 +1,28 @@
-<% @game_records.each do |game_record| %>
-  <div id="game_record-id-<%= game_record.id %>">
-    <li class="list-row">
-      <div>
+<ul class="list bg-base-100 rounded-box">
+  <% @game_records.each do |game_record| %>
+    <div id="game_record-id-<%= game_record.id %>">
+      <li class="list-row">
         <div>
-          <%= link_to game_record.question.title, game_path(game_record.question), class: "link text-xl" %>
-        </div>
-        <div class="flex items-center justify-center text-sm font-semibold opacity-60">
-          <div><%= l game_record.created_at, format: :short %></div>
-          <div class="ml-4"><%= "⏱: #{Time.at(game_record.completion_time_seconds).utc.strftime("%M:%S.%2N")}" %></div>
-          <div class="ml-4"><%= "正答率: #{game_record.accuracy}%" %></div>
-          <div class="ml-6">
-            <div class="flex gap-2">
-              <div class="button-hover flex items-center justify-center">
-                <%= render 'shared/favorite_button', question: game_record.question, unique_id: "game-record-#{game_record.id}", context: 'game_records' %>
-              </div>
-              <div class="button-hover flex items-center justify-center">
-                <%= render 'shared/liked_count', question: game_record.question, unique_id: "liked-count-game-record-#{game_record.id}" %>
+          <div>
+            <%= link_to game_record.question.title, game_path(game_record.question), class: "link text-xl" %>
+          </div>
+          <div class="flex items-center justify-center text-sm font-semibold opacity-60">
+            <div><%= l game_record.created_at, format: :short %></div>
+            <div class="ml-4"><%= "⏱: #{Time.at(game_record.completion_time_seconds).utc.strftime("%M:%S.%2N")}" %></div>
+            <div class="ml-4"><%= "正答率: #{game_record.accuracy}%" %></div>
+            <div class="ml-6">
+              <div class="flex gap-2">
+                <div class="button-hover flex items-center justify-center">
+                  <%= render 'shared/favorite_button', question: game_record.question, unique_id: "game-record-#{game_record.id}", context: 'game_records' %>
+                </div>
+                <div class="button-hover flex items-center justify-center">
+                  <%= render 'shared/liked_count', question: game_record.question, unique_id: "liked-count-game-record-#{game_record.id}" %>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </li>
-  </div>
-<% end %>
+      </li>
+    </div>
+  <% end %>
+</ul>
