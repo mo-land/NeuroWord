@@ -34,12 +34,20 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :game_records, only: %i[create show]
+  resources :game_records, only: %i[create show] do
+    collection do
+      get :batch_results
+    end
+  end
   resources :requests, only: %i[index new create show] do
     resources :request_responses, only: %i[create], shallow: true
   end
 
-  resources :lists, only: %i[new create edit update destroy]
+  resources :lists, only: %i[new create edit update destroy] do
+    member do
+      get :batch_play
+    end
+  end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

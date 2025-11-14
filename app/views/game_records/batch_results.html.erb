@@ -1,0 +1,178 @@
+<% if @list %>
+  <% breadcrumb :batch_play_results, @list %>
+<% end %>
+<div class="min-h-screen p-4">
+  <div class="container mx-auto max-w-4xl">
+
+    <!-- ヘッダー -->
+    <div class="card">
+      <div class="card-body shadow-md mb-4">
+        <div class="text-center">
+          <h1 class="text-4xl font-bold">🎉 まとめてプレイ結果</h1>
+          <p class="mt-2 text-lg">お疲れ様でした！</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 統計サマリー -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+      <!-- プレイ数 -->
+      <div class="stat bg-gradient-to-br from-primary to-primary-focus text-primary-content rounded-lg shadow-xl">
+        <div class="stat-figure">
+          <i class="fas fa-gamepad text-3xl"></i>
+        </div>
+        <div class="stat-title text-primary-content/70">プレイ数</div>
+        <div class="stat-value text-lg"><%= @total_games %></div>
+        <div class="stat-desc text-primary-content/70">問題</div>
+      </div>
+
+      <!-- 平均正答率 -->
+      <div class="stat bg-gradient-to-br from-success to-success-focus text-success-content rounded-lg shadow-xl">
+        <div class="stat-figure">
+          <i class="fas fa-percentage text-3xl"></i>
+        </div>
+        <div class="stat-title text-success-content/70">平均正答率</div>
+        <div class="stat-value text-lg"><%= @average_accuracy %></div>
+        <div class="stat-desc text-success-content/70">%</div>
+      </div>
+
+      <!-- 完了数 -->
+      <div class="stat bg-gradient-to-br from-warning to-warning-focus text-warning-content rounded-lg shadow-xl">
+        <div class="stat-figure">
+          <i class="fas fa-check-circle text-3xl"></i>
+        </div>
+        <div class="stat-title text-warning-content/70">完了数</div>
+        <div class="stat-value text-lg"><%= @completed_games %></div>
+        <div class="stat-desc text-warning-content/70">/ <%= @total_games %> 問</div>
+      </div>
+
+      <!-- 合計時間 -->
+      <div class="stat bg-gradient-to-br from-info to-info-focus text-info-content rounded-lg shadow-xl">
+        <div class="stat-figure">
+          <i class="fas fa-clock text-3xl"></i>
+        </div>
+        <div class="stat-title text-info-content/70">合計時間</div>
+        <div class="stat-value text-lg">
+          <%= sprintf("%02d:%02d", (@total_time / 60).to_i, (@total_time % 60).to_i) %>
+        </div>
+        <div class="stat-desc text-info-content/70">分:秒</div>
+      </div>
+    </div>
+
+    <!-- パフォーマンス評価 -->
+    <div class="card bg-base-100 card-sm shadow-xl mb-8">
+      <div class="card-body text-center">
+        <% if @average_accuracy == 100 %>
+          <h3 class="card-title justify-center text-2xl text-success">
+            <i class="fas fa-crown mr-2"></i>
+            全問パーフェクト！
+          </h3>
+          <p class="text-lg">素晴らしい！全ての問題を完璧にクリアしました🎉</p>
+        <% elsif @average_accuracy >= 80 %>
+          <h3 class="card-title justify-center text-2xl text-primary">
+            <i class="fas fa-star mr-2"></i>
+            エクセレント！
+          </h3>
+          <p class="text-lg">とても良い成績です👏</p>
+        <% elsif @average_accuracy >= 60 %>
+          <h3 class="card-title justify-center text-2xl text-warning">
+            <i class="fas fa-thumbs-up mr-2"></i>
+            グッド！
+          </h3>
+          <p class="text-lg">良い成績です。もう少しで完璧！</p>
+        <% else %>
+          <h3 class="card-title justify-center text-2xl text-error">
+            <i class="fas fa-redo mr-2"></i>
+            コツコツ頑張ろう！✨
+          </h3>
+          <p class="text-lg">練習すればきっと上達します💪</p>
+        <% end %>
+      </div>
+      <!-- シェアセクション -->
+        <h3 class="card-title justify-center text-2xl">
+        <div class="flex flex-wrap justify-center gap-4">
+          <!-- Twitter/X シェア -->
+          <%= link_to "https://twitter.com/intent/tweet?text=#{CGI.escape("NeuroWordで【まとめてプレイモード(#{@total_games}問)】に挑戦！\n正答率: #{@average_accuracy}% \n時間: #{sprintf('%02d:%02d', (@total_time / 60).to_i, (@total_time % 60).to_i)}\n\n#仲間言葉探し #単語ゲーム")}&url=#{CGI.escape("#{request.base_url}?from=batch_result&q=#{@ogp_question_ids}")}",
+                  target: "_blank",
+                  class: "btn btn-neutral text-2xl shadow-xl mb-8" do %>
+            <div>
+            <i class="fab fa-x-twitter mr-2"></i>
+            で結果をシェア！
+            </div>
+          <% end %>
+        </div>
+        </h3>
+    </div>
+
+    <!-- 各問題の結果 -->
+    <div class="card bg-base-100 shadow-xl mb-8">
+      <div class="card-body">
+        <h3 class="card-title mb-4">
+          <i class="fas fa-list-check text-primary mr-2"></i>
+          各問題の結果
+        </h3>
+        <div class="space-y-4">
+          <% @detailed_results.each_with_index do |result, index| %>
+            <div class="card bg-base-200 shadow">
+              <div class="card-body p-4">
+                <div class="flex justify-between items-center">
+                  <div class="flex-1">
+                    <h4 class="font-bold text-lg">
+                      <%= index + 1 %>. <%= result[:question].title %>
+                      <% if result[:given_up] %>
+                        <span class="badge badge-error ml-2">ギブアップ</span>
+                      <% else %>
+                        <span class="badge badge-success ml-2">完了</span>
+                      <% end %>
+                    </h4>
+                    <div class="flex gap-4 mt-2 text-sm">
+                      <span>
+                        <i class="fas fa-bullseye text-primary mr-1"></i>
+                        正解: <%= result[:total_matches] %>問
+                      </span>
+                      <span>
+                        <i class="fas fa-percentage text-success mr-1"></i>
+                        正答率: <%= result[:accuracy] %>%
+                      </span>
+                      <span>
+                        <i class="fas fa-clock text-info mr-1"></i>
+                        時間: <%= sprintf("%02d:%02d", (result[:completion_time_seconds] / 60).to_i, (result[:completion_time_seconds] % 60).to_i) %>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="flex gap-2">
+                    <%= link_to "詳細", question_path(result[:question]), class: "btn btn-sm btn-outline" %>
+                    <%= link_to "再挑戦", game_path(result[:question]), class: "btn btn-sm btn-primary" %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- アクションボタン -->
+    <div class="flex flex-wrap justify-center gap-4">
+      <% if @list_id %>
+        <%= link_to mypage_user_path(tab: "user_lists", list_id: @list_id),
+                    class: "btn btn-primary btn-lg" do %>
+          <i class="fas fa-list mr-2"></i>
+          リストに戻る
+        <% end %>
+      <% end %>
+
+      <%= link_to mypage_user_path,
+                  class: "btn btn-outline btn-lg" do %>
+        <i class="fas fa-home mr-2"></i>
+        マイページへ
+      <% end %>
+
+      <%= link_to questions_path,
+                  class: "btn btn-ghost btn-lg" do %>
+        <i class="fas fa-search mr-2"></i>
+        問題を探す
+      <% end %>
+    </div>
+  </div>
+</div>
