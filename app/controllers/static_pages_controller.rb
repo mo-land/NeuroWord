@@ -1,5 +1,4 @@
 class StaticPagesController < ApplicationController
-  
   def top
     set_dynamic_ogp_image
   end
@@ -12,7 +11,7 @@ class StaticPagesController < ApplicationController
       # まとめてプレイモード結果からのシェア（batch_result.html.erb からのリンク）
       # パラメータから問題IDと総数を取得（例: q=123,456,789&total=5）
       if params[:q].present?
-        question_ids = params[:q].split(',').first(3).map(&:to_i)
+        question_ids = params[:q].split(",").first(3).map(&:to_i)
         total_count = params[:total].to_i
 
         # 問題タイトルを取得（絵文字を除去）

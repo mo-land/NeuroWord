@@ -23,7 +23,7 @@ class GamesController < ApplicationController
 
     # 遷移元をチェック
     referer = request.referer || ""
-    from_mypage_lists = referer.include?("user/mypage") && referer.include?("tab=user_lists") 
+    from_mypage_lists = referer.include?("user/mypage") && referer.include?("tab=user_lists")
     from_batch_game = referer.include?("/games/") && session[:batch_play_mode]
 
     # バッチプレイモード中だが、以下の条件を満たす場合はセッションをクリア
