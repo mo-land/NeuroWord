@@ -1,5 +1,5 @@
 <% breadcrumb :games_show, @question %>
-<div class="min-h-screen bg-gradient-to-br from-primary/10 to-secondary/10 p-4"
+<div class="min-h-screen p-4"
      data-controller="game"
      data-game-question-id="<%= @question.id %>"
      data-game-total-matches="<%= @game_data[:relateds].count %>"
@@ -7,70 +7,71 @@
 
   <!-- ヘッダー -->
   <div class="container mx-auto mb-6">
-    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center bg-base-100 rounded-lg p-4 shadow-lg gap-4">
+    <div class="flex flex-wrap basis-1/2 sm:flex-nowrap sm:items-center bg-base-100 rounded-lg p-4 gap-4 lg:gap-2 max-w-3xl">
     <% if has_incompleted_requests?(@question) %>
       <%= render 'requests/incompleted_request_btn', question: @question %>
     <% end %>
       <div class="flex-1 min-w-0">
-        <% if @batch_play_mode %>
-          <div class="badge badge-secondary mb-2">まとめてプレイ <%= @batch_play_progress %></div>
-        <% end %>
         <h1 class="text-2xl font-bold font-mplus1 break-words"><%= @question.title %></h1>
-        <p class="text-base-content/70 break-words mb-2"><%= @question.description %></p>
-        <%= render 'shared/category_and_tags' %>
-      </div>
-      
-      <div class="flex flex-col items-end sm:items-end gap-2 w-full sm:w-auto">
-        <!-- ギブアップボタン -->
-        <button class="btn btn-outline btn-error w-full sm:w-auto"
-                data-action="click->game#giveUp">
-          <i class="fas fa-flag mr-2"></i>
-          ギブアップ
-        </button>
-          <%= render 'requests/request_btn' %>
-        <div class="stats stats-horizontal shadow w-full sm:w-auto">
-          <div class="stat">
-            <div class="stat-title">正解数</div>
-            <div class="stat-value text-error" data-game-target="score">0</div>
-            <div class="stat-desc">/ <%= @game_data[:relateds].count %></div>
+        <p class="text-base-content/70 break-words"><%= @question.description %></p>
+        <% if @batch_play_mode %>
+          <div class="flex gap-2 mt-4">
+            <div class="badge badge-secondary mt-2">まとめてプレイ <%= @batch_play_progress %></div>
+            <div class="tooltip tooltip-bottom" data-tip="次の問題へ">
+              <button class="btn btn-circle content-center" data-action="click->game#showSkipModal">
+                <i class="fas fa-forward"></i>
+              </button>
+            </div>
+
+
+            <div class="tooltip tooltip-bottom" data-tip="まとめてプレイを終了">
+              <button class="btn btn-circle content-center" data-action="click->game#showEndModal">
+                <i class="fas fa-stop"></i>
+              </button>
+            </div>
           </div>
-          <div class="stat">
-            <div class="stat-title">時間</div>
-            <div class="stat-value text-success" data-game-target="timer">00:00</div>
+        <% end %>
+      </div>
+
+      <div class="flex flex-col gap-2 w-full sm:w-auto">
+        <!-- ギブアップボタン（通常モードのみ表示） -->
+        <% unless @batch_play_mode %>
+          <button class="btn btn-outline btn-error w-full sm:w-auto"
+              data-action="click->game#giveUp">
+            <i class="fas fa-flag mr-2"></i>
+            ギブアップ
+          </button>
+        <% end %>
+        <div class="flex gap-4 text-sm">
+          <div>
+            <span class="font-semibold">正解数:</span>
+            <span class="text-error font-bold" data-game-target="score">0</span>/<%= @game_data[:relateds].count %>
+          </div>
+          <div>
+            <span class="font-semibold">時間:</span>
+            <span class="text-success font-bold" data-game-target="timer">00:00</span>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ゲーム説明 -->
-  <div class="container mx-auto mb-6">
-    <div class="alert alert-info">
-      <i class="fas fa-info-circle"></i>
-      <div>
-        <p class="font-bold">遊び方</p>
-        <p>1. 上部の起点カードをクリック → 2. その仲間の関連語をすべて選択 → 3. 次の起点カードを選択</p>
-        <p class="text-sm mt-1">同じ起点カードの関連語をすべて選び終えたら、次の起点カードを選択できます</p>
-      </div>
-    </div>
-  </div>
 
   <!-- 起点カード群（上部） -->
   <div class="container mx-auto mb-8">
     <h2 class="text-xl font-bold font-mplus1 mb-4 text-center">
-      <i class="fas fa-star text-warning mr-2"></i>
-      起点カード
+  <i class="fas fa-star text-warning mr-2"></i>
+  起点カード
     </h2>
     
-    <div class="grid grid-cols-2 md:grid-cols-<%= [@game_data[:origins].count, 5].min %> gap-4 justify-center">
+    <div class="grid grid-cols-2 md:grid-cols-<%= [@game_data[:origins].count, 5].min %> gap-2 justify-center">
       <% @game_data[:origins].each do |origin_card| %>
         <div class="origin-card card bg-gradient-to-br from-primary to-primary-focus text-primary-content shadow-xl cursor-pointer transform transition-all duration-200 hover:scale-105" 
              data-game-target="originCard"
              data-set-id="<%= origin_card[:set_id] %>"
              data-action="click->game#selectOrigin">
           <div class="card-body text-center">
-            <i class="fas fa-star text-2xl mb-2"></i>
-            <h3 class="card-title justify-center text-lg"><%= origin_card[:word] %></h3>
+            <h3 class="card-title justify-center text-sm lg:text-lg"><%= origin_card[:word] %></h3>
           </div>
         </div>
       <% end %>
@@ -84,7 +85,7 @@
       関連語カード（上の起点カードの仲間を探そう！）
     </h2>
     
-    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2">
       <% @game_data[:relateds].each do |related_card| %>
         <div class="related-card card bg-gradient-to-br from-secondary to-secondary-focus text-secondary-content shadow-xl cursor-pointer transform transition-all duration-200 hover:scale-105" 
              data-game-target="relatedCard"
@@ -96,6 +97,25 @@
           </div>
         </div>
       <% end %>
+    </div>
+  </div>
+
+  <!-- ゲーム説明 -->
+  <div class="container mx-auto mt-12 lg:flex lg:gap-4">
+    <div class="alert alert-info lg:flex-1">
+      <i class="fas fa-info-circle"></i>
+      <div>
+        <p class="font-bold">遊び方</p>
+        <p>1. 上部の起点カードをクリック → 2. その仲間の関連語をすべて選択 → 3. 次の起点カードを選択</p>
+        <p class="text-sm mt-1">同じ起点カードの関連語をすべて選び終えたら、次の起点カードを選択できます</p>
+      </div>
+    </div>
+
+    <div class="alert alert-dash max-sm:alert-vertical alert-warning text-sm font-bold mt-4 lg:mt-0">
+      <i class="fa-solid fa-lightbulb"></i>
+      問題の誤りを発見された方は、修正依頼投稿ができます。<br>
+      ※ ログインが必要です。
+      <%= render 'requests/request_btn' %>
     </div>
   </div>
 
@@ -120,9 +140,49 @@
           <i class="fas fa-chart-line mr-2"></i>
           結果詳細を見る
         </a>
-        <%= link_to "問題一覧に戻る", questions_path, 
+        <%= link_to "問題一覧に戻る", questions_path,
                     class: "btn btn-ghost" %>
       </div>
     </div>
   </div>
+
+  <!-- まとめてプレイモード：スキップ確認モーダル -->
+  <% if @batch_play_mode %>
+    <div class="modal" data-game-target="skipModal">
+      <div class="modal-box">
+        <h3 class="font-bold text-lg">⚠️ 次の問題にスキップ</h3>
+        <p class="py-4">
+          この問題をスキップして次の問題に進みますか？
+        </p>
+        <div class="modal-action gap-2">
+          <button class="btn btn-primary" data-action="click->game#skipToNext">
+            <i class="fas fa-forward mr-2"></i>
+            スキップ
+          </button>
+          <button class="btn btn-ghost" data-action="click->game#closeSkipModal">
+            キャンセル
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- まとめてプレイモード：終了確認モーダル -->
+    <div class="modal" data-game-target="endModal">
+      <div class="modal-box">
+        <h3 class="font-bold text-lg">⚠️ まとめてプレイを終了</h3>
+        <p class="py-4">
+          まとめてプレイを終了して結果画面に進みますか？
+        </p>
+        <div class="modal-action gap-2">
+          <button class="btn btn-error" data-action="click->game#endBatchPlay">
+            <i class="fas fa-stop mr-2"></i>
+            終了
+          </button>
+          <button class="btn btn-ghost" data-action="click->game#closeEndModal">
+            キャンセル
+          </button>
+        </div>
+      </div>
+    </div>
+  <% end %>
 </div>
