@@ -3,15 +3,17 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = [
-    "originCard", 
-    "relatedCard", 
-    "score", 
-    "timer", 
-    "message", 
+    "originCard",
+    "relatedCard",
+    "score",
+    "timer",
+    "message",
     "messageText",
     "completionModal",
     "finalScore",
-    "finalTime"
+    "finalTime",
+    "skipModal",
+    "endModal"
   ]
 
   connect() {
@@ -261,6 +263,7 @@ export default class extends Controller {
   }
 
   async giveUp() {
+    // 通常モード：確認ダイアログ
     if (confirm("本当にギブアップしますか？")) {
       // タイマー停止
       if (this.timerInterval) {
@@ -280,7 +283,7 @@ export default class extends Controller {
             give_up: true
           })
         })
-        
+
         // 保存後に結果画面へリダイレクト
         window.location.href = `/game_records/${this.questionId}`
       } catch (error) {
@@ -288,6 +291,85 @@ export default class extends Controller {
         // エラーが発生してもリダイレクトする
         window.location.href = `/game_records/${this.questionId}?give_up=true`
       }
+    }
+  }
+
+  // スキップモーダルを表示
+  showSkipModal() {
+    this.skipModalTarget.classList.add("modal-open")
+  }
+
+  // スキップモーダルを閉じる
+  closeSkipModal() {
+    this.skipModalTarget.classList.remove("modal-open")
+  }
+
+  // 終了モーダルを表示
+  showEndModal() {
+    this.endModalTarget.classList.add("modal-open")
+  }
+
+  // 終了モーダルを閉じる
+  closeEndModal() {
+    this.endModalTarget.classList.remove("modal-open")
+  }
+
+  // まとめてプレイモード：次の問題にスキップ
+  async skipToNext() {
+    // タイマー停止
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval)
+    }
+
+    try {
+      const response = await fetch(`/game_records`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
+        },
+        body: JSON.stringify({
+          id: this.questionId,
+          give_up: true
+        })
+      })
+
+      const data = await response.json()
+      if (data.batch_play && data.next_url) {
+        window.location.href = data.next_url
+      }
+    } catch (error) {
+      console.error('Error saving game record:', error)
+    }
+  }
+
+  // まとめてプレイモード：終了して結果画面へ
+  async endBatchPlay() {
+    // タイマー停止
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval)
+    }
+
+    try {
+      const response = await fetch(`/game_records`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
+        },
+        body: JSON.stringify({
+          id: this.questionId,
+          give_up: true,
+          end_batch_play: true
+        })
+      })
+
+      const data = await response.json()
+      if (data.batch_play && data.next_url) {
+        window.location.href = data.next_url
+      }
+    } catch (error) {
+      console.error('Error saving game record:', error)
     }
   }
 }

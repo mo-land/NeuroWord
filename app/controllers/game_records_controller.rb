@@ -30,6 +30,15 @@ class GameRecordsController < ApplicationController
         given_up: params[:give_up] == "true"
       }
 
+      # まとめてプレイを終了する場合は結果画面へ
+      if params[:end_batch_play] == true || params[:end_batch_play] == "true"
+        render json: {
+          batch_play: true,
+          next_url: batch_results_game_records_path
+        }
+        return
+      end
+
       # 次の問題へ
       session[:batch_play_current_index] = (session[:batch_play_current_index] || 0) + 1
       question_ids = session[:batch_play_question_ids]
