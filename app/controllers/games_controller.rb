@@ -17,9 +17,24 @@ class GamesController < ApplicationController
     set_dynamic_ogp_image
 
     # まとめてプレイモードの情報をビューに渡す
+    # 現在の問題がバッチプレイリストに含まれているかチェック
+    question_ids = session[:batch_play_question_ids] || []
+    is_in_batch = question_ids.include?(@question.id)
+
+    # 遷移元をチェック
+    referer = request.referer || ""
+    from_mypage_lists = referer.include?("user/mypage") && referer.include?("tab=user_lists") 
+    from_batch_game = referer.include?("/games/") && session[:batch_play_mode]
+
+    # バッチプレイモード中だが、以下の条件を満たす場合はセッションをクリア
+    # ①現在の問題がリストに含まれていない
+    # ②遷移元がマイページのリストタブではない、かつバッチプレイモードのゲーム画面ではない
+    if session[:batch_play_mode] && (!is_in_batch || (!from_mypage_lists && !from_batch_game))
+      clear_batch_play_session
+    end
+
     @batch_play_mode = session[:batch_play_mode] || false
     if @batch_play_mode
-      question_ids = session[:batch_play_question_ids] || []
       current_index = session[:batch_play_current_index] || 0
       @batch_play_progress = "#{current_index + 1} / #{question_ids.length}"
     end
@@ -178,6 +193,14 @@ class GamesController < ApplicationController
     session.delete(:selected_origin_id)
     session.delete(:total_clicks)
     session.delete(:correct_clicks)
+  end
+
+  def clear_batch_play_session
+    session.delete(:batch_play_mode)
+    session.delete(:batch_play_question_ids)
+    session.delete(:batch_play_current_index)
+    session.delete(:batch_play_results)
+    session.delete(:batch_play_list_id)
   end
 
   def new_game_start?
