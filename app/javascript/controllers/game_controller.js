@@ -280,7 +280,7 @@ export default class extends Controller {
           },
           body: JSON.stringify({
             id: this.questionId,
-            give_up: true
+            give_up: "true"
           })
         })
 
@@ -330,7 +330,7 @@ export default class extends Controller {
         },
         body: JSON.stringify({
           id: this.questionId,
-          give_up: true
+          give_up: "true"
         })
       })
 
@@ -359,8 +359,8 @@ export default class extends Controller {
         },
         body: JSON.stringify({
           id: this.questionId,
-          give_up: true,
-          end_batch_play: true
+          give_up: "true",
+          end_batch_play: "true"
         })
       })
 
