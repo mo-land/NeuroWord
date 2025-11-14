@@ -125,6 +125,18 @@ class GameRecordsController < ApplicationController
     @total_time = @results.sum { |r| (r[:completion_time_seconds] || r['completion_time_seconds']).to_f }
     @completed_games = @results.count { |r| !(r[:given_up] || r['given_up']) }
 
+    # OGP用に問題タイトルリストをセッションに保存（絵文字を除去）
+    pattern = /[\p{Emoji}\p{Emoji_Component}&&[:^ascii:]]/
+
+    # 条件でソート：ギブアップしていない、正答率が高い順、解答時間が短い順、問題作成が新しい順
+    sorted_results = @detailed_results
+      .reject { |r| r[:given_up] } # ギブアップしていない問題のみ
+      .sort_by { |r| [-r[:accuracy], r[:completion_time_seconds], -r[:question].created_at.to_i] }
+
+    # OGP用に問題IDをカンマ区切りで保存（最大3問＋総問題数）
+    top_3_question_ids = sorted_results.take(3).map { |r| r[:question].id }
+    @ogp_question_ids = "#{top_3_question_ids.join(',')}&total=#{@detailed_results.length}"
+
     # セッションをクリア
     clear_batch_play_session
   end

@@ -88,6 +88,20 @@
           <p class="text-lg">練習すればきっと上達します💪</p>
         <% end %>
       </div>
+      <!-- シェアセクション -->
+        <h3 class="card-title justify-center text-2xl">
+        <div class="flex flex-wrap justify-center gap-4">
+          <!-- Twitter/X シェア -->
+          <%= link_to "https://twitter.com/intent/tweet?text=#{CGI.escape("NeuroWordで【まとめてプレイモード(#{@total_games}問)】に挑戦！\n正答率: #{@average_accuracy}% \n時間: #{sprintf('%02d:%02d', (@total_time / 60).to_i, (@total_time % 60).to_i)}\n\n#仲間言葉探し #単語ゲーム")}&url=#{CGI.escape("#{request.base_url}?from=batch_result&q=#{@ogp_question_ids}")}",
+                  target: "_blank",
+                  class: "btn btn-neutral text-2xl shadow-xl mb-8" do %>
+            <div>
+            <i class="fab fa-x-twitter mr-2"></i>
+            で結果をシェア！
+            </div>
+          <% end %>
+        </div>
+        </h3>
     </div>
 
     <!-- 各問題の結果 -->
