@@ -94,6 +94,7 @@ class GameRecordsController < ApplicationController
     # まとめてプレイの結果を取得
     @results = session[:batch_play_results] || []
     @list_id = session[:batch_play_list_id]
+    @list = List.find_by(id: @list_id)
 
     if @results.empty?
       redirect_to mypage_user_path, alert: "まとめてプレイの結果がありません"

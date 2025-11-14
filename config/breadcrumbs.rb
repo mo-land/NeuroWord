@@ -102,6 +102,23 @@ crumb :game_records_show do |question|
   parent :games_show, question
 end
 
+# batch play
+#   まとめてプレイモード：ゲーム (games#show with batch_play_mode)
+crumb :batch_play_games_show do |question, list|
+  link "#{question.title}", game_path(question)
+  parent :batch_play_list, list
+end
+#   まとめてプレイモード：リスト
+crumb :batch_play_list do |list|
+  link "【#{list.name}】をまとめてプレイ", mypage_user_path(tab: "user_lists", list_id: list.id)
+  parent :mypage
+end
+#   まとめてプレイモード：結果画面 (game_records#batch_results)
+crumb :batch_play_results do |list|
+  link "まとめてプレイ結果", batch_results_game_records_path
+  parent :batch_play_list, list
+end
+
 # request
 #   リクエスト一覧 (requests#index, requests_path
 crumb :requests_index do

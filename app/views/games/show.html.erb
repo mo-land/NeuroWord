@@ -1,4 +1,8 @@
-<% breadcrumb :games_show, @question %>
+<% if @batch_play_mode && @batch_play_list %>
+  <% breadcrumb :batch_play_games_show, @question, @batch_play_list %>
+<% else %>
+  <% breadcrumb :games_show, @question %>
+<% end %>
 <div class="min-h-screen p-4"
      data-controller="game"
      data-game-question-id="<%= @question.id %>"

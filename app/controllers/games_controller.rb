@@ -37,6 +37,7 @@ class GamesController < ApplicationController
     if @batch_play_mode
       current_index = session[:batch_play_current_index] || 0
       @batch_play_progress = "#{current_index + 1} / #{question_ids.length}"
+      @batch_play_list = List.find_by(id: session[:batch_play_list_id])
     end
 
     # セッションでゲーム状態管理
