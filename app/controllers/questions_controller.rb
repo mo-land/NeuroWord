@@ -39,19 +39,8 @@ class QuestionsController < ApplicationController
 
   def create
     @question = current_user.questions.build(question_params)
-    # Tagifyから送られてくるJSON形式のタグを処理
-    tag_json = params[:question][:tag]
-    tag_list = []
-    if tag_json.present?
-      begin
-        parsed_tags = JSON.parse(tag_json)
-        tag_list = parsed_tags.map { |tag| tag["value"] } if parsed_tags.is_a?(Array)
-      rescue JSON::ParserError
-        # JSON形式でない場合はカンマ区切りとして処理
-        tag_list = tag_json.split(",")
-      end
-    end
-    @question.tag_names = tag_list.join(",")
+    tag_list = parse_tag_params
+    apply_tags_to_question(tag_list)
     if @question.save
       @question.save_tag(tag_list)
       # ステップ2（CardSet追加）にリダイレクト
@@ -77,19 +66,8 @@ class QuestionsController < ApplicationController
 
   def update
     @question = current_user.questions.find(params[:id])
-    # Tagifyから送られてくるJSON形式のタグを処理
-    tag_json = params[:question][:tag]
-    tag_list = []
-    if tag_json.present?
-      begin
-        parsed_tags = JSON.parse(tag_json)
-        tag_list = parsed_tags.map { |tag| tag["value"] } if parsed_tags.is_a?(Array)
-      rescue JSON::ParserError
-        # JSON形式でない場合はカンマ区切りとして処理
-        tag_list = tag_json.split(",")
-      end
-    end
-    @question.tag_names = tag_list.join(",")
+    tag_list = parse_tag_params
+    apply_tags_to_question(tag_list)
     if @question.update(question_params)
       @question.save_tag(tag_list)
       redirect_to question_path(@question), notice: t("defaults.flash_message.updated", item: Question.model_name.human)
@@ -135,5 +113,23 @@ class QuestionsController < ApplicationController
 
   def set_category
     @categories = Category.roots
+  end
+
+  # Tagifyから送られてくるJSON形式のタグを処理
+  def parse_tag_params
+    tag_json = params[:question][:tag]
+    return [] unless tag_json.present?
+
+    begin
+      parsed_tags = JSON.parse(tag_json)
+      parsed_tags.is_a?(Array) ? parsed_tags.map { |tag| tag["value"] } : []
+    rescue JSON::ParserError
+      tag_json.split(",")
+    end
+  end
+
+  # タグ情報を問題に設定
+  def apply_tags_to_question(tag_list)
+    @question.tag_names = tag_list.join(",")
   end
 end
