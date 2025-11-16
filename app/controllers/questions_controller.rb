@@ -28,7 +28,7 @@ class QuestionsController < ApplicationController
     # Ransack検索
     @search = base_query.ransack(params[:q])
     @search_questions = @search.result(distinct: true)
-    .includes(:user, :category)
+    .with_tag_relations
     .order(created_at: :desc)
     .page(params[:page])
   end

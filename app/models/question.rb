@@ -20,7 +20,7 @@ class Question < ApplicationRecord
   # タグ関連のスコープ
   scope :with_tags, -> { includes(:tags) }
   scope :tagged_with, ->(tag_name) { joins(:tags).where(tags: { name: tag_name }) }
-  # scope :with_tag_relations, -> { includes(:user, :category, :tags) }
+  scope :with_tag_relations, -> { includes(:user, :category, :tags) }
 
   # 新しいゲーム形式用のグループ分けメソッド
   def grouped_game_cards
