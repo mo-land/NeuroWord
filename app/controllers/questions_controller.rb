@@ -1,7 +1,7 @@
 class QuestionsController < ApplicationController
   include Filterable
 
-  before_action :authenticate_user!, except: %i[index show search_tag ]
+  before_action :authenticate_user!, except: %i[index show ]
   before_action :set_category, only: %i[index new create edit update]
 
   def index
@@ -19,14 +19,26 @@ class QuestionsController < ApplicationController
       base_query = base_query.where(category_id: category_ids)
     end
 
+    # タグ絞り込み（新規追加）
+    if params[:tag_name].present?
+      @selected_tag = Tag.find_by(name: params[:tag_name])
+      base_query = base_query.joins(:tags).where(tags: { name: params[:tag_name] }) if @selected_tag
+    end
+
     # 理解済み問題の除外（ログインユーザーのみ）
     if current_user && filter_understood_enabled?
       understood_ids = GameRecord.understood_question_ids_for(current_user)
       base_query = base_query.where.not(id: understood_ids) if understood_ids.present?
     end
 
+    # search_keywordからRansackのqパラメータを構築
+    ransack_params = params[:q] || {}
+    if params[:search_keyword].present?
+      ransack_params[:title_or_description_or_user_name_cont] = params[:search_keyword]
+    end
+
     # Ransack検索
-    @search = base_query.ransack(params[:q])
+    @search = base_query.ransack(ransack_params)
     @search_questions = @search.result(distinct: true)
     .with_tag_relations
     .order(created_at: :desc)
@@ -81,17 +93,6 @@ class QuestionsController < ApplicationController
   question = current_user.questions.find(params[:id])
     question.destroy!
     redirect_to questions_path, notice: t("defaults.flash_message.deleted", item: Question.model_name.human), status: :see_other
-  end
-
-  def search_tag
-    @tag_list = Tag.all
-    # パラメータ名を明示的に指定
-    @tag = Tag.find_by(name: params[:tags_name])
-    if @tag
-      @questions = @tag.questions.includes(:user, :category).order(created_at: :desc).page(params[:page])
-    else
-      @questions = Question.none
-    end
   end
 
   def autocomplete

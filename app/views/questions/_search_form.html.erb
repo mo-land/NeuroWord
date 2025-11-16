@@ -1,4 +1,6 @@
-<%= search_form_for @search, url: questions_path do |f| %>
+<%= form_with url: questions_path, method: :get, local: true do |f| %>
+  <%= hidden_field_tag :category_id, params[:category_id] if params[:category_id].present? %>
+  <%= hidden_field_tag :tag_name, params[:tag_name] if params[:tag_name].present? %>
   <div class="flex gap-2 mb-4 px-3">
     <label class="input flex items-center w-auto">
       <svg class="h-[1em] opacity-50 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -7,8 +9,9 @@
           <path d="m21 21-4.3-4.3"></path>
         </g>
       </svg>
-      <%= f.search_field :title_or_description_or_user_name_cont, placeholder: 'タイトル / 説明 / 作者名 で検索', class: "sm:w-64 md:w-64" %>
+      <%= text_field_tag :search_keyword, params[:search_keyword], placeholder: 'タイトル / 説明 / 作者名 で検索', class: "sm:w-64 md:w-64" %>
     </label>
     <%= f.submit "検索", class: "btn btn-soft" %>
+    
   </div>
 <% end %>
