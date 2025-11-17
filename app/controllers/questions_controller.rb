@@ -43,6 +43,9 @@ class QuestionsController < ApplicationController
     .with_tag_relations
     .order(created_at: :desc)
     .page(params[:page])
+
+    # カテゴリごとの絞り込み後件数を計算（タグ・検索条件適用後）
+    calculate_category_counts_with_filters
   end
 
   def new
@@ -132,5 +135,41 @@ class QuestionsController < ApplicationController
   # タグ情報を問題に設定
   def apply_tags_to_question(tag_list)
     @question.tag_names = tag_list.join(",")
+  end
+
+  # カテゴリごとの絞り込み後件数を計算
+  def calculate_category_counts_with_filters
+    # タグ・検索条件のみ適用（カテゴリは除外）
+    filter_query = Question.all
+
+    if params[:tag_name].present? && @selected_tag
+      filter_query = filter_query.joins(:tags).where(tags: { name: params[:tag_name] })
+    end
+
+    if current_user && filter_understood_enabled?
+      understood_ids = GameRecord.understood_question_ids_for(current_user)
+      filter_query = filter_query.where.not(id: understood_ids) if understood_ids.present?
+    end
+
+    ransack_params = {}
+    if params[:search_keyword].present?
+      ransack_params[:title_or_description_or_user_name_cont] = params[:search_keyword]
+    end
+
+    search = filter_query.ransack(ransack_params)
+    filtered_questions = search.result(distinct: true)
+
+    # カテゴリごとの件数をハッシュに格納
+    @category_counts = {}
+    @categories.each do |category|
+      category_with_descendants = [category] + category.descendants
+      category_with_descendants.each do |cat|
+        category_ids = cat.subtree_ids
+        @category_counts[cat.id] = filtered_questions.where(category_id: category_ids).count
+      end
+    end
+
+    # 全体の件数
+    @total_count = filtered_questions.count
   end
 end
