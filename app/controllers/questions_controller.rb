@@ -162,7 +162,7 @@ class QuestionsController < ApplicationController
     # カテゴリごとの件数をハッシュに格納
     @category_counts = {}
     @categories.each do |category|
-      category_with_descendants = [category] + category.descendants
+      category_with_descendants = [ category ] + category.descendants
       category_with_descendants.each do |cat|
         category_ids = cat.subtree_ids
         @category_counts[cat.id] = filtered_questions.where(category_id: category_ids).count
