@@ -26,7 +26,8 @@
     <div class="px-4 lg:px-6 py-2 flex items-center">
       <%= breadcrumbs separator: " &rsaquo; " %>
       <% if params[:tag_name].present? || params[:search_keyword].present? %>
-        <%= link_to questions_path(category_id: @selected_category.id), class: "btn btn-circle btn-sm" do %>
+        <% parent_path = params[:category].present?? questions_path(category_id: @selected_category.id) : questions_path %>
+        <%= link_to parent_path, class: "btn btn-circle btn-sm" do %>
           <i class="fa-solid fa-x"></i>
         <% end %>
       <% end %>
