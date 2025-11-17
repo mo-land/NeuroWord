@@ -11,7 +11,6 @@
     <div class="mb-3">
       <i class="fa-solid fa-tag mr-1 text-base-content/70"></i>
       <% question.tags.each do |tag| %>
-        <!-- %= link_to truncate(tag.name, length: 10, omission: "…"), search_tag_path(tags_name: tag.name), class: 'tag-badge badge badge-outline badge-info shadow-sm text-xs flex-shrink-0', title: tag.name % -->
         <%= link_to truncate(tag.name, length: 10, omission: "…"), questions_path(category_id: params[:category_id], tag_name: tag.name, search_keyword: params[:search_keyword]), class: 'tag-badge badge badge-outline badge-info shadow-sm text-xs flex-shrink-0', title: tag.name %>
       <% end %>
     </div>

@@ -65,12 +65,6 @@ crumb :questions_edit do |question|
   parent :questions_show, question
 end
 
-#   タグ検索結果 (questions#search_tag, search_tag_path)
-crumb :search_tag do |tag, questions|
-  link "【タグ】#{tag.name}（#{questions.count}問）", search_tag_path(tags_name: tag.name)
-  parent :root
-end
-
 # 動的パンくず用（index.html.erb専用）
 # カテゴリ表示
 crumb :category_filter_simple do |category|
