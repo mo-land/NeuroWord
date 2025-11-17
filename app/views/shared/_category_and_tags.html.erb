@@ -1,12 +1,18 @@
+<%
+  # ローカル変数
+%>
+
 <div class="flex items-center gap-2">
   <i class="fa-solid fa-folder text-base-content/70"></i>
-  <%= @question.category.name %>
+  <%= question.category.name %>
 </div>
-<div class="flex flex-wrap items-center gap-1 justify-start max-w-xs mb-3">
-  <% if @question.tags.present? %>
-    <i class="fa-solid fa-tag mr-1 text-base-content/70"></i>
-  <% end %>
-  <% @question.tags.each do |tag| %>
-    <%= link_to truncate(tag.name, length: 10, omission: "…"), search_tag_path(tags_name: tag.name), class: 'tag-badge badge badge-outline badge-info shadow-sm text-xs flex-shrink-0', title: tag.name %>
+<div class="flex flex-wrap items-center gap-1 justify-start max-w-xs">
+  <% if question.tags.present? %>
+    <div class="mb-3">
+      <i class="fa-solid fa-tag mr-1 text-base-content/70"></i>
+      <% question.tags.each do |tag| %>
+        <%= link_to truncate(tag.name, length: 10, omission: "…"), questions_path(category_id: params[:category_id], tag_name: tag.name, search_keyword: params[:search_keyword]), class: 'tag-badge badge badge-outline badge-info shadow-sm text-xs flex-shrink-0', title: tag.name %>
+      <% end %>
+    </div>
   <% end %>
 </div>

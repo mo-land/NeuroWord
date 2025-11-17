@@ -20,40 +20,39 @@
         <p><%= truncate("#{question.description}", omission: "…") %></p>
       <% end %>
 
-      <div class="justify-start items-start text-sm opacity-70 w-full mt-auto mb-6">
-        <div class="flex items-center gap-2">
-          <i class="fa-solid fa-folder"></i>
-          <%= question.category.name %>
-        </div>
+      <div class="justify-start items-start text-sm opacity-70 w-full mt-auto <%= user_signed_in? || (current_user && current_user.own?(question)) ? 'mb-6' : '' %>">
+        <%= render 'shared/category_and_tags', question: question %>
         <div class="flex items-center gap-2">
           <i class="fa-solid fa-user"></i>
           <%= question.user.name %>
         </div>
       </div>
 
-      <div class="absolute bottom-4 right-4 flex items-center gap-4 text-sm opacity-70">
-        <div class="flex gap-2">
-          <div class="button-hover flex items-center justify-center">
-            <%= render 'shared/favorite_button', question: question, list_id: list_id %>
+      <% if user_signed_in? || (current_user && current_user.own?(question)) %>
+        <div class="absolute bottom-4 right-4 flex items-center gap-4 text-sm opacity-70 justify-between">
+          <div class="flex gap-2">
+            <div class="button-hover flex items-center justify-center">
+              <%= render 'shared/favorite_button', question: question, list_id: list_id %>
+            </div>
+            <div class="button-hover flex items-center justify-center">
+              <%= render 'shared/liked_count', question: question %>
+            </div>
           </div>
-          <div class="button-hover flex items-center justify-center">
-            <%= render 'shared/liked_count', question: question %>
-          </div>
+          <% if current_user && current_user.own?(question) %>
+            <div class="flex gap-4 items-center justify-center">
+              <div class="text-xl">|</div>
+              <%= link_to question_path(question), id: "button-edit-#{question.id}", class: "button-hover", data: use_turbo_frame_top ? { turbo_frame: "_top" } : {} do %>
+                <i class="fa-solid fa-pen text-success text-xl"></i>
+              <% end %>
+              <%= link_to question_path(question), id: "button-delete-#{question.id}",
+              class: "button-hover",
+              data: { turbo_method: :delete, turbo_confirm: t('defaults.delete_confirm') }.merge(use_turbo_frame_top ? { turbo_frame: "_top" } : {})  do %>
+                <i class="fa-solid fa-trash text-error text-xl"></i>
+              <% end %>
+            </div>
+          <% end %>
         </div>
-        <% if current_user && current_user.own?(question) %>
-          <div class="flex gap-4 items-center justify-center">
-          <div class="text-xl">|</div>
-            <%= link_to question_path(question), id: "button-edit-#{question.id}", class: "button-hover", data: use_turbo_frame_top ? { turbo_frame: "_top" } : {} do %>
-              <i class="fa-solid fa-pen text-success text-xl"></i>
-            <% end %>
-            <%= link_to question_path(question), id: "button-delete-#{question.id}",
-            class: "button-hover",
-            data: { turbo_method: :delete, turbo_confirm: t('defaults.delete_confirm') }.merge(use_turbo_frame_top ? { turbo_frame: "_top" } : {})  do %>
-              <i class="fa-solid fa-trash text-error text-xl"></i>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
+      <% end %>
 
     </div>
   </div>

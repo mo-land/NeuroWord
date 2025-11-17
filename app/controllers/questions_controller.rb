@@ -1,7 +1,7 @@
 class QuestionsController < ApplicationController
   include Filterable
 
-  before_action :authenticate_user!, except: %i[index show search_tag ]
+  before_action :authenticate_user!, except: %i[index show ]
   before_action :set_category, only: %i[index new create edit update]
 
   def index
@@ -19,18 +19,33 @@ class QuestionsController < ApplicationController
       base_query = base_query.where(category_id: category_ids)
     end
 
+    # タグ絞り込み（新規追加）
+    if params[:tag_name].present?
+      @selected_tag = Tag.find_by(name: params[:tag_name])
+      base_query = base_query.joins(:tags).where(tags: { name: params[:tag_name] }) if @selected_tag
+    end
+
     # 理解済み問題の除外（ログインユーザーのみ）
     if current_user && filter_understood_enabled?
       understood_ids = GameRecord.understood_question_ids_for(current_user)
       base_query = base_query.where.not(id: understood_ids) if understood_ids.present?
     end
 
+    # search_keywordからRansackのqパラメータを構築
+    ransack_params = params[:q] || {}
+    if params[:search_keyword].present?
+      ransack_params[:title_or_description_or_user_name_cont] = params[:search_keyword]
+    end
+
     # Ransack検索
-    @search = base_query.ransack(params[:q])
+    @search = base_query.ransack(ransack_params)
     @search_questions = @search.result(distinct: true)
-    .includes(:user, :category)
+    .with_tag_relations
     .order(created_at: :desc)
     .page(params[:page])
+
+    # カテゴリごとの絞り込み後件数を計算（タグ・検索条件適用後）
+    calculate_category_counts_with_filters
   end
 
   def new
@@ -39,19 +54,8 @@ class QuestionsController < ApplicationController
 
   def create
     @question = current_user.questions.build(question_params)
-    # Tagifyから送られてくるJSON形式のタグを処理
-    tag_json = params[:question][:tag]
-    tag_list = []
-    if tag_json.present?
-      begin
-        parsed_tags = JSON.parse(tag_json)
-        tag_list = parsed_tags.map { |tag| tag["value"] } if parsed_tags.is_a?(Array)
-      rescue JSON::ParserError
-        # JSON形式でない場合はカンマ区切りとして処理
-        tag_list = tag_json.split(",")
-      end
-    end
-    @question.tag_names = tag_list.join(",")
+    tag_list = parse_tag_params
+    apply_tags_to_question(tag_list)
     if @question.save
       @question.save_tag(tag_list)
       # ステップ2（CardSet追加）にリダイレクト
@@ -77,19 +81,8 @@ class QuestionsController < ApplicationController
 
   def update
     @question = current_user.questions.find(params[:id])
-    # Tagifyから送られてくるJSON形式のタグを処理
-    tag_json = params[:question][:tag]
-    tag_list = []
-    if tag_json.present?
-      begin
-        parsed_tags = JSON.parse(tag_json)
-        tag_list = parsed_tags.map { |tag| tag["value"] } if parsed_tags.is_a?(Array)
-      rescue JSON::ParserError
-        # JSON形式でない場合はカンマ区切りとして処理
-        tag_list = tag_json.split(",")
-      end
-    end
-    @question.tag_names = tag_list.join(",")
+    tag_list = parse_tag_params
+    apply_tags_to_question(tag_list)
     if @question.update(question_params)
       @question.save_tag(tag_list)
       redirect_to question_path(@question), notice: t("defaults.flash_message.updated", item: Question.model_name.human)
@@ -103,17 +96,6 @@ class QuestionsController < ApplicationController
   question = current_user.questions.find(params[:id])
     question.destroy!
     redirect_to questions_path, notice: t("defaults.flash_message.deleted", item: Question.model_name.human), status: :see_other
-  end
-
-  def search_tag
-    @tag_list = Tag.all
-    # パラメータ名を明示的に指定
-    @tag = Tag.find_by(name: params[:tags_name])
-    if @tag
-      @questions = @tag.questions.includes(:user, :category).order(created_at: :desc).page(params[:page])
-    else
-      @questions = Question.none
-    end
   end
 
   def autocomplete
@@ -135,5 +117,59 @@ class QuestionsController < ApplicationController
 
   def set_category
     @categories = Category.roots
+  end
+
+  # Tagifyから送られてくるJSON形式のタグを処理
+  def parse_tag_params
+    tag_json = params[:question][:tag]
+    return [] unless tag_json.present?
+
+    begin
+      parsed_tags = JSON.parse(tag_json)
+      parsed_tags.is_a?(Array) ? parsed_tags.map { |tag| tag["value"] } : []
+    rescue JSON::ParserError
+      tag_json.split(",")
+    end
+  end
+
+  # タグ情報を問題に設定
+  def apply_tags_to_question(tag_list)
+    @question.tag_names = tag_list.join(",")
+  end
+
+  # カテゴリごとの絞り込み後件数を計算
+  def calculate_category_counts_with_filters
+    # タグ・検索条件のみ適用（カテゴリは除外）
+    filter_query = Question.all
+
+    if params[:tag_name].present? && @selected_tag
+      filter_query = filter_query.joins(:tags).where(tags: { name: params[:tag_name] })
+    end
+
+    if current_user && filter_understood_enabled?
+      understood_ids = GameRecord.understood_question_ids_for(current_user)
+      filter_query = filter_query.where.not(id: understood_ids) if understood_ids.present?
+    end
+
+    ransack_params = {}
+    if params[:search_keyword].present?
+      ransack_params[:title_or_description_or_user_name_cont] = params[:search_keyword]
+    end
+
+    search = filter_query.ransack(ransack_params)
+    filtered_questions = search.result(distinct: true)
+
+    # カテゴリごとの件数をハッシュに格納
+    @category_counts = {}
+    @categories.each do |category|
+      category_with_descendants = [ category ] + category.descendants
+      category_with_descendants.each do |cat|
+        category_ids = cat.subtree_ids
+        @category_counts[cat.id] = filtered_questions.where(category_id: category_ids).count
+      end
+    end
+
+    # 全体の件数
+    @total_count = filtered_questions.count
   end
 end

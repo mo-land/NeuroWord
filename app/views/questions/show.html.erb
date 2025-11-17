@@ -14,7 +14,7 @@
                 <% end %>
                 <h1 class="text-3xl font-bold mb-2"><%= @question.title %></h1>
               </div>
-              <%= render 'shared/category_and_tags' %>
+              <%= render 'shared/category_and_tags', question: @question %>
 
               <p class="text-lg text-base-content/70 mb-4"><%= @question.description %></p>
 

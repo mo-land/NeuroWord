@@ -8,8 +8,6 @@ Rails.application.routes.draw do
   # resources :static_pages
   root "static_pages#top"
 
-  get "search_tag"=>"questions#search_tag"
-
   resource :user, only: %i[] do
     member do
       get :mypage  # 必要に応じて
