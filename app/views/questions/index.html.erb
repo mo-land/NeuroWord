@@ -1,10 +1,24 @@
 <% content_for :hide_breadcrumbs, true %>
 <% content_for :flash_wrapper_class, "lg:ml-72" %>
+<%# 基本パンくず %>
+<% breadcrumb :questions_index %>
+<%# カテゴリ表示 %>
+<% parent_crumb = :questions_index %>
 <% if @selected_category.present? %>
-  <% breadcrumb :questions_category_index, @selected_category %>
-<% else %>
-  <% breadcrumb :questions_index %>
+  <% breadcrumb :category_filter_simple, @selected_category %>
+  <% parent_crumb = [:category_filter_simple, @selected_category] %>
 <% end %>
+<%# タグ・検索の複合絞り込み表示 %>
+<%
+  search_filters = []
+  search_filters << "タグ【#{@selected_tag.name}】" if @selected_tag.present?
+  search_filters << "キーワード【#{params[:search_keyword]}】" if params[:search_keyword].present?
+
+  if search_filters.any?
+    filter_text = search_filters.join(' × ')
+    breadcrumb :search_filters_applied, filter_text, @search_questions.total_count, parent_crumb
+  end
+%>
 <div class="drawer lg:drawer-open">
   <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
   <div class="drawer-content flex flex-col lg:ml-72">

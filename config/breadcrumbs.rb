@@ -36,7 +36,7 @@ end
 # question
 #   問題一覧 (questions#index, questions_path)
 crumb :questions_index do
-  link "問題一覧", questions_path
+  link "全ての問題", questions_path
 end
 
 crumb :questions_category_index do |selected_category|
@@ -69,6 +69,25 @@ end
 crumb :search_tag do |tag, questions|
   link "【タグ】#{tag.name}（#{questions.count}問）", search_tag_path(tags_name: tag.name)
   parent :root
+end
+
+# 動的パンくず用（index.html.erb専用）
+# カテゴリ表示
+crumb :category_filter_simple do |category|
+  link "#{category.name}（#{category.questions_count}問）", questions_path(category_id: category.id)
+  parent :questions_index
+end
+
+# タグ・検索の複合絞り込み表示
+crumb :search_filters_applied do |filter_text, count, parent_crumb = nil|
+  link "#{filter_text}の検索結果（#{count}件）", "#"
+  if parent_crumb.is_a?(Array)
+    parent *parent_crumb
+  elsif parent_crumb
+    parent parent_crumb
+  else
+    parent :questions_index
+  end
 end
 
 # card_set
