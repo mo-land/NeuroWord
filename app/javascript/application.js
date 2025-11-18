@@ -9,7 +9,10 @@ let tagifyInstance = null
 function initializeTagify() {
   const tagInput = document.querySelector('#tag-input')
 
+  
   if (tagInput && typeof Tagify !== 'undefined') {
+    // この中で、tagInputからデータを取得して変数に入れる
+    const existing_tags = JSON.parse(tagInput.dataset.existingTags)
     // 既存のインスタンスを完全にクリーンアップ
     if (tagifyInstance) {
       tagifyInstance.destroy()
@@ -22,8 +25,11 @@ function initializeTagify() {
     }
 
     tagifyInstance = new Tagify(tagInput, {
+      whitelist: existing_tags,
+      maxTags: 10,
       dropdown: {
         maxItems: 20,
+        classname: 'tags-look',
         enabled: 0,
         closeOnSelect: false
       }
@@ -81,4 +87,3 @@ document.addEventListener('turbo:before-render', cleanupTagify)
 
 // フレーム更新時（Turbo Frame使用時）
 document.addEventListener('turbo:frame-load', initializeTagify)
-
