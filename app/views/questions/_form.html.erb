@@ -204,7 +204,7 @@
               <%= f.text_field :tag, 
                 id: 'tag-input',
                 value: @question.tags.pluck(:name).join(','),
-                class: "tagify input-bordered tagify--custom-dropdown w-full",
+                class: "input-bordered tagify--custom-dropdown w-full",
                 placeholder: "手動追加もOK！（1タグ20文字まで）",
                 data: { 
                   existing_tags: Tag.pluck(:name).to_json,
