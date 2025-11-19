@@ -8,65 +8,74 @@ let tagifyInstance = null
 // DOMContentLoadedとturbo:loadの両方に対応
 function initializeTagify() {
   const tagInput = document.querySelector('#tag-input')
+  
+  // 要素チェック
+  if (!tagInput || typeof Tagify === 'undefined') {
+    return
+  }
+  
+  // 二重初期化防止
+  if (tagInput.classList.contains('tagify')) {
+    return
+  }
+  
+  // ここでデータ取得
+  const existing_tags = JSON.parse(tagInput.dataset.existingTags)
 
-  if (tagInput && typeof Tagify !== 'undefined') {
-    // 既存のインスタンスを完全にクリーンアップ
-    if (tagifyInstance) {
-      tagifyInstance.destroy()
-      tagifyInstance = null
+  tagifyInstance = new Tagify(tagInput, {
+    whitelist: existing_tags,
+    maxTags: 10,
+    dropdown: {
+      maxItems: 20,
+      classname: 'tags-look',
+      enabled: 0,
+      closeOnSelect: false
     }
+  })
 
-    // data-tagify-initialized属性で二重初期化をチェック
-    if (tagInput.hasAttribute('data-tagify-initialized')) {
-      return
-    }
-
-    tagifyInstance = new Tagify(tagInput, {
-      dropdown: {
-        maxItems: 20,
-        enabled: 0,
-        closeOnSelect: false
+  // スタイルは一度だけ追加
+  if (!document.getElementById('tagify-custom-style')) {
+    const style = document.createElement('style')
+    style.id = 'tagify-custom-style'
+    style.textContent = `
+      .tagify__input::before {
+        color: rgba(120, 49, 5, 0.4) !important;
       }
-    })
-
-    // 初期化済みマーク
-    tagInput.setAttribute('data-tagify-initialized', 'true')
-
-    // スタイルは一度だけ追加
-    if (!document.getElementById('tagify-custom-style')) {
-      const style = document.createElement('style')
-      style.id = 'tagify-custom-style'
-      style.textContent = `
-        .tagify__input::before {
-          color: rgba(120, 49, 5, 0.4) !important;
-        }
-        .tagify {
-          border-color: rgba(120, 49, 5, 0.4) !important;
-          border-width: 1px !important;
-        }
-        .tagify:focus-within {
-          border-color: rgba(120, 49, 5, 0.4) !important;
-          box-shadow: 0 0 0 2px rgba(120, 49, 5, 0.2) !important;
-        }
-        .tagify .tagify__tag {
-          border-color: rgba(120, 49, 5, 0.4) !important;
-          border-width: 1px !important;
-        }
-      `
-      document.head.appendChild(style)
-    }
+      .tagify {
+        border-color: rgba(120, 49, 5, 0.4) !important;
+        border-width: 1px !important;
+      }
+      .tagify:focus-within {
+        border-color: rgba(120, 49, 5, 0.4) !important;
+        box-shadow: 0 0 0 2px rgba(120, 49, 5, 0.2) !important;
+      }
+      .tagify .tagify__tag {
+        border-color: rgba(120, 49, 5, 0.4) !important;
+        border-width: 1px !important;
+      }
+    `
+    document.head.appendChild(style)
   }
 }
 
 // ページ離脱時にクリーンアップ
 function cleanupTagify() {
-  const tagInput = document.querySelector('#tag-input')
-  if (tagInput) {
-    tagInput.removeAttribute('data-tagify-initialized')
-  }
   if (tagifyInstance) {
+    // JSON値をカンマ区切りに戻す
+    const tags = tagifyInstance.value
     tagifyInstance.destroy()
     tagifyInstance = null
+    
+    const tagInput = document.querySelector('#tag-input')
+     if (tagInput) {
+      // .tagifyクラスが残っている場合は削除
+      tagInput.classList.remove('tagify')
+      
+      // 値をカンマ区切りに戻す
+      if (tags && tags.length > 0) {
+        tagInput.value = tags.map(tag => tag.value).join(',')
+      }
+    }
   }
 }
 
@@ -81,4 +90,3 @@ document.addEventListener('turbo:before-render', cleanupTagify)
 
 // フレーム更新時（Turbo Frame使用時）
 document.addEventListener('turbo:frame-load', initializeTagify)
-

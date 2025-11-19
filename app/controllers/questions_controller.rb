@@ -63,6 +63,7 @@ class QuestionsController < ApplicationController
       notice: "ステップ1完了！カードセットを追加してください（2組以上）"
     else
       flash.now[:alert] = t("defaults.flash_message.not_created", item: Question.model_name.human)
+      apply_tags_to_question(tag_list)
       render :new, status: :unprocessable_entity
     end
   end
@@ -88,6 +89,7 @@ class QuestionsController < ApplicationController
       redirect_to question_path(@question), notice: t("defaults.flash_message.updated", item: Question.model_name.human)
     else
       flash.now[:alert] = t("defaults.flash_message.not_updated", item: Question.model_name.human)
+      apply_tags_to_question(tag_list)
       render :edit, status: :unprocessable_entity
     end
   end
