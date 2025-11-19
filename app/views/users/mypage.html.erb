@@ -1,13 +1,70 @@
 <% breadcrumb :mypage %>
 <h1 class="text-2xl font-bold text-left p-6"><%= t('.title') %></h1>
-<div class="md:justify-self-start">
-  <div class="max-w-3xl mx-auto px-4">
-
-    <%= turbo_frame_tag current_user do %>
-      <%= render "profile" %>
-    <% end %>
+<div class="flex flex-col lg:flex-row gap-4 px-4">
+  <div class="w-full lg:w-auto">
+    <div class="max-w-3xl mx-auto">
+      <%= turbo_frame_tag current_user do %>
+        <%= render "profile" %>
+      <% end %>
+    </div>
+  </div>
+  <div class="w-full lg:w-auto lg:flex-1">
+    <%= calendar_chart(
+      {
+        data: [ [Date.new(2023,1,1), 1],
+        [Date.new(2023,2,2), 5],
+        [Date.new(2023,3,3), 10],
+        [Date.new(2023,4,4), 40]
+        ]
+      },
+      class: 'w-full',
+      style: 'height: 200px;',
+      options: {
+        grid: {
+          top: 10,
+          bottom: 10,
+          left: 20,
+          right: 20
+        },
+        visualMap: {
+          show: false,
+          min: 0,
+          max: 40,
+          cellSize: [20, 20],
+          inRange: {
+            color: ['#DAFADA', '#008000']
+          }
+        },
+        calendar: [{
+          range: '2023-01',
+          orient: 'vertical',
+          top: 30,
+          left: RailsCharts.js("window.innerWidth >= 1024 ? 80 : 30"),
+          right: 20,
+          cellSize: [20, 20],
+          yearLabel: { show: true },
+          monthLabel: {
+            margin: 2,
+            show: true,
+            nameMap: ['1月'] },
+          dayLabel: {
+            margin: 1,
+            firstDay: 1,
+            nameMap: ['日', '月', '火', '水', '木', '金', '土']
+          },
+          splitLine: {
+            lineStyle: {
+              color: '#793205',
+              width: 0.5
+            }
+          }
+        }]
+      })
+    %>
   </div>
 </div>
+
+
 
 <!-- name of each tab group should be unique -->
 <div class="tabs tabs-lift mt-3 p-4">
