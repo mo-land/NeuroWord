@@ -321,6 +321,8 @@ GEM
     rails-i18n (7.0.10)
       i18n (>= 0.7, < 2)
       railties (>= 6.0.0, < 8)
+    rails_charts (1.0.0)
+      rails
     railties (7.2.3)
       actionpack (= 7.2.3)
       activesupport (= 7.2.3)
@@ -508,6 +510,7 @@ DEPENDENCIES
   rack-attack
   rails (~> 7.2.2, >= 7.2.2.1)
   rails-i18n
+  rails_charts
   ransack
   rspec-rails
   rubocop-rails-omakase
