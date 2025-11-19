@@ -45,4 +45,4 @@
 coverage/
 
 # Ignore CSV import files
-/db/seeds/old_*.csv
+/db/seeds/*.csv
