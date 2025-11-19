@@ -90,3 +90,12 @@ document.addEventListener('turbo:before-render', cleanupTagify)
 
 // フレーム更新時（Turbo Frame使用時）
 document.addEventListener('turbo:frame-load', initializeTagify)
+
+// Service Worker登録
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker').catch((error) => {
+      console.error('Service Worker registration failed:', error);
+    });
+  });
+}
