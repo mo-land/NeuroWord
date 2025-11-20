@@ -8,57 +8,55 @@
       <% end %>
     </div>
   </div>
-  <div class="w-full lg:w-auto lg:flex-1">
+
+  <div class="w-full lg:w-auto lg:flex-1 lg:pl-6" style="max-width: 100%; overflow-x: auto;">
     <%= calendar_chart(
       {
-        data: [ [Date.new(2023,1,1), 1],
-        [Date.new(2023,2,2), 5],
-        [Date.new(2023,3,3), 10],
-        [Date.new(2023,4,4), 40]
-        ]
+        data: @calendar_data
       },
-      class: 'w-full',
-      style: 'height: 200px;',
+      class: '',
+      style: 'height: 130px; width: 300px;',
       options: {
         grid: {
           top: 10,
           bottom: 10,
-          left: 20,
-          right: 20
+          left: 80,
+          right: 40
         },
         visualMap: {
           show: false,
           min: 0,
           max: 40,
-          cellSize: [20, 20],
           inRange: {
             color: ['#DAFADA', '#008000']
           }
         },
-        calendar: [{
-          range: '2023-01',
-          orient: 'vertical',
-          top: 30,
-          left: RailsCharts.js("window.innerWidth >= 1024 ? 80 : 30"),
-          right: 20,
-          cellSize: [20, 20],
-          yearLabel: { show: true },
-          monthLabel: {
-            margin: 2,
-            show: true,
-            nameMap: ['1月'] },
-          dayLabel: {
-            margin: 1,
-            firstDay: 1,
-            nameMap: ['日', '月', '火', '水', '木', '金', '土']
-          },
-          splitLine: {
-            lineStyle: {
-              color: '#793205',
-              width: 0.5
+        calendar: [
+          {
+            range: ["#{1.month.ago.beginning_of_month.strftime('%Y-%m-%d')}", "#{Date.today.strftime('%Y-%m-%d')}"],
+            top: 20,
+            left: 50,
+            right: 50,
+            cellSize: [13],
+            yearLabel: { show: true },
+            monthLabel: {
+              margin: 1,
+              show: true,
+              formatter: '{M}月'
+            },
+            dayLabel: {
+              margin: 2,
+              firstDay: 1,
+              nameMap: ['日', '月', '火', '水', '木', '金', '土']
+            },
+            splitLine: {
+              lineStyle: {
+                color: '#793205',
+                width: 0.5
+              }
             }
           }
-        }]
+        ]
       })
     %>
   </div>
