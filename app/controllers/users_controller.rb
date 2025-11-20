@@ -37,7 +37,7 @@ class UsersController < ApplicationController
 
     @current_tab = params[:tab] || "user_questions"
 
-     # カレンダーチャート用のデータを作成
+    # カレンダーチャート用のデータを作成
     @calendar_data = build_calendar_data
   end
 
@@ -65,7 +65,7 @@ class UsersController < ApplicationController
 
     # カレンダーチャート用のフォーマットに変換 [[Date, count], ...]
     merged_data.map do |date_str, count|
-      [date_str.to_date, count]
+      [ date_str.to_date, count ]
     end
   end
 end
