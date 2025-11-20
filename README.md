@@ -14,11 +14,10 @@
 下記のような学習者を対象とします。
 - 資格試験学習者
 - プログラミング学習者
-- 語学学習者
 - 学生・社会人の生涯学習者
 
 【上記を対象とした理由】  
-資格や語学、プログラミングなどの学習では、専門用語や概念の理解に加え、記憶の定着が不可欠です。  
+資格やプログラミングの学習では、専門用語や概念の理解に加えて記憶の定着が不可欠です。  
 しかし、従来の暗記学習は単調になりやすく、モチベーションの維持が課題となっています。  
 このサービスでは、ゲーム感覚で関連語を「探す」設計により、繰り返し学習への心理的ハードルを下げます。  
 また、語句同士の関連性に着目することで、断片的な暗記にとどまらない理解の構築をサポートし、幅広い学習層に対応できる仕組みとしています。  
@@ -26,26 +25,27 @@
 ## ■サービスの利用イメージ
 #### ◇ 問題選択
 ユーザー登録無しでトップページから問題一覧を閲覧し、興味のある問題を選択してすぐにゲームを始められます。  
-問題一覧は、作成日時・総挑戦回数・リスト登録数によるソートや、タグ・フリーワード・修正依頼有無による絞り込みが可能です。  
-#### ◇ ゲームスタート画面
-各問題直前に、ゲームスタート画面を用意しております。ここでスタートボタンを押すことで、ゲーム及び時間計測がスタートします。  
-この画面で、問題に対する修正依頼・修正依頼内容の確認も可能です。  
-#### ◇ 問題画面
+問題一覧は、カテゴリ別表示、タグ・キーワードによる絞り込み、「理解済みを除外」機能による絞り込みが可能です。  
+また独自のラベル表示で、修正依頼（未完了分）の有無を一目で識別できます。
+#### ◇ ゲーム画面
 問題画面では、最大10枚のカードから正しい単語と関連語の組み合わせを探し出し、マッチング完了を目指します。  
 どうしても正しい組み合わせがわからない場合は、ギブアップも可能です。
 #### ◇ 結果画面
-ゲーム終了後の結果画面で正解の組み合わせとスコア（正答率・解答にかかった時間）を確認し、X（Twitter）への投稿機能で学習成果をシェアします。  
-この画面からも、問題に対する修正依頼・修正依頼内容の確認が可能です。  
+ゲーム終了後の結果画面で正解の組み合わせとスコア（正答率・クリック数・解答にかかった時間）を確認し、X（Twitter）への投稿機能で学習成果をシェアできます。  
+この画面からも、問題に対する修正依頼の有無が確認可能です。  
 #### ◇ ログインで使用できる機能
-アカウント作成・ログイン後は、オリジナル問題の作成や投稿、気になる問題のリスト登録、問題に対するコメント・修正依頼の投稿が可能です。  
+アカウント作成・ログイン後は、オリジナル問題の作成や投稿、気になる問題のリスト登録、まとめてプレイ機能による効率的な学習、問題に対する修正依頼の投稿が可能です。  
 #### ◇ マイページのイメージ
-マイページでプロフィール設定、自作問題の管理・編集、リストの整理、学習履歴や修正依頼の確認を行い、個人の学習環境をカスタマイズできます。  
+マイページでプロフィール設定、自作問題の管理・編集、リストの整理や学習履歴や修正依頼の確認を行い、個人の学習環境をカスタマイズできます。  
   
  ### 用語定義
+ ★：ログインユーザーのみ使用可能  
 - `問題` : 起点となる単語とその関連語の組み合わせを当てる1つのゲーム単位。
-- `リスト` : タグとは別に、ログインユーザーが作成できる、問題の集合リスト（お気に入り的な位置づけ）。リスト作成者が公開/非公開を選択できます。
-- `スコア` : 正答率・解答にかかった時間。
-- `学習履歴` : 総挑戦数、挑戦した問題およびそのスコアの記録を表示します。一定の総挑戦数ごとで、X（Twitter）へのシェアも可能です。
+- ★ `リスト` : タグとは別に、ログインユーザーが作成できる、問題の集合リスト（お気に入り的な位置づけ）。
+- ★ `まとめてプレイ機能`：リストに追加した問題を連続でプレイし、最後にまとめて結果を確認できる機能。
+- `スコア` : 正答率・クリック数・解答時間。
+- ★ `学習履歴` : 総挑戦数、挑戦した問題およびそのスコアの記録を表示します。
+- ★ `修正依頼` : 問題に対する誤りや改善提案を投稿できる機能。
 
 ### ■ ゲームの流れ
 #### 問題例:
@@ -77,7 +77,6 @@
 #### ◇ MVP時点で作成する問題×タグ付与例
 - git操作 × `#プログラミング` `#git` `#IT`
 - 情報資産に対するリスク × `#IT` `#ITセキュリティ` `#基本情報試験`
-- 英単語とその日本語訳 × `#英語` `#語学学習`
 - 尊敬語・謙譲語 × `#マナー` `#秘書検定2級` `#就活`
 - ゴリラ豆知識 × `#ネタ` `#雑学` `#ゴリラ` `#研究`
 
@@ -96,7 +95,7 @@
 
 ### ユーザー投稿型問題が中心の“共創型”設計
 - 一方通行の問題集ではなく、ユーザーが自分の学習範囲で問題を作成・公開できます。
-- 似た悩みを持つ他者の投稿や感想も閲覧でき、共感・応援を感じながら学習可能です。
+- Xシェア機能を通して似た悩みを持つ他者の投稿や感想も閲覧でき、共感・応援を感じながら学習可能です。
 
 ## ■ 機能候補
 現段階で大まかに実装したい機能の候補は下記になります。今後変更の可能性もあります。  
@@ -105,7 +104,7 @@
 - ユーザー登録機能(メールアドレスとパスワードによる簡易的なもの)
 - ログイン機能
 - ログアウト機能
-- 公開問題一覧の表示機能
+- 問題一覧の表示機能
   - 検索機能
 - ゲーム機能
 	- 最大10枚のカードマッチングゲーム
@@ -128,31 +127,48 @@
 - お問い合わせ
 - 利用規約
 - プライバシーポリシー
-- 公開問題一覧の表示機能
-  - ソート機能（作成日時・総挑戦回数・リスト登録数）
+- 問題一覧の表示機能
+  - 理解済み問題の除外機能
   - タグ機能（オートコンプリート機能含む）
 - スコア機能（正答率・解答にかかった時間）
-- 公開リストの一覧表示機能
 - マイページ追加機能
 	- 学習履歴機能：総挑戦数、挑戦した問題、スコア(問題ごとの正答率・解答にかかった時間)の記録
-	- リストのCRUD（登録・参照・更新・削除）機能　※公開/非公開選択機能
+	- リストのCRUD（登録・参照・更新・削除）機能
   - リストの連続プレイ機能
 
-## ■ 機能の実装方針予定
-こちらも、現段階の予定になります。今後変更となる可能性もあります。  
-
-- 検索機能：gem ransack
-- 動的OGP：Cloudinary
-
-### スタック技術
+## ■ スタック技術
 
 | カテゴリ       | 技術                             |
 |----------------|----------------------------------|
-| バックエンド   | Ruby on Rails 7.2 / Ruby 3.4     |
-| フロントエンド | TailwindCSS / daisyUI           |
+| バックエンド   | Ruby 3.3.6 / Ruby on Rails 7.2  |
+| フロントエンド | TailwindCSS / daisyUI / Hotwire (Turbo, Stimulus)          |
 | データベース   | PostgreSQL                       |
 | デプロイ       | Render                           |
-| 認証           | gem devise / OmniAuth            |
+| 認証           | Devise / OmniAuth (Google OAuth2)|
+
+### 主要な使用技術と用途
+#### 認証・セキュリティ
+* Devise - ユーザー認証機能（メール/パスワード認証、パスワードリセット）
+* OmniAuth - Google OAuth2による外部認証
+* Rack Attack - レート制限とセキュリティ保護
+#### データ検索・表示
+* Ransack - 問題一覧の検索・絞り込み機能
+* Kaminari - ページネーション
+* Ancestry - カテゴリの階層構造管理
+#### UI/UXデザイン
+* TailwindCSS / daisyUI - UIデザイン・スタイリング
+* Hotwire (Turbo / Stimulus) - SPAライクな動作とインタラクティブな機能
+* Gretel - パンくずリスト機能
+#### フロントエンドツール
+* esbuild - JavaScriptのバンドル
+* stimulus-autocomplete - 修正依頼における対象問題指定のオートコンプリート機能
+* Tagify - カンマ区切りを要しない直感的なタグ編集・タグのオートコンプリート機能
+#### データ可視化
+* ECharts (rails_charts) - マイページのカレンダーチャート表示
+#### 外部サービス連携
+* Cloudinary - 動的OGP画像生成
+* meta-tags - OGP・SEO対応
+* Cloudflare - 独自ドメイン
 
 ### ■ 画面遷移図
 [Figma](https://www.figma.com/design/xme6s96ehELySbIOnt31U7/NeuroWord?node-id=0-1&t=V4JqtNMmzldeBCQM-1)
@@ -161,7 +177,7 @@
 ```mermaid
 erDiagram
     users {
-        varchar id PK "ID"
+        bigint id PK "ID"
         string email "メールアドレス"
         string encrypted_password "暗号化されたパスワード"
         string name "ユーザー名"
@@ -172,56 +188,99 @@ erDiagram
         datetime updated_at "更新日時"
     }
 
-    questions {
-        varchar id PK "ID"
+    sns_credentials {
+        bigint id PK "ID"
         bigint user_id FK "ユーザーID"
+        string provider "OAuth プロバイダー名（例: google_oauth2）"
+        string uid "プロバイダー固有のユーザーID"
+        datetime created_at "作成日時"
+        datetime updated_at "更新日時"
+    }
+
+    categories {
+        bigint id PK "ID"
+        string name "カテゴリ名"
+        string ancestry "祖先カテゴリのパス（階層構造管理用）"
+        datetime created_at "作成日時"
+        datetime updated_at "更新日時"
+    }
+
+    questions {
+        bigint id PK "ID"
+        bigint user_id FK "ユーザーID"
+        bigint category_id FK "カテゴリID"
         string title "問題のタイトル"
         text description "問題の説明"
         datetime created_at "作成日時"
         datetime updated_at "更新日時"
     }
 
+    origin_words {
+        bigint id PK "ID"
+        bigint question_id FK "問題ID"
+        string origin_word "起点となるワード"
+        datetime created_at "作成日時"
+        datetime updated_at "更新日時"
+    }
+
+    related_words {
+        bigint id PK "ID"
+        bigint origin_word_id FK "起点ワードID"
+        string related_word "関連するワード"
+        datetime created_at "作成日時"
+        datetime updated_at "更新日時"
+    }
+
     tags {
-        varchar id PK "ID"
+        bigint id PK "ID"
         string name "タグの名前"
         datetime created_at "作成日時"
         datetime updated_at "更新日時"
     }
 
     question_tags {
-        varchar id PK "ID"
+        bigint id PK "ID"
         bigint question_id FK "問題ID"
         bigint tag_id FK "タグID"
         datetime created_at "作成日時"
         datetime updated_at "更新日時"
     }
 
-    card_sets {
-        varchar id PK "ID"
+    lists {
+        bigint id PK "ID"
+        bigint user_id FK "ユーザーID"
+        string name "リスト名"
+        text description "リストの説明"
+        boolean is_favorite "お気に入りフラグ（各ユーザー1つまで）"
+        datetime created_at "作成日時"
+        datetime updated_at "更新日時"
+    }
+
+    list_questions {
+        bigint id PK "ID"
+        bigint list_id FK "リストID"
         bigint question_id FK "問題ID"
-        string origin_word "起点となるワード"
-        json related_words "（起点ワードに）関連するワード群"
         datetime created_at "作成日時"
         datetime updated_at "更新日時"
     }
 
     requests {
-        varchar id PK "ID"
+        bigint id PK "ID"
         bigint question_id FK "問題ID"
-        bigint user_id FK "ユーザーID ※ユーザー = 修正依頼起票者"
+        bigint user_id FK "ユーザーID ※修正依頼起票者"
         string title "修正依頼のタイトル"
         text content "修正依頼の詳細"
-        integer status "enum: { incompleted: 0, completed: 1 }"
+        integer status "ステータス enum: { incompleted: 0, completed: 1 }"
         datetime created_at "作成日時"
         datetime updated_at "更新日時"
     }
 
     request_responses {
-        varchar id PK "ID"
+        bigint id PK "ID"
         bigint request_id FK "修正依頼ID"
-        bigint user_id FK "ユーザーID ※ユーザー = 修正依頼への返信者"
+        bigint user_id FK "ユーザーID ※修正依頼への返信者"
         text content "返信内容"
-        boolean is_completed "修正依頼完了チェック ※trueになった場合、同じ修正依頼IDには追加の返信ができないようにする"
+        boolean is_completed "修正依頼完了チェック"
         datetime created_at "作成日時"
         datetime updated_at "更新日時"
     }
@@ -239,14 +298,26 @@ erDiagram
     }
 
     %% Relations
+    users ||--o{ sns_credentials : "has_many"
     users ||--o{ questions : "has_many"
+    users ||--o{ lists : "has_many"
     users ||--o{ requests : "has_many"
     users ||--o{ request_responses : "has_many"
     users ||--o{ game_records : "has_many"
-    questions ||--o{ card_sets : "has_many"
+
+    categories ||--o{ questions : "has_many"
+
+    questions ||--o{ origin_words : "has_many"
     questions ||--o{ question_tags : "has_many"
+    questions ||--o{ list_questions : "has_many"
     questions ||--o{ requests : "has_many"
     questions ||--o{ game_records : "has_many"
+
+    origin_words ||--o{ related_words : "has_many"
+
     tags ||--o{ question_tags : "has_many"
+
+    lists ||--o{ list_questions : "has_many"
+
     requests ||--o{ request_responses : "has_many"
 ```
