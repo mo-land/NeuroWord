@@ -8,7 +8,7 @@ class UsersController < ApplicationController
     # クッキーに設定を保存
     save_filter_understood_preference
 
-    @questions = @user.questions.includes(:category).page(params[:questions_page])
+    @questions = @user.questions.includes(:category, :tags).page(params[:questions_page])
 
     # プレイ履歴のフィルタリング
     game_records_query = @user.game_records.includes(:question).order(created_at: :desc)
@@ -36,11 +36,36 @@ class UsersController < ApplicationController
     @list_questions = list_questions_query
 
     @current_tab = params[:tab] || "user_questions"
+
+    # カレンダーチャート用のデータを作成
+    @calendar_data = build_calendar_data
   end
 
   private
 
   def set_user
     @user = current_user
+  end
+
+  def build_calendar_data
+    # 問題追加数を日毎に集計
+    questions_by_date = @user.questions
+      .group("DATE(created_at)")
+      .count
+
+    # game_recordsを日毎に集計
+    game_records_by_date = @user.game_records
+      .group("DATE(created_at)")
+      .count
+
+    # 2つのハッシュをマージして、日付毎の合計値を計算
+    merged_data = questions_by_date.merge(game_records_by_date) do |date, questions_count, records_count|
+                    questions_count + records_count
+                  end
+
+    # カレンダーチャート用のフォーマットに変換 [[Date, count], ...]
+    merged_data.map do |date_str, count|
+      [ date_str.to_date, count ]
+    end
   end
 end

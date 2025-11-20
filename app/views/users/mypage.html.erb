@@ -1,13 +1,68 @@
 <% breadcrumb :mypage %>
 <h1 class="text-2xl font-bold text-left p-6"><%= t('.title') %></h1>
-<div class="md:justify-self-start">
-  <div class="max-w-3xl mx-auto px-4">
+<div class="flex flex-col lg:flex-row gap-4 px-4">
+  <div class="w-full lg:w-auto">
+    <div class="max-w-3xl mx-auto">
+      <%= turbo_frame_tag current_user do %>
+        <%= render "profile" %>
+      <% end %>
+    </div>
+  </div>
 
-    <%= turbo_frame_tag current_user do %>
-      <%= render "profile" %>
-    <% end %>
+  <div class="w-full lg:w-auto lg:flex-1 lg:pl-6" style="max-width: 100%; overflow-x: auto;">
+    <%= calendar_chart(
+      {
+        data: @calendar_data
+      },
+      class: '',
+      style: 'height: 130px; width: 300px;',
+      options: {
+        grid: {
+          top: 10,
+          bottom: 10,
+          left: 80,
+          right: 40
+        },
+        visualMap: {
+          show: false,
+          min: 0,
+          max: 40,
+          inRange: {
+            color: ['#DAFADA', '#008000']
+          }
+        },
+        calendar: [
+          {
+            range: ["#{1.month.ago.beginning_of_month.strftime('%Y-%m-%d')}", "#{Date.today.strftime('%Y-%m-%d')}"],
+            top: 20,
+            left: 50,
+            right: 50,
+            cellSize: [13],
+            yearLabel: { show: true },
+            monthLabel: {
+              margin: 1,
+              show: true,
+              formatter: '{M}月'
+            },
+            dayLabel: {
+              margin: 2,
+              firstDay: 1,
+              nameMap: ['日', '月', '火', '水', '木', '金', '土']
+            },
+            splitLine: {
+              lineStyle: {
+                color: '#793205',
+                width: 0.5
+              }
+            }
+          }
+        ]
+      })
+    %>
   </div>
 </div>
+
+
 
 <!-- name of each tab group should be unique -->
 <div class="tabs tabs-lift mt-3 p-4">

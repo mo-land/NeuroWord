@@ -2,6 +2,10 @@
 import "@hotwired/turbo-rails"
 import "./controllers"
 
+import * as echarts from 'echarts';
+
+window.echarts = echarts;
+
 // Tagifyインスタンスをグローバルに保持
 let tagifyInstance = null
 

@@ -59,6 +59,8 @@ gem "gretel"
 
 gem "ancestry"
 
+gem "rails_charts"
+
 group :development, :test do
   gem "dotenv"
 
