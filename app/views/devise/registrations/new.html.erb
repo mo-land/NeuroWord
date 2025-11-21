@@ -4,9 +4,10 @@
   <%= t('devise.registrations.new.sign_up') %>
 </h1>
 <div class="max-w-md w-full mx-auto bg-base-200 p-4 sm:p-6 rounded-xl shadow-lg">
+  <%= render "devise/shared/sns_login_btn" %>
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
 <%= render 'shared/error_messages', object: f.object %>
-
+  
   <fieldset class="fieldset">
     <%= f.label :name, class: "fieldset-legend" %>
     <%= f.text_field :name, class: "input w-full mx-auto", placeholder: "ユーザー名を入力", autofocus: true %>
@@ -33,7 +34,7 @@
   </fieldset>
 
   <div class="actions my-8">
-    <%= f.submit "登録", class:"btn btn-primary w-full mx-auto" %>
+    <%= f.submit "登録", class:"btn btn-primary lg:text-lg tracking-widest w-full mx-auto shadow-xs" %>
   </div>
 <% end %>
 

@@ -124,7 +124,9 @@ ja:
         sign_in: 既にアカウントをお持ちの方はこちら
         sign_in_with_provider: "%{provider}でログイン"
         sign_up: アカウント登録はこちら
+      sns_login_btn:
         login_with_Google: Googleでログイン
+        or: または
       minimum_password_length:
         other: "（%{count}字以上）"
     unlocks:
