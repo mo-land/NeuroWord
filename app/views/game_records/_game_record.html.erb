@@ -1,14 +1,15 @@
 <ul class="list bg-base-100 rounded-box">
+            <div class="border-b-1 border-current/30 mt-4"></div>
   <% @game_records.each do |game_record| %>
     <div id="game_record-id-<%= game_record.id %>">
-      <li class="list-row">
+      <li class="list-row rounded-none border-b-1 border-current/25">
         <div>
           <div>
-            <%= link_to game_record.question.title, game_path(game_record.question), class: "link text-xl" %>
+            <%= link_to game_record.question.title, game_path(game_record.question), class: "link font-semibold" %>
           </div>
-          <div class="flex items-center justify-center text-sm font-semibold opacity-60">
+          <div class="flex items-center justify-center text-sm opacity-80">
             <div><%= l game_record.created_at, format: :short %></div>
-            <div class="ml-4"><%= "⏱: #{Time.at(game_record.completion_time_seconds).utc.strftime("%M:%S.%2N")}" %></div>
+            <div class="ml-4 flex"><div class="font-bold">⏱</div><%= ": #{Time.at(game_record.completion_time_seconds).utc.strftime("%M:%S.%2N")}" %></div>
             <div class="ml-4"><%= "正答率: #{game_record.accuracy}%" %></div>
             <div class="ml-6">
               <div class="flex gap-2">
