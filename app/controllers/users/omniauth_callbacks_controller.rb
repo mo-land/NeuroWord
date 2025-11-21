@@ -36,18 +36,15 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   # end
 
   # GET|POST /users/auth/twitter/callback
-  # def failure
-  #   super
+  def failure
+    redirect_to root_path
+    set_flash_message(:notice, :failure, kind: "Google") if is_navigational_format?
+  end
+
+  # protected
+
+  # The path used when OmniAuth fails
+  # def after_omniauth_failure_path_for(scope)
+  #   super(scope)
   # end
-
-  protected
-
-    # The path used when OmniAuth fails
-    # def after_omniauth_failure_path_for(scope)
-    #   super(scope)
-    # end
-
-    def failure
-      redirect_to root_path and return
-    end
 end
