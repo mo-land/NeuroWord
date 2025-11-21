@@ -8,7 +8,7 @@ class UsersController < ApplicationController
     # クッキーに設定を保存
     save_filter_understood_preference
 
-    @questions = @user.questions.includes(:category, :tags).page(params[:questions_page])
+    @questions = @user.questions.includes(:category, :tags).page(params[:questions_page]).order(updated_at: :desc)
 
     # プレイ履歴のフィルタリング
     game_records_query = @user.game_records.includes(:question).order(created_at: :desc)
