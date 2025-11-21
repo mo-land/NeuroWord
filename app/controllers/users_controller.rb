@@ -28,7 +28,7 @@ class UsersController < ApplicationController
     @list = @lists.find { |list| list.id == @selected_list_id.to_i } || @user.favorite_list
 
     # リストの問題をリスト追加降順で取得（フィルタリング適用）
-    list_questions_query = @list.questions.order("list_questions.created_at DESC")
+    list_questions_query = @list.questions.with_tag_relations.order("list_questions.created_at DESC")
     if filter_understood_enabled?
       understood_ids = GameRecord.understood_question_ids_for(@user)
       list_questions_query = list_questions_query.where.not(id: understood_ids) if understood_ids.present?
