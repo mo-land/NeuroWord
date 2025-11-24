@@ -1,13 +1,12 @@
 class StaticPagesController < ApplicationController
-
   def top
     set_dynamic_ogp_image
   end
 
   def terms;end
-  
+
   def privacy_policy;end
-  
+
   def contact;end
 
   private

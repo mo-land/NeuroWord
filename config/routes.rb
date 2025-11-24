@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get "/terms" => "static_pages#terms"
   get "/privacy_policy" => "static_pages#privacy_policy"
   get "/contact" => "static_pages#contact"
-  
+
   resource :user, only: %i[] do
     member do
       get :mypage  # 必要に応じて
