@@ -1,0 +1,6 @@
+ja:
+  activemodel:
+    attributes:
+      card_form:
+        origin_word: 起点語
+        related_word: 関連語

@@ -13,7 +13,7 @@
 
               <div class="form-control mb-4">
                 <%= form.label :origin_word do %>
-                  <span class="label-text"><%= OriginWord.human_attribute_name(:origin_word) %></span>
+                  <span class="label-text"><%= t('activemodel.attributes.card_form.origin_word') %></span>
                 <% end %>
                 <%= form.text_field :origin_word, 
                                 class: "input input-bordered w-full",
@@ -22,7 +22,7 @@
 
               <div class="form-control mb-4">
                 <%= form.label :related_word do %>
-                  <span class="label-text"><%= RelatedWord.human_attribute_name(:related_word) %></span>
+                  <span class="label-text"><%= t('activemodel.attributes.card_form.related_word') %></span>
                 <% end %>
                 <%= form.text_field :related_word, 
                                 class: "input input-bordered w-full",
