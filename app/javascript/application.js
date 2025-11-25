@@ -6,10 +6,20 @@ import * as echarts from 'echarts';
 window.echarts = echarts;
 
 // ローディングアニメーション
-window.onload = function () {
+document.addEventListener('turbo:load', function () {
   const spinner = document.getElementById("loading");
-  spinner.classList.add("loaded");
-};
+  if (spinner) {
+    spinner.classList.add("loaded");
+  }
+});
+
+// 初回読み込み時
+document.addEventListener('DOMContentLoaded', function () {
+  const spinner = document.getElementById("loading");
+  if (spinner) {
+    spinner.classList.add("loaded");
+  }
+});
 
 // Tagifyインスタンスをグローバルに保持
 let tagifyInstance = null
