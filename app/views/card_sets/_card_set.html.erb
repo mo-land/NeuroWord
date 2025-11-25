@@ -51,18 +51,20 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
         <% card_set.related_words.each do |word| %>
-          <div id="related_word-<%= word.id %>" class="card bg-base-200 shadow-inner">
-            <div class="card-body py-3 px-4">
-              <div class="flex !flex-row items-center justify-between">
-                <p class="text-base break-words"><%= word.related_word %></p>
-                <% if current_user && current_user.own?(question) %>
-                  <%= link_to question_card_set_related_word_path(question, card_set, word),  data: { turbo_method: :delete, turbo_confirm: t('card_sets.card_set.related_word_delete_confirm') } do %>
-                    <i class="fas fa-circle-xmark ml-3"></i>
+          <% if word.persisted? %>
+            <div id="related_word-<%= word.id %>" class="card bg-base-200 shadow-inner">
+              <div class="card-body py-3 px-4">
+                <div class="flex !flex-row items-center justify-between">
+                  <p class="text-base break-words"><%= word.related_word %></p>
+                  <% if current_user && current_user.own?(question) %>
+                    <%= link_to question_card_set_related_word_path(question, card_set, word),  data: { turbo_method: :delete, turbo_confirm: t('card_sets.card_set.related_word_delete_confirm') } do %>
+                      <i class="fas fa-circle-xmark ml-3"></i>
+                    <% end %>
                   <% end %>
-                <% end %>
+                </div>
               </div>
             </div>
-          </div>
+          <% end %>
         <% end %>
       </div>
     </div>
