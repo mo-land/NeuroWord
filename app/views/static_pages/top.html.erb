@@ -1,14 +1,167 @@
-<div class="hero bg-base-200 min-h-screen my-[-65px]">
-  <div class="hero-content flex-col lg:flex-row-reverse">
-    <%= image_tag 'NeuroWord.png' , class: 'sm rounded-lg shadow-2xl' %>
-    <div>
-      <p class="pb-6">
-        「NeuroWord（ニューロワード）」は、単語や用語とその関連語・説明を一覧表示し、正しい組み合わせを選んでいくWebゲームアプリです。
-      </p>
-      <%= link_to questions_path, class: "btn btn-primary btn-lg md:btn-lg xl:btn-xl" do %>
-        <i class="fa-solid fa-magnifying-glass" viewBox="0 0 24 24"></i>
-        <span class="font-mplus1">さぁ、問題を探そう！</span>
-      <% end %>
+<div class="bg-base-200 min-h-screen my-[-65px] py-12">
+  <div class="container mx-auto px-4 max-w-4xl">
+    <!-- NeuroWordの特徴セクション -->
+    <div class="bg-base-100 rounded-lg shadow-xl p-8 mb-12">
+      <h2 class="text-lg lg:text-2xl font-bold mb-4 text-center">NeuroWord～仲間の言葉を見つけよう！～ にようこそ！</h2>
+      <div class="text-sm text-center">
+        <p>「NeuroWord（ニューロワード）」は、単語や用語とその関連語・説明を一覧表示し、</p>
+        <p>正しい組み合わせを選んでいくWebゲームアプリです。</p>
+      </div>
+      <div class="divider"></div>
+      <h2 class="text-2xl font-bold mb-8 text-center">NeuroWordの特徴</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="card bg-base-200">
+          <div class="card-body">
+            <h3 class="card-title text-md">「探す」ことで記憶に定着</h3>
+            <p class="text-xs">一般的な暗記アプリとは異なり、関連語を「探し出す」ことで自然な連想と整理ができます。</p>
+          </div>
+        </div>
+        <div class="card bg-base-200">
+          <div class="card-body">
+            <h3 class="card-title text-md">最大10枚のミニゲーム設計</h3>
+            <p class="text-xs">短時間でも楽しめるシンプルな設計。集中力・選択力・関連づけ力を刺激します。</p>
+          </div>
+        </div>
+        <div class="card bg-base-200">
+          <div class="card-body">
+            <h3 class="card-title text-md">1対1だけではない関連づけ学習</h3>
+            <p class="text-xs">「ある単語と関連語たち」を組み合わせる設計で、用語群ごとのネットワーク記憶に適しています。</p>
+          </div>
+        </div>
+        <div class="card bg-base-200">
+          <div class="card-body">
+            <h3 class="card-title text-md">ユーザー投稿型の共創サービス</h3>
+            <p class="text-xs">ログインすると、自分の学習範囲で問題を作成・公開可能。Xシェア機能で問題の共有もできます。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- おすすめユーザー -->
+      <div>
+        <h3 class="text-xl font-bold mb-4 text-center">こんな方におすすめ！</h3>
+        <ul class="space-y-2">
+          <li class="flex items-start gap-2">
+            <span class="text-primary">●</span>
+            <span>資格試験・プログラミング学習中の方</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-primary">●</span>
+            <span>暗記が苦手で楽しく学びたい方</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-primary">●</span>
+            <span>用語の関連性を理解しながら覚えたい方</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- CTA -->
+      <div class="lg:flex gap-4 justify-center text-center mt-10">
+        <%= link_to questions_path, class: "btn btn-info btn-lg" do %>
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span class="font-mplus1">早速問題を探す</span>
+        <% end %>
+        <%= link_to new_user_session_path, class: "btn btn-primary btn-lg mt-2 lg:mt-0" do %>
+          <i class="fa-solid fa-fire"></i>
+          <span class="font-mplus1">新規登録して使い倒す</span>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- 使い方セクション -->
+    <div class="bg-base-100 rounded-lg shadow-xl p-8 mb-12">
+      <h2 class="text-2xl font-bold mb-8 text-center">NeuroWordの使い方</h2>
+
+      <!-- ステップ1 -->
+      <div class="mb-8">
+        <h3 class="text-lg font-bold mb-3 flex items-center gap-2">
+          <span class="badge badge-primary badge-lg">1</span>
+          問題を探す
+        </h3>
+        <p class="ml-10">
+          <%= link_to '問題一覧', questions_path, class: "link link-accent" %>
+          から気になる問題を選択。<br>
+          カテゴリやタグで絞り込みもできます。
+        </p>
+      </div>
+
+      <!-- ステップ2 -->
+      <div class="mb-8">
+        <h3 class="text-lg font-bold mb-3 flex items-center gap-2">
+          <span class="badge badge-primary badge-lg">2</span>
+          ゲームをプレイ
+        </h3>
+        <p class="ml-10 mb-3">
+          最大10枚のカードから正しい組み合わせを探します。
+        </p>
+        <div class="ml-10 bg-base-200 p-4 rounded-lg">
+          <p class="font-bold mb-2">遊び方：</p>
+          <ol class="list-decimal list-inside space-y-1">
+            <li>「起点ワード」を選択</li>
+            <li>それに関連する「関連ワード」をすべて選択</li>
+            <li>正解ならカードが消え、次の起点へ</li>
+            <li>すべて当てたらクリア！</li>
+          </ol>
+          <div class="mt-4 pt-4 border-t border-base-300">
+            <p class="font-bold mb-1">例：</p>
+            <p class="text-xs">起点「脆弱性」→ 関連「暗号化しない通信」「ワイヤー固定していないPC」</p>
+          </div>
+        </div>
+        <p class="ml-10 mt-3 text-xs">
+          ✨わからない場合は「ギブアップ」も可能です。
+        </p>
+      </div>
+
+      <!-- ステップ3 -->
+      <div class="mb-8">
+        <h3 class="text-lg font-bold mb-3 flex items-center gap-2">
+          <span class="badge badge-primary badge-lg">3</span>
+          結果を確認
+        </h3>
+        <p class="ml-10">
+          正答率や解答時間をチェック。<br>
+          Xで学習成果をシェアできます。
+        </p>
+      </div>
+      <div class="divider"></div>
+
+    <!-- ログイン機能 -->
+      <h2 class="text-2xl font-bold mb-8 text-center">ログインすると、こんな使い方もできます</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex items-start gap-2">
+          <span class="text-success">✅</span>
+          <span>オリジナル問題の作成・投稿</span>
+        </div>
+        <div class="flex items-start gap-2">
+          <span class="text-success">✅</span>
+          <span>気になる問題をリストに保存</span>
+        </div>
+        <div class="flex items-start gap-2">
+          <span class="text-success">✅</span>
+          <span>リストをまとめてプレイ→効率学習</span>
+        </div>
+        <div class="flex items-start gap-2">
+          <span class="text-success">✅</span>
+          <span>学習履歴の記録・振り返り</span>
+        </div>
+        <div class="flex items-start gap-2">
+          <span class="text-success">✅</span>
+          <span>問題への修正依頼の投稿</span>
+        </div>
+      </div>
+      <!-- CTA -->
+      <div class="lg:flex gap-4 justify-center text-center mt-10">
+        <%= link_to questions_path, class: "btn btn-info btn-lg" do %>
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span class="font-mplus1">早速問題を探す</span>
+        <% end %>
+        <%= link_to new_user_session_path, class: "btn btn-primary btn-lg mt-2 lg:mt-0" do %>
+          <i class="fa-solid fa-fire"></i>
+          <span class="font-mplus1">ログインして使い倒す</span>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
