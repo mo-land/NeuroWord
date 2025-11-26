@@ -1,7 +1,7 @@
-<div class="navbar bg-base-300 shadow-sm flex justify-between sticky top-0 lg:h-[65px] lg:min-h-[65px]">
+<div class="navbar bg-base-300 shadow-sm flex justify-between sticky top-0 lg:h-[63px] lg:min-h-[63px]">
   <div class="navbar-start flex items-center">
     <%= link_to '/', class: 'flex items-center space-x-2' do %>
-      <%= image_tag 'NeuroWord_logo.png', class: 'w-auto' %>
+      <%= image_tag 'NeuroWord_logo.webp', class: 'w-auto lg:h-[60px] lg:min-h-[60px]' %>
     <% end %>
     <!-- PC用ヘッダーメニュー（左側） -->
       <div class="hidden lg:flex">
@@ -120,10 +120,10 @@
     <div class="flex-none">
       <ul class="menu menu-horizontal">
         <li class="mx-2">
-          <%= link_to t('shared.defaults.login'), new_user_session_path, class: "btn btn-secondary sm:btn-xs md:btn-md" %>
+          <%= link_to t('shared.defaults.login'), new_user_session_path, class: "btn btn-secondary btn-sm md:btn-md" %>
         </li>
-        <li class="ml-2">
-          <%= link_to t('shared.defaults.sign_up'), new_user_registration_path, class: "btn btn-primary sm:btn-xs md:btn-md" %>
+        <li class="ml-1">
+          <%= link_to t('shared.defaults.sign_up'), new_user_registration_path, class: "btn btn-primary btn-sm md:btn-md" %>
         </li>
       </ul>
     </div>
