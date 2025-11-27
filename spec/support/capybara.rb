@@ -8,6 +8,11 @@ Capybara.register_driver :remote_chrome do |app|
 end
 
 Capybara.register_driver :selenium_chrome_headless do |app|
+  # CI環境ではwebdriversを無効化（Selenium Managerを使用）
+  if ENV['CI']
+    Selenium::WebDriver::Service.driver_path = '/usr/bin/chromedriver' if File.exist?('/usr/bin/chromedriver')
+  end
+
   options = Selenium::WebDriver::Chrome::Options.new
   options.add_argument('--headless=new')
   options.add_argument('--no-sandbox')
