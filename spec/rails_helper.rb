@@ -84,10 +84,14 @@ RSpec.configure do |config|
   config.include LoginMacros
 
   config.before(:each, type: :system) do
-    driven_by :remote_chrome
-    Capybara.server_host = IPSocket.getaddress(Socket.gethostname)
-    Capybara.server_port = 4444
-    Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"
+    if ENV['SELENIUM_DRIVER_URL'].present?
+      driven_by :remote_chrome
+      Capybara.server_host = IPSocket.getaddress(Socket.gethostname)
+      Capybara.server_port = 4444
+      Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"
+    else
+      driven_by :selenium_chrome_headless
+    end
     Capybara.ignore_hidden_elements = false
   end
 end
