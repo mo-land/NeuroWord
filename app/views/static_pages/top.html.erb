@@ -4,14 +4,14 @@
     <%= image_tag "NeuroWord.webp", alt: "複数のカードを持つ手", class: "hidden md:block md:w-51 lg:w-72 h-auto object-contain" %>
     <div class="content-center text-center md:ml-6">
       <%= image_tag "NeuroWord_title.webp", alt: "NeuroWord（アプリ名）", class: "w-96 lg:w-144 h-auto object-contain" %>
-      <div class="hidden md:block text-sm">
+      <div class="hidden md:block text-md">
         <p class="md:my-2">NeuroWord～仲間の言葉を見つけよう！～ にようこそ！</p>
         <p>「NeuroWord（ニューロワード）」は、単語や用語とその関連語・説明を一覧表示し、</p>
         <p>正しい組み合わせを選んでいくWebゲームアプリです。</p>
       </div>
     </div>
   </div>
-  <div class="container mx-auto card bg-base-100 border-2 border-base-content/40 text-xs my-6 p-2 block md:hidden">
+  <div class="container mx-auto card bg-base-100 border-2 border-base-content/40 text-sm my-6 p-2 block md:hidden">
     <div class="flex justify-center">
       <%= image_tag "NeuroWord.webp", alt: "複数のカードを持つ手", class: "w-8 h-auto object-contain" %>
       <div class="ml-2">
@@ -32,25 +32,25 @@
       <div class="card bg-gradient-to-br from-base-100 to-base-200 border-l-4 border-warning shadow-lg hover:shadow-xl transition-shadow">
         <div class="card-body">
           <h3 class="card-title text-md text-warning">「探す」ことで記憶に定着</h3>
-          <p class="text-xs">一般的な暗記アプリとは異なり、関連語を「探し出す」ことで自然な連想と整理ができます。</p>
+          <p class="text-sm">一般的な暗記アプリとは異なり、関連語を「探し出す」ことで自然な連想と整理ができます。</p>
         </div>
       </div>
       <div class="card bg-gradient-to-br from-base-100 to-base-200 border-l-4 border-success shadow-lg hover:shadow-xl transition-shadow">
         <div class="card-body">
           <h3 class="card-title text-md text-success">最大10枚のミニゲーム設計</h3>
-          <p class="text-xs">短時間でも楽しめるシンプルな設計。集中力・選択力・関連づけ力を刺激します。</p>
+          <p class="text-sm">短時間でも楽しめるシンプルな設計。集中力・選択力・関連づけ力を刺激します。</p>
         </div>
       </div>
       <div class="card bg-gradient-to-br from-base-100 to-base-200 border-l-4 border-info shadow-lg hover:shadow-xl transition-shadow">
         <div class="card-body">
           <h3 class="card-title text-md text-info">1対1だけではない関連づけ学習</h3>
-          <p class="text-xs">「ある単語と関連語たち」を組み合わせる設計で、用語群ごとのネットワーク記憶に適しています。</p>
+          <p class="text-sm">「ある単語と関連語たち」を組み合わせる設計で、用語群ごとのネットワーク記憶に適しています。</p>
         </div>
       </div>
       <div class="card bg-gradient-to-br from-base-100 to-base-200 border-l-4 border-error shadow-lg hover:shadow-xl transition-shadow">
         <div class="card-body">
           <h3 class="card-title text-md text-error">ユーザー投稿型の共創サービス</h3>
-          <p class="text-xs">ログインすると、自分の学習範囲で問題を作成・公開可能。Xシェア機能で問題の共有もできます。</p>
+          <p class="text-sm">ログインすると、自分の学習範囲で問題を作成・公開可能。Xシェア機能で問題の共有もできます。</p>
         </div>
       </div>
     </div>
@@ -85,9 +85,16 @@
         <i class="fa-solid fa-magnifying-glass"></i>
         <span class="font-mplus1">早速問題を探す</span>
       <% end %>
-      <%= link_to new_user_registration_path, class: "btn btn-primary btn-lg mt-2 sm:mt-0 shadow-lg hover:shadow-xl transition-shadow" do %>
-        <i class="fa-solid fa-fire"></i>
-        <span class="font-mplus1">新規登録して使い倒す</span>
+      <% if user_signed_in? %>
+        <%= link_to new_question_path, class: "btn btn-primary btn-lg mt-2 sm:mt-0 shadow-lg hover:shadow-xl transition-shadow" do %>
+          <i class="fa-solid fa-fire"></i>
+          <span class="font-mplus1">問題を作ってみる</span>
+        <% end %>
+      <% else %>
+        <%= link_to new_user_registration_path, class: "btn btn-primary btn-lg mt-2 sm:mt-0 shadow-lg hover:shadow-xl transition-shadow" do %>
+          <i class="fa-solid fa-fire"></i>
+          <span class="font-mplus1">新規登録して使い倒す</span>
+        <% end %>
       <% end %>
     </div>
   </div>
@@ -187,9 +194,16 @@
         <i class="fa-solid fa-magnifying-glass"></i>
         <span class="font-mplus1">早速問題を探す</span>
       <% end %>
-      <%= link_to new_user_session_path, class: "btn btn-primary btn-lg mt-2 sm:mt-0 shadow-lg hover:shadow-xl transition-shadow" do %>
-        <i class="fa-solid fa-fire"></i>
-        <span class="font-mplus1">ログインして使い倒す</span>
+      <% if user_signed_in? %>
+        <%= link_to mypage_user_path, class: "btn btn-primary btn-lg mt-2 sm:mt-0 shadow-lg hover:shadow-xl transition-shadow" do %>
+          <i class="fa-solid fa-fire"></i>
+          <span class="font-mplus1">マイページを活用する</span>
+        <% end %>
+      <% else %>
+        <%= link_to new_user_session_path, class: "btn btn-primary btn-lg mt-2 sm:mt-0 shadow-lg hover:shadow-xl transition-shadow" do %>
+          <i class="fa-solid fa-fire"></i>
+          <span class="font-mplus1">ログインして使い倒す</span>
+        <% end %>
       <% end %>
     </div>
   </div>
