@@ -69,12 +69,33 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Run tests
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+
+      - name: Install JavaScript dependencies
+        run: npm install
+
+      - name: Build JavaScript
+        run: npm run build
+
+      - name: Precompile assets
         env:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:postgres@localhost:5432
+        run: bundle exec rails assets:precompile
+
+      - name: Run rspec
+        env:
+          RAILS_ENV: test
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432
+          CI: true
+          DISABLE_WEBDRIVERS: true
           # REDIS_URL: redis://localhost:6379/0
-        run: bin/rails db:test:prepare test test:system
+        run: |
+          bundle exec rails db:create db:schema:load
+          bundle exec rspec
 
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v5

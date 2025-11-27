@@ -8,12 +8,25 @@ Capybara.register_driver :remote_chrome do |app|
 end
 
 Capybara.register_driver :selenium_chrome_headless do |app|
+  # CI環境ではwebdriversを無効化（Selenium Managerを使用）
+  if ENV['CI']
+    Selenium::WebDriver::Service.driver_path = '/usr/bin/chromedriver' if File.exist?('/usr/bin/chromedriver')
+  end
+
   options = Selenium::WebDriver::Chrome::Options.new
   options.add_argument('--headless=new')
   options.add_argument('--no-sandbox')
   options.add_argument('--disable-dev-shm-usage')
   options.add_argument('--disable-gpu')
+  options.add_argument('--disable-software-rasterizer')
+  options.add_argument('--disable-extensions')
   options.add_argument('--window-size=1680,1050')
+
+  # CI環境ではシステムのChromeを使用
+  if ENV['CI']
+    options.binary = '/usr/bin/google-chrome'
+  end
+
   Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
 end
 

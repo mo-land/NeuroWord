@@ -110,7 +110,13 @@ RSpec.describe "Questions", type: :system do
 
   describe "ゲームプレイ時のカード表示" do
     before do
-      driven_by(:remote_chrome)
+      skip 'CI環境ではSeleniumテストをスキップ' if ENV['CI']
+
+      if ENV['SELENIUM_DRIVER_URL'].present?
+        driven_by(:remote_chrome)
+      else
+        driven_by(:selenium_chrome_headless)
+      end
     end
 
     context "ゲーム画面でのカード表示" do
