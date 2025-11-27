@@ -16,6 +16,12 @@ Capybara.register_driver :selenium_chrome_headless do |app|
   options.add_argument('--disable-software-rasterizer')
   options.add_argument('--disable-extensions')
   options.add_argument('--window-size=1680,1050')
+
+  # CI環境ではシステムのChromeを使用
+  if ENV['CI']
+    options.binary = '/usr/bin/google-chrome'
+  end
+
   Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
 end
 
