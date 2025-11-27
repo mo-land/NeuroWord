@@ -73,10 +73,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
-          cache: npm
 
       - name: Install JavaScript dependencies
-        run: npm ci
+        run: npm install
 
       - name: Build JavaScript
         run: npm run build
