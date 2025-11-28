@@ -94,22 +94,10 @@
           <div class="<%= 'hidden' if @list.is_favorite %>" >
 
             <li>
-              <div data-controller="list-modal" data-action="turbo:submit-end->list-modal#handleSubmitEnd" class="mt-2">
-                <button onclick="edit_list_modal.showModal()" data-list-selector-target="editLink">
-                    <i class="fa-solid fa-pen text-success/70" aria-hidden="true"></i>
-                    リスト名を変更
-                  </button>
-                  <dialog id="edit_list_modal" class="modal modal-bottom sm:modal-middle" data-list-modal-target="dialog">
-                    <div class="modal-box">
-                      <%= turbo_frame_tag "edit_list", src: edit_list_path(@list), data: { list_modal_target: "frame" } do %>
-                        <p>読み込み中...</p>
-                      <% end %>
-                    </div>
-                    <form method="dialog" class="modal-backdrop">
-                      <button>close</button>
-                    </form>
-                  </dialog>
-              </div>
+              <%= link_to edit_list_path(@list), data: { turbo_frame: "modal" } do %>
+                <i class="fa-solid fa-pen text-success/70" aria-hidden="true"></i>
+                リスト名を変更
+              <% end %>
             </li>
 
             <li>
@@ -121,22 +109,10 @@
           </div>
 
           <li>
-            <div data-controller="list-modal" data-action="turbo:submit-end->list-modal#handleSubmitEnd">
-              <button onclick="my_modal_5.showModal()">
-                <i class="fa-solid fa-plus text-error" aria-hidden="true"></i>
-                新規リストを作成
-              </button>
-              <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle" data-list-modal-target="dialog">
-                <div class="modal-box">
-                  <%= turbo_frame_tag "new_list", src: new_list_path, data: { list_modal_target: "frame" } do %>
-                    <p>読み込み中...</p>
-                  <% end %>
-                </div>
-                <form method="dialog" class="modal-backdrop">
-                  <button>close</button>
-                </form>
-              </dialog>
-            </div>
+            <%= link_to new_list_path(list_id: @list.id), data: { turbo_frame: "modal" } do %>
+              <i class="fa-solid fa-plus text-error" aria-hidden="true"></i>
+              新規リストを作成
+            <% end %>
           </li>
 
         </ul>
@@ -181,3 +157,5 @@
 
   </div>
 </div>
+
+<%= turbo_frame_tag "modal" %>

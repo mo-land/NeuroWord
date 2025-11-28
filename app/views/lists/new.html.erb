@@ -1,4 +1,11 @@
-<%= turbo_frame_tag "new_list" do %>
-  <h3 class="text-lg font-bold mb-4">新しいリストを作成</h3>
-  <%= render 'form', list: @list %>
+<%= turbo_frame_tag "modal" do %>
+  <dialog id="list_modal" class="modal modal-open modal-bottom sm:modal-middle">
+    <div class="modal-box">
+      <h3 class="text-lg font-bold mb-4">新しいリストを作成</h3>
+      <%= render 'form', list: @list %>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+      <%= link_to "close", mypage_user_path(tab: "user_lists", list_id: @current_list_id), data: { turbo_frame: "_top" } %>
+    </form>
+  </dialog>
 <% end %>
