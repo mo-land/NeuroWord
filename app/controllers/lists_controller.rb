@@ -2,7 +2,7 @@ class ListsController < ApplicationController
   include Filterable
 
   before_action :authenticate_user!
-  before_action :set_list, only: %i[edit update batch_play]
+  before_action :set_list, only: %i[edit update batch_play destroy]
 
   def new
     @list = current_user.lists.new
@@ -42,6 +42,11 @@ class ListsController < ApplicationController
     else
       render :edit, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    @list.destroy!
+    redirect_to mypage_user_path(tab: 'user_lists'), notice: t("defaults.flash_message.deleted", item: List.model_name.human), status: :see_other
   end
 
   def batch_play
