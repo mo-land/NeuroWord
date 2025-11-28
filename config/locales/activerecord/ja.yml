@@ -7,6 +7,7 @@ ja:
       request_response: 返信
       origin_word: 起点語
       related_word: 関連語
+      list: リスト
     attributes:
       question:
         title: タイトル
