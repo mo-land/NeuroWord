@@ -1,4 +1,4 @@
-<%= form_with(model: list) do |f| %>
+<%= form_with(model: list, data: { turbo: false }) do |f| %>
   <% if list.errors.any? %>
     <div class="text-red-600">
       <ul>

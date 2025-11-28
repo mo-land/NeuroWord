@@ -1,4 +1,3 @@
-<label for="list_id" class="block text-sm font-medium mb-2">リストを選択</label>
 <%= select_tag :list_id,
                options_for_select(lists.map { |list| [list.name, list.id, { "data-is-favorite" => list.is_favorite }] }, selected_list_id),
                class: "select select-bordered w-full max-w-xs",
