@@ -6,20 +6,21 @@ import * as echarts from 'echarts';
 window.echarts = echarts;
 
 // ローディングアニメーション
-document.addEventListener('turbo:load', function () {
+function hideLoading() {
   const spinner = document.getElementById("loading");
   if (spinner) {
     spinner.classList.add("loaded");
   }
-});
+}
 
 // 初回読み込み時
-document.addEventListener('DOMContentLoaded', function () {
-  const spinner = document.getElementById("loading");
-  if (spinner) {
-    spinner.classList.add("loaded");
-  }
-});
+document.addEventListener('DOMContentLoaded', hideLoading);
+
+// Turboページ遷移時
+document.addEventListener('turbo:load', hideLoading);
+
+// Turboレンダリング完了時（フォーム送信後のバリデーションエラー表示など）
+document.addEventListener('turbo:render', hideLoading);
 
 // Tagifyインスタンスをグローバルに保持
 let tagifyInstance = null
