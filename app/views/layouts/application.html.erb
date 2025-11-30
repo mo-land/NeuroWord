@@ -45,7 +45,7 @@
     <div class="mb-28 lg:mb-0">
       <% unless content_for?(:hide_breadcrumbs) %>
         <div class="px-6 pt-2">
-          <%= breadcrumbs separator: " &rsaquo; " %>
+          <%= breadcrumbs separator: " &rsaquo; ", class: "text-sm sm:text-base" %>
         </div>
       <% end %>
       <%= yield %>
