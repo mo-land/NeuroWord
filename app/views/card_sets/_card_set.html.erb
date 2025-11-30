@@ -3,43 +3,47 @@
 <div class="card bg-base-100 shadow-xl mb-6">
   <div class="card-body">
     <!-- 起点語とボタン -->
-    <div class="flex justify-between mb-6">
-      <div>
-        <h2 class="text-xl font-bold mb-3">
+    <div class="mb-6">
+      <div class="flex justify-between items-start mb-3">
+        <h2 class="text-xl font-bold">
           <span class="badge badge-primary badge-lg mr-3">
-            <i class="fas fa-star mr-1"></i>
-            起点語
+            <div class="hidden md:block text-md">
+              <i class="fas fa-star mr-1"></i>
+            </div>
+            <div class="text-sm md:text-xl">起点語</div>
           </span>
         </h2>
+        <% if current_user && current_user.own?(question) %>
+          <div class="flex gap-2 mr-2">
+            <%= link_to edit_question_card_set_path(question, card_set), class: "btn btn-sm xs:btn-xs lg:btn-md btn-outline btn-accent shadow-sm" do %>
+              <i class="fas fa-edit"></i>
+              編集
+            <% end %>
+
+            <%= link_to question_card_set_path(question, card_set), class: "btn btn-sm xs:btn-xs lg:btn-md btn-outline btn-error shadow-sm", data: { turbo_method: :delete, turbo_confirm: t('card_sets.card_set.card_set_delete_confirm') } do %>
+              <i class="fas fa-trash"></i>
+              削除
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+      <div>
         <div class="card bg-base-200 shadow-inner w-fit">
           <div class="card-body py-3 px-4">
             <p class="text-xl font-bold break-words"><%= card_set.origin_word %></p>
           </div>
         </div>
       </div>
-
-      <!-- 編集・削除ボタン（show_actions が true の場合のみ表示） -->
-      <% if current_user && current_user.own?(question) %>
-        <div class="flex gap-2 self-start">
-          <%= link_to edit_question_card_set_path(question, card_set), class: "btn btn-sm lg:btn-md btn-outline btn-accent shadow-sm" do %>
-            <i class="fas fa-edit mr-1"></i>
-            編集
-          <% end %>
-
-          <%= link_to question_card_set_path(question, card_set), class: "btn btn-sm lg:btn-md btn-outline btn-error shadow-sm", data: { turbo_method: :delete, turbo_confirm: t('card_sets.card_set.card_set_delete_confirm') } do %>
-            <i class="fas fa-trash mr-1"></i>
-            削除
-          <% end %>
-        </div>
-      <% end %>
     </div>
-
+    
     <!-- 関連語 -->
     <div class="mb-6">
       <h3 class="text-xl font-bold mb-3">
         <span class="badge badge-secondary badge-lg mr-3">
-          <i class="fas fa-tags mr-1"></i>
-          関連語
+          <div class="hidden md:block text-md">
+            <i class="fas fa-tags mr-1"></i>
+          </div>
+          <div class="text-sm md:text-xl">関連語</div>
         </span>
       </h3>
       <% if card_set.related_words.empty? %>
@@ -49,13 +53,13 @@
         <% return %>
       <% end %>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
         <% card_set.related_words.each do |word| %>
           <% if word.persisted? %>
             <div id="related_word-<%= word.id %>" class="card bg-base-200 shadow-inner">
               <div class="card-body py-3 px-4">
                 <div class="flex !flex-row items-center justify-between">
-                  <p class="text-base break-words"><%= word.related_word %></p>
+                  <p class="text-md sm:text-sm"><%= word.related_word %></p>
                   <% if current_user && current_user.own?(question) %>
                     <%= link_to question_card_set_related_word_path(question, card_set, word),  data: { turbo_method: :delete, turbo_confirm: t('card_sets.card_set.related_word_delete_confirm') } do %>
                       <i class="fas fa-circle-xmark ml-3"></i>
