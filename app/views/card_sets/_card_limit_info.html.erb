@@ -11,7 +11,8 @@
           <p><%= t('.include_start_card') %></p>
         </div>
       </div>
-
+      
+      <div class="hidden md:block">
       <div class="flex items-center gap-4">
         <!-- プログレスバー -->
         <div class="radial-progress text-primary" 
@@ -34,6 +35,7 @@
             </div>
           <% end %>
         <% end %>
+      </div>
       </div>
     </div>
     <% if local_assigns[:show_game_status] != false && !question.valid_for_game? %>

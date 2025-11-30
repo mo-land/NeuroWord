@@ -4,21 +4,20 @@
   <div class="mb-3 grid grid-cols-1 lg:grid-cols-8">
     <div class="lg:col-start-2 lg:col-span-6">
       <!-- ヘッダー部分 -->
-       <!-- ヘッダー部分 -->
         <div class="card-body shadow-md">
-          <div class="flex justify-between items-start gap-4 mb-4">
+          <div class="lg:flex justify-between items-start gap-4 mb-4">
             <div class="flex-1">
               <div class="lg:flex gap-2 items-center">
                 <% if has_incompleted_requests?(@question) %>
                   <%= render 'requests/incompleted_request_btn', question: @question %>
                 <% end %>
-                <h1 class="text-3xl font-bold mb-2"><%= @question.title %></h1>
+                <h1 class="text-2xl  xs:text-xl font-bold mb-2"><%= @question.title %></h1>
               </div>
               <%= render 'shared/category_and_tags', question: @question %>
 
-              <p class="text-lg text-base-content/70 mb-4"><%= @question.description %></p>
+              <p class="text-md text-base-content/80 mb-4"><%= @question.description %></p>
 
-              <div class="text-sm text-base-content/60 flex justify-between items-center">
+              <div class="text-sm text-base-content/70 flex justify-between items-center">
                 <span>
                   by <%= @question.user.name %> - 
                   <%= @question.created_at.strftime("%Y/%m/%d %H:%M") %>
@@ -79,7 +78,7 @@
           <div class="card bg-base-100 shadow-lg">
             <div class="card-body">
             <div class="flex justify-between items-center">
-              <h1 class="text-3xl font-bold">カードセット一覧</h1>
+              <h1 class="text-2xl  xs:text-xl font-bold">カードセット一覧</h1>
             </div>
               <% if current_user && current_user.own?(@question) %>
                 <div class="my-2">
