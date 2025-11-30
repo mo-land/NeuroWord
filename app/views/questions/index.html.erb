@@ -43,7 +43,7 @@
           <%= render 'shared/filter_out_understood_questions' %>
         </div>
         <%= paginate @search_questions %>
-        <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 mx-auto max-w-screen-6xl py-8 items-stretch">
+        <div class="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-12 mx-auto max-w-screen-6xl py-8 items-stretch">
         <!-- 問題一覧 -->
           <% if @search_questions.present? %>
             <%= render @search_questions %>
