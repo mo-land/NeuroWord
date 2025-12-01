@@ -66,9 +66,7 @@
               <div class="indicator">
                 <span class="indicator-item indicator-start badge badge-primary lg:hidden">!</span>
                 <div class="bg-base-300 pl-6 grid place-items-center">
-                  <%= turbo_frame_tag "header_name_sp" do %>
-                    <%= render "shared/header_name" %>
-                  <% end %>
+                  <%= render "shared/header_name" %>
                 </div>
               </div>
             </summary>
@@ -84,9 +82,7 @@
             <details>
               <summary>
                 <div class="bg-base-300 pl-6 grid place-items-center">
-                  <%= turbo_frame_tag "header_name_sp" do %>
-                    <%= render "shared/header_name" %>
-                  <% end %>
+                  <%= render "shared/header_name" %>
                 </div>
               </summary>
               <%= render 'shared/header_end_authenticated' %>
@@ -105,9 +101,7 @@
           <li>
           <details>
             <summary class="text-xl">
-              <%= turbo_frame_tag "header_name_pc" do %>
-                <%= render "shared/header_name" %>
-              <% end %>
+              <%= render "shared/header_name" %>
             </summary>
             <%= render 'shared/header_end_authenticated' %>
           </details>
