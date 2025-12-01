@@ -1,8 +1,13 @@
 class UsersController < ApplicationController
   include Filterable
 
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: %i[ show ]
   before_action :set_user
+
+  def show
+    
+  end
+
 
   def mypage
     # クッキーに設定を保存
