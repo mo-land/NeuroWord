@@ -25,7 +25,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       super
     else
       # 通常遷移ならマイページへ
-      redirect_to mypage_user_path, alert: "都合により、マイページを再読み込みしました。<br>ユーザー編集の場合は再度「編集」ボタンを押してください。"
+      redirect_to mypage_path, alert: "都合により、マイページを再読み込みしました。<br>ユーザー編集の場合は再度「編集」ボタンを押してください。"
     end
   end
 
@@ -111,7 +111,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # 編集後のリダイレクト先を指定するメソッド
   def after_update_path_for(resource)
-    mypage_user_path(resource)
+    mypage_path(resource)
   end
 
   private

@@ -72,7 +72,7 @@ RSpec.describe "Users::Registrations", type: :request do
       context "通常のHTTPリクエストの場合" do
         it "マイページにリダイレクトされる" do
           get edit_user_registration_path
-          expect(response).to redirect_to(mypage_user_path)
+          expect(response).to redirect_to(mypage_path)
         end
 
         it "適切なアラートメッセージが表示される" do
@@ -105,7 +105,7 @@ RSpec.describe "Users::Registrations", type: :request do
 
         it "マイページにリダイレクトされる" do
           patch user_registration_path, params: update_params
-          expect(response).to redirect_to(mypage_user_path(user))
+          expect(response).to redirect_to(mypage_path(user))
         end
 
         it "成功メッセージが表示される" do
@@ -184,7 +184,7 @@ RSpec.describe "Users::Registrations", type: :request do
 
     it "削除後はログアウト状態になる" do
       delete user_registration_path
-      get mypage_user_path
+      get mypage_path
       expect(response).to redirect_to(new_user_session_path)
     end
   end
@@ -195,7 +195,7 @@ RSpec.describe "Users::Registrations", type: :request do
 
       it "更新後はマイページにリダイレクトされる" do
         patch user_registration_path, params: { user: { name: "リダイレクトテスト" } }
-        expect(response).to redirect_to(mypage_user_path(user))
+        expect(response).to redirect_to(mypage_path(user))
       end
 
       it "sign_up後はルートパスにリダイレクトされる" do

@@ -5,20 +5,20 @@
               <%= render 'shared/request_to_user_btn' %>
             </li>
           <% end %>
-          <li class="lg:hidden"><a><%= link_to t('shared.defaults.mypage'), mypage_user_path %></a>
+          <li class="lg:hidden"><a><%= link_to t('shared.defaults.mypage'), mypage_path %></a>
             <ul class="p-2">
               <li>
-                <%= link_to mypage_user_path(tab: 'user_questions') do %>
+                <%= link_to mypage_path(tab: 'user_questions') do %>
                   <span class="whitespace-nowrap"><%= t('shared.defaults.user_questions') %></span>
                 <% end %>
               </li>
               <li>
-                <%= link_to mypage_user_path(tab: 'user_lists') do %>
+                <%= link_to mypage_path(tab: 'user_lists') do %>
                   <span class="whitespace-nowrap"><%= t('shared.defaults.user_lists') %></span>
                 <% end %>
               </li>
               <li>
-                <%= link_to mypage_user_path(tab: 'game_records') do %>
+                <%= link_to mypage_path(tab: 'game_records') do %>
                   <span class="whitespace-nowrap"><%= t('shared.defaults.game_records') %></span>
                 <% end %>
               </li>

@@ -27,22 +27,22 @@
                 </summary>
                 <ul class="bg-base-100 rounded-box z-1 p-2 shadow-sm w-max min-w-32">
                   <li>
-                    <%= link_to mypage_user_path do %>
+                    <%= link_to mypage_path do %>
                       <span class="whitespace-nowrap">TOP</span>
                     <% end %>
                   </li>
                   <li>
-                    <%= link_to mypage_user_path(tab: 'user_questions') do %>
+                    <%= link_to mypage_path(tab: 'user_questions') do %>
                       <span class="whitespace-nowrap"><%= t('shared.defaults.user_questions') %></span>
                     <% end %>
                   </li>
                   <li>
-                    <%= link_to mypage_user_path(tab: 'user_lists') do %>
+                    <%= link_to mypage_path(tab: 'user_lists') do %>
                       <span class="whitespace-nowrap"><%= t('shared.defaults.user_lists') %></span>
                     <% end %>
                   </li>
                   <li>
-                    <%= link_to mypage_user_path(tab: 'game_records') do %>
+                    <%= link_to mypage_path(tab: 'game_records') do %>
                       <span class="whitespace-nowrap"><%= t('shared.defaults.game_records') %></span>
                     <% end %>
                   </li>

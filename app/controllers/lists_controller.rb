@@ -12,7 +12,7 @@ class ListsController < ApplicationController
   def create
     @list = current_user.lists.new(list_params)
     if @list.save
-      redirect_to mypage_user_path(tab: "user_lists", list_id: @list.id), notice: "リストを作成しました！"
+      redirect_to mypage_path(tab: "user_lists", list_id: @list.id), notice: "リストを作成しました！"
     else
       render :new, status: :unprocessable_entity
     end
@@ -23,7 +23,7 @@ class ListsController < ApplicationController
 
   def update
     if @list.update(list_params)
-      redirect_to mypage_user_path(tab: "user_lists", list_id: @list.id), notice: "リストを更新しました！"
+      redirect_to mypage_path(tab: "user_lists", list_id: @list.id), notice: "リストを更新しました！"
     else
       render :edit, status: :unprocessable_entity
     end
@@ -31,7 +31,7 @@ class ListsController < ApplicationController
 
   def destroy
     @list.destroy!
-    redirect_to mypage_user_path(tab: "user_lists"), notice: t("defaults.flash_message.deleted", item: List.model_name.human), status: :see_other
+    redirect_to mypage_path(tab: "user_lists"), notice: t("defaults.flash_message.deleted", item: List.model_name.human), status: :see_other
   end
 
   def batch_play
@@ -48,7 +48,7 @@ class ListsController < ApplicationController
     valid_questions = questions.select { |q| q.valid_for_game? }
 
     if valid_questions.empty?
-      redirect_to mypage_user_path(tab: "user_lists", list_id: @list.id), alert: "プレイ可能な問題がありません"
+      redirect_to mypage_path(tab: "user_lists", list_id: @list.id), alert: "プレイ可能な問題がありません"
       return
     end
 

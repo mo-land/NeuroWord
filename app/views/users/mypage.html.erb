@@ -66,7 +66,7 @@
 
 <!-- name of each tab group should be unique -->
 <div class="tabs tabs-lift mt-3 p-4">
-  <%= link_to mypage_user_path(tab: 'user_questions'),
+  <%= link_to mypage_path(tab: 'user_questions'),
               class: "tab #{'tab-active' if @current_tab == 'user_questions'}",
               role: 'tab',
               aria: { label: t('.user_questions') } do %>
@@ -76,7 +76,7 @@
     <%= render 'user_questions' %>
   </div>
 
-  <%= link_to mypage_user_path(tab: 'user_lists', list_id: @list.id),
+  <%= link_to mypage_path(tab: 'user_lists', list_id: @list.id),
               class: "tab #{'tab-active' if @current_tab == 'user_lists'}",
               role: 'tab',
               aria: { label: t('.user_lists') } do %>
@@ -133,7 +133,7 @@
     <% end %>
   </div>
 
-  <%= link_to mypage_user_path(tab: 'game_records'),
+  <%= link_to mypage_path(tab: 'game_records'),
               class: "tab #{'tab-active' if @current_tab == 'game_records'}",
               role: 'tab',
               aria: { label: t('.game_records') } do %>
