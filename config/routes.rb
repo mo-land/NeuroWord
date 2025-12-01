@@ -11,11 +11,9 @@ Rails.application.routes.draw do
   get "/privacy_policy" => "static_pages#privacy_policy"
   get "/contact" => "static_pages#contact"
 
-  resource :user, only: %i[] do
-    member do
-      get :mypage  # 必要に応じて
-    end
-  end
+  get "/mypage" => "users#mypage", as: :mypage
+  
+  resources :users, only: %i[show]
 
   resources :questions, only: %i[index new create show edit update destroy] do
     resources :card_sets,  only: %i[new create edit update destroy] do
