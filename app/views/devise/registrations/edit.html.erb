@@ -1,6 +1,46 @@
-<div class='px-6'>
-  <%= render 'edit_form', user: @user %>
-</div>
+<div class="max-w-md w-full mx-auto bg-base-100 p-4 sm:p-6">
+  <h1 class="text-2xl font-bold mb-6 text-center"><%= t('devise.registrations.edit.title') %></h1>
+
+  <div class="max-w-md w-full mx-auto p-4 sm:p-6 rounded-xl shadow-lg">
+
+
+
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+      <fieldset class="fieldset pb-2">
+        <%= f.label :name, class: "fieldset-legend" %>
+        <%= f.text_field :name, class: "input", placeholder: "ユーザー名を入力", autofocus: true %>
+      </fieldset>
+      
+      <fieldset class="fieldset" disabled />
+        <%= f.label :email, class: "fieldset-legend" %>
+        <%= f.email_field :email, class: "input", autocomplete: "email", placeholder: "例:sample@example.com"  %>
+      </fieldset>
+
+<%
+=begin%>
+    <fieldset class="fieldset">
+      <%= f.label :password, class: "fieldset-legend" %>
+      <% if @minimum_password_length %>
+      <em>(英数字<%= @minimum_password_length %> 文字以上)</em>
+      <% end %><br />
+      <%= f.password_field :password, class: "input", placeholder: "パスワードを入力", autocomplete: "new-password" %>
+    </fieldset>
+
+    <fieldset class="fieldset">
+      <%= f.label :password_confirmation, class: "fieldset-legend" %>
+      <%= f.password_field :password_confirmation, class: "input", placeholder: "もう1度パスワードを入力", autocomplete: "new-password" %>
+    </fieldset>
+<%
+=end%>
+      <div class="flex items-end gap-2 justify-end mt-6">
+        <div class="actions">
+          <%= f.submit "更新", class:"btn btn-primary md:justify-end" %>
+        </div>
+        <%= link_to "戻る", mypage_path, class:"btn btn-outline md:justify-end" %>
+      </div>
+  <% end %>
+
 <%
 =begin%>
   <h3>Cancel my account</h3>
@@ -8,4 +48,8 @@
   <div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
 <%
 =end%>
+</div>
+</div>
+</div>
+</div>
 
