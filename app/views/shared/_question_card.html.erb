@@ -24,7 +24,7 @@
         <%= render 'shared/category_and_tags', question: question %>
 
         <div class="tooltip tooltip-top before:max-w-[250px] before:whitespace-normal before:ml-16" data-tip="ここに、一言表示できるようにするよ！！！！！！！！！！！！！！！">
-          <%= link_to user_path(question.user) do %>
+          <%= link_to user_path(question.user), data: { turbo_frame: "_top" } do %>
             <div class="flex items-center gap-2 px-2 rounded-sm hover:bg-base-300">
               <i class="fa-solid fa-user text-base-content/70"></i>
               <%= question.user.name %>
