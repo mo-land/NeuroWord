@@ -3,6 +3,7 @@ class UsersController < ApplicationController
 
   before_action :authenticate_user!, except: %i[ show ]
   before_action :set_user
+  before_action :set_calender_data
 
   def show
     
@@ -42,14 +43,17 @@ class UsersController < ApplicationController
 
     @current_tab = params[:tab] || "user_questions"
 
-    # カレンダーチャート用のデータを作成
-    @calendar_data = build_calendar_data
   end
-
+  
   private
-
+  
   def set_user
     @user = current_user
+  end
+  
+  def set_calender_data
+    # カレンダーチャート用のデータを作成
+    @calendar_data = build_calendar_data
   end
 
   def build_calendar_data

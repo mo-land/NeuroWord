@@ -1,0 +1,53 @@
+<div class="flex">
+  <h3 class="font-semibold mb-2">学習カレンダー</h3>
+  <div class="badge badge-soft badge-xs badge-info ml-2 tooltip before:ml-4", data-tip="問題作成または問題プレイで色が濃くなります">?</div>
+</div>
+<%= calendar_chart(
+          {
+            data: @calendar_data
+          },
+          class: '',
+          style: 'height: 130px; width: 300px;',
+          options: {
+            grid: {
+              top: 10,
+              bottom: 10,
+              left: 40,
+              right: 40
+            },
+            visualMap: {
+              show: false,
+              min: 0,
+              max: 40,
+              inRange: {
+                color: ['#DAFADA', '#008000']
+              }
+            },
+            calendar: [
+              {
+                range: ["#{2.month.ago.strftime('%Y-%m-%d')}", "#{Date.today.strftime('%Y-%m-%d')}"],
+                top: 20,
+                left: 50,
+                right: 20,
+                cellSize: [13],
+                yearLabel: { show: true },
+                monthLabel: {
+                  margin: 1,
+                  show: true,
+                  formatter: '{M}月'
+                },
+                dayLabel: {
+                  margin: 2,
+                  firstDay: 1,
+                  nameMap: ['日', '月', '火', '水', '木', '金', '土']
+                },
+                splitLine: {
+                  lineStyle: {
+                    color: '#793205',
+                    width: 0.5
+                  }
+                }
+              }
+            ]
+          })
+        %>
