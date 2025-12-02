@@ -21,6 +21,11 @@ Capybara.register_driver :selenium_chrome_headless do |app|
   options.add_argument('--disable-software-rasterizer')
   options.add_argument('--disable-extensions')
   options.add_argument('--window-size=1680,1050')
+  # メモリ関連の安定化オプション
+  options.add_argument('--disable-features=VizDisplayCompositor')
+  options.add_argument('--disable-background-timer-throttling')
+  options.add_argument('--disable-renderer-backgrounding')
+  options.add_argument('--disable-backgrounding-occluded-windows')
 
   # CI環境ではシステムのChromeを使用
   if ENV['CI']
