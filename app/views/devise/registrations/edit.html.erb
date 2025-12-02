@@ -9,13 +9,19 @@
     <%= render "devise/shared/error_messages", resource: resource %>
       <fieldset class="fieldset pb-2">
         <%= f.label :name, class: "fieldset-legend" %>
-        <%= f.text_field :name, class: "input", placeholder: "ユーザー名を入力", autofocus: true %>
+        <%= f.text_field :name, class: "input w-full", placeholder: "ユーザー名を入力", autofocus: true %>
       </fieldset>
-      
+
       <fieldset class="fieldset" disabled />
         <%= f.label :email, class: "fieldset-legend" %>
-        <%= f.email_field :email, class: "input", autocomplete: "email", placeholder: "例:sample@example.com"  %>
+        <%= f.email_field :email, class: "input w-full", autocomplete: "email", placeholder: "例:sample@example.com"  %>
       </fieldset>
+
+      <fieldset class="fieldset pb-2">
+        <%= f.label :bio, "ひとこと（150文字以内）", class: "fieldset-legend" %>
+        <%= f.text_area :bio, class: "textarea textarea-bordered w-full", placeholder: "ひとことを入力", rows: 3, maxlength: 150 %>
+      </fieldset>
+
 
 <%
 =begin%>
