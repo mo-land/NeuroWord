@@ -1,61 +1,40 @@
 <div class="container mx-auto px-4 py-8">
-  <div class="grid grid-cols-1 lg:grid-cols-8">
-    <div class="lg:col-start-2 lg:col-span-6">
-      <h1 class="text-2xl font-bold text-left p-6">ユーザー情報</h1>
-
-      <div class="flex flex-col xl:flex-row xl:items-stretch gap-4 px-4">
-        <!-- ユーザー情報 -->
-        <div class="w-full xl:w-auto xl:flex-1">
-          <div class="card bg-base-100 border-2 border-current/10 h-full">
-            <div class="card-body">
-              <div class="flex items-center gap-4">
-                <div class="flex-1">
-                  <h2 class="card-title text-xl">サンプルユーザー</h2>
-                  <!-- ひとこと -->
-                  <div class="mt-3 p-3 bg-base-200 rounded-lg">
-                    <p class="text-sm text-base-content/80">
-                      <i class="fa-solid fa-comment-dots mr-2"></i>
-                      よろしくお願いします！毎日コツコツ勉強しています。
-                    </p>
-                  </div>
-                </div>
-                <!-- ユーザー本人のみ表示 -->
-                <div>
-                  <button class="btn btn-primary btn-sm">
-                    <i class="fa-solid fa-pen"></i>
-                    編集
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- カレンダーチャート -->
-        <div class="w-full xl:w-auto xl:flex-1" style="max-width: 100%; overflow-x: auto;">
-          <div class="card bg-base-100 border-2 border-current/10 h-full">
-            <div class="card-body">
-              <h3 class="card-title text-lg mb-2">学習カレンダー</h3>
-              <!-- カレンダーチャートのプレースホルダー -->
-              <div style="height: 130px; width: 300px; background-color: #f3f4f6; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                <span class="text-base-content/50">カレンダーチャート</span>
-              </div>
-            </div>
-          </div>
-        </div>
+  <div class="grid grid-cols-1 lg:grid-cols-12 lg:px-12 gap-6">
+    <!-- 左カラム: ユーザー情報とカレンダー -->
+    <div class="lg:col-span-4">
+      <!-- ユーザー情報 -->
+      <div class="flex items-center mb-6">
+        <h1 class="text-2xl font-bold"><%= @user.name %></h1>
+        <%= link_to edit_user_registration_path, class: "btn btn-outline btn-success btn-sm ml-3" do %>
+          <i class="fa-solid fa-pen"></i>
+        <% end %>
       </div>
 
-      <!-- ユーザーが作成した問題 -->
-      <div class="mt-6 p-4">
-        <div class="card bg-base-100 border-2 border-current/10">
-          <div class="card-body">
-            <h2 class="card-title text-xl mb-4">
-              <i class="fa-solid fa-clipboard-question"></i>
-              作成した問題
-            </h2>
+      <% if @user.bio.present? %>
+        <p class="text-sm text-base-content/80 mb-6">
+          <%= @user.bio %>
+        </p>
+      <% end %>
 
-            <!-- 問題リスト -->
-            <div class="space-y-4">
+      <!-- カレンダーカード -->
+      <h3 class="font-semibold mb-2">学習カレンダー</h3>
+      <!-- カレンダーチャートのプレースホルダー -->
+      <div style="height: 130px; background-color: #f3f4f6; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+        <span class="text-base-content/50">カレンダーチャート</span>
+      </div>
+    </div>
+
+    <!-- 右カラム: 作成した問題 -->
+    <div class="lg:col-span-8">
+      <div class="card bg-base-100 border-2 border-current/10">
+        <div class="card-body">
+          <h2 class="card-title text-xl mb-4">
+            <i class="fa-solid fa-clipboard-question"></i>
+            作成した問題
+          </h2>
+
+          <!-- 問題リスト -->
+          <div class="space-y-4">
         <!-- 問題1 -->
         <div class="card bg-base-200">
           <div class="card-body p-4">
@@ -120,12 +99,11 @@
         </div>
       </div>
 
-              <!-- 問題がない場合のメッセージ（コメントアウト） -->
-              <!-- <div class="text-center py-8 text-base-content/70">
-                <i class="fa-solid fa-inbox text-4xl mb-2"></i>
-                <p>まだ問題が作成されていません</p>
-              </div> -->
-            </div>
+            <!-- 問題がない場合のメッセージ（コメントアウト） -->
+            <!-- <div class="text-center py-8 text-base-content/70">
+              <i class="fa-solid fa-inbox text-4xl mb-2"></i>
+              <p>まだ問題が作成されていません</p>
+            </div> -->
           </div>
         </div>
       </div>
