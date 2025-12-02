@@ -1,16 +1,17 @@
 <% breadcrumb :mypage %>
-<h1 class="text-2xl font-bold text-left p-6"><%= t('.title') %></h1>
-<div class="flex flex-col lg:flex-row gap-4 px-4">
-  <div class="w-full lg:w-auto">
-    <div class="max-w-3xl mx-auto">
-      <%= render "profile" %>
+<div class="flex flex-col lg:pt-6 <%= "#{'lg:flex-row' if @user.bio.present?}" %> gap-4 px-4">
+  <div class="w-full  <%= "#{'lg:w-auto lg:h-full' if @user.bio.present?}" %> ">
+    <div class="card bg-base-100 card-xs px-3">
+      <div class="card-body">
+        <%= render "profile" %>
+      </div>
     </div>
   </div>
-  
-  <%= render 'calender_chart' %>
+  <div class="<%= "#{'lg:pt-3' if @user.bio.present?}" %> lg:pl-6">
+    <%= render 'calender_chart' %>
+  </div>
 </div>
 
-<!-- name of each tab group should be unique -->
 <div class="tabs tabs-lift mt-3 p-4">
   <%= link_to mypage_path(tab: 'user_questions'),
               class: "tab #{'tab-active' if @current_tab == 'user_questions'}",
