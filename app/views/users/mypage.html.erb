@@ -3,7 +3,7 @@
   <div class="w-full  <%= "#{'lg:w-auto lg:h-full' if @user.bio.present?}" %> ">
     <div class="card bg-base-100 card-xs px-3">
       <div class="card-body">
-        <%= render "profile" %>
+        <%= render "profile", redirect_path: mypage_path %>
       </div>
     </div>
   </div>

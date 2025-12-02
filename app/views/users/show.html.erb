@@ -3,7 +3,7 @@
     <!-- 左カラム: ユーザー情報とカレンダー -->
     <div class="lg:col-span-4 xl:col-span-3 lg:mt-12">
       <!-- ユーザー情報 -->
-      <%= render "profile" %>
+      <%= render "profile", redirect_path: user_path(@user) %>
 
       <%= render 'calender_chart' %>
     </div>
