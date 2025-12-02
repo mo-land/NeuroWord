@@ -28,9 +28,14 @@ end
 # end
 
 # user
-#   マイページ (users#mypage, mypage_path)
+#   マイページ (#mypage, mypage_path)
 crumb :mypage do
   link "マイページ", mypage_path
+end
+
+#   ユーザーページ (users#show, user_path)
+crumb :user_show do |user|
+  link "【#{user.name}さん】のユーザーページ", user_path(user)
 end
 
 # question
