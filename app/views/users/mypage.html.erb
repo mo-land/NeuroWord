@@ -22,7 +22,6 @@
     <%= t('.user_questions') %>
   <% end %>
   <div class="tab-content bg-base-100 border-base-300 p-6 <%= 'hidden' unless @current_tab == 'user_questions' %>">
-    <%= paginate @questions, param_name: :questions_page, params: { tab: 'user_questions' } %>
     <%= render 'mypage_user_questions' %>
   </div>
 
