@@ -95,7 +95,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # 編集後のリダイレクト先を指定するメソッド
   def after_update_path_for(resource)
-    Fish.swim(params)
     params[:redirect_to] || mypage_path(resource)
   end
 
