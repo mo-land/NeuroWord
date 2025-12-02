@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   get "/contact" => "static_pages#contact"
 
   get "/mypage" => "users#mypage", as: :mypage
-  
+
   resources :users, only: %i[show]
 
   resources :questions, only: %i[index new create show edit update destroy] do

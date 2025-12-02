@@ -47,9 +47,9 @@ class UsersController < ApplicationController
 
     set_calender_data
   end
-  
+
   private
-  
+
   def set_selected_user
     @user = User.find(params[:id])
   end
@@ -57,7 +57,7 @@ class UsersController < ApplicationController
   def set_user
     @user = current_user
   end
-  
+
   def set_calender_data
     # カレンダーチャート用のデータを作成
     @calendar_data = build_calendar_data
