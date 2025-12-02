@@ -10,8 +10,6 @@
   <%= render 'calender_chart' %>
 </div>
 
-
-
 <!-- name of each tab group should be unique -->
 <div class="tabs tabs-lift mt-3 p-4">
   <%= link_to mypage_path(tab: 'user_questions'),
@@ -21,7 +19,8 @@
     <%= t('.user_questions') %>
   <% end %>
   <div class="tab-content bg-base-100 border-base-300 p-6 <%= 'hidden' unless @current_tab == 'user_questions' %>">
-    <%= render 'user_questions' %>
+    <%= paginate @questions, param_name: :questions_page, params: { tab: 'user_questions' } %>
+    <%= render 'mypage_user_questions' %>
   </div>
 
   <%= link_to mypage_path(tab: 'user_lists', list_id: @list.id),

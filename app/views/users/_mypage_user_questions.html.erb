@@ -1,0 +1,5 @@
+<%= paginate @questions, param_name: :questions_page, params: { tab: 'user_questions' } %>
+<div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 mx-auto max-w-screen-6xl py-8 items-stretch">
+  <%= render 'user_questions' %>
+</div>
+<%= paginate @questions, param_name: :questions_page, params: { tab: 'user_questions' } %>
