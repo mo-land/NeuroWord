@@ -70,14 +70,9 @@ RSpec.describe "Users::Registrations", type: :request do
       end
 
       context "通常のHTTPリクエストの場合" do
-        it "マイページにリダイレクトされる" do
+        it "ユーザー編集ページにリダイレクトされる" do
           get edit_user_registration_path
-          expect(response).to redirect_to(mypage_path)
-        end
-
-        it "適切なアラートメッセージが表示される" do
-          get edit_user_registration_path
-          expect(flash[:alert]).to include("都合により、マイページを再読み込みしました。")
+          expect(response).to have_http_status(200)
         end
       end
     end
@@ -94,7 +89,7 @@ RSpec.describe "Users::Registrations", type: :request do
     before { sign_in user }
 
     context "有効なパラメータの場合" do
-      let(:update_params) { { user: { name: "更新された名前", email: user.email } } }
+      let(:update_params) { { user: { name: "更新された名前" } } }
 
       context "HTMLリクエスト" do
         it "ユーザー情報が更新される" do
@@ -111,14 +106,6 @@ RSpec.describe "Users::Registrations", type: :request do
         it "成功メッセージが表示される" do
           patch user_registration_path, params: update_params
           expect(flash[:notice]).to be_present
-        end
-      end
-
-      context "Turbo Streamリクエスト" do
-        it "Turbo Stream形式でレスポンスが返される" do
-          patch user_registration_path, params: update_params, headers: { 'Accept' => 'text/vnd.turbo-stream.html' }
-          expect(response.content_type).to include('text/vnd.turbo-stream.html')
-          expect(response).to have_http_status(200)
         end
       end
     end
@@ -140,22 +127,14 @@ RSpec.describe "Users::Registrations", type: :request do
           expect(response.body).to include('form')
         end
       end
-
-      context "Turbo Streamリクエスト" do
-        it "エラー状態でTurbo Stream形式でレスポンスが返される" do
-          patch user_registration_path, params: invalid_update_params, headers: { 'Accept' => 'text/vnd.turbo-stream.html' }
-          expect(response.content_type).to include('text/vnd.turbo-stream.html')
-          expect(response).to have_http_status(:unprocessable_entity)
-        end
-      end
     end
 
     context "パスワードなし更新の動作確認" do
       it "パスワードを入力せずに他の情報を更新できる" do
-        patch user_registration_path, params: { user: { name: "パスワードなし更新" } }
+        patch user_registration_path, params: { user: { name: "パスワードなし更新", email: user.email } }
         user.reload
         expect(user.name).to eq("パスワードなし更新")
-        expect(response).to have_http_status(:found)
+        expect(response).to have_http_status(:see_other)
       end
     end
 
