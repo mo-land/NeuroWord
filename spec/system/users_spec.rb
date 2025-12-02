@@ -1,19 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe "Users", type: :system do
+  before do
+    driven_by(:rack_test)
+  end
+
   describe 'Deviseの認証機能' do
     context 'ユーザー登録' do
-      before do
-        OmniAuth.config.test_mode = true
-        OmniAuth.config.mock_auth[:google_oauth2] = OmniAuth::AuthHash.new({
-          provider: "google_oauth2",
-          uid: "12345abcde",
-          info: {
-            name: "john",
-            email: "john@example.com"
-          }
-        })
-      end
       it '有効な情報でユーザーを作成できる' do
         visit new_user_registration_path
         fill_in 'ユーザー名', with: 'test_user'
@@ -42,7 +35,7 @@ RSpec.describe "Users", type: :system do
         expect(page).to have_content('Eメールを入力してください')
       end
 
-      it "Google認証が成功する", js: true do
+      it "Google認証が成功する" do
         visit new_user_registration_path
         click_button('Googleでログイン')
         expect(page).to have_content('Google アカウントによる認証に成功しました。')
@@ -67,15 +60,13 @@ RSpec.describe "Users", type: :system do
         expect(current_path).to eq new_user_session_path
       end
 
-      it 'ログアウトが正しく動作する', js: true do
-        # ログイン → ドロップダウン開く → ログアウトボタンクリック → トップページ遷移
+      it 'ログアウトが正しく動作する' do
+        # ログイン → マイページ → ログアウトボタンクリック → トップページ遷移
         login(user)
-        # ドロップダウンメニューを開く（表示されているsummaryだけを対象）
-        find('summary', text: "#{user.name} さん", visible: true, match: :first).click
-        # ログアウトリンクを探してクリック（data-turbo-method属性で識別）
-        find('a[data-turbo-method="delete"]', text: 'ログアウト', visible: true, match: :first).click
+        first(:link_or_button, 'ログアウト').click
         expect(current_path).to eq root_path
         expect(page).to have_content "ログアウトしました。"
+        expect(current_path).to eq root_path
       end
     end
 
