@@ -40,7 +40,7 @@ gem "tailwindcss-ruby"
 gem "devise"
 gem "omniauth"
 gem "omniauth-google-oauth2"
-gem "omniauth-rails_csrf_protection"
+gem "omniauth-rails_csrf_protection", "~> 1.0.2"
 
 gem "rack-attack"
 
