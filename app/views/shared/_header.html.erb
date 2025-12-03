@@ -27,22 +27,22 @@
                 </summary>
                 <ul class="bg-base-100 rounded-box z-1 p-2 shadow-sm w-max min-w-32">
                   <li>
-                    <%= link_to mypage_user_path do %>
+                    <%= link_to mypage_path do %>
                       <span class="whitespace-nowrap">TOP</span>
                     <% end %>
                   </li>
                   <li>
-                    <%= link_to mypage_user_path(tab: 'user_questions') do %>
+                    <%= link_to mypage_path(tab: 'user_questions') do %>
                       <span class="whitespace-nowrap"><%= t('shared.defaults.user_questions') %></span>
                     <% end %>
                   </li>
                   <li>
-                    <%= link_to mypage_user_path(tab: 'user_lists') do %>
+                    <%= link_to mypage_path(tab: 'user_lists') do %>
                       <span class="whitespace-nowrap"><%= t('shared.defaults.user_lists') %></span>
                     <% end %>
                   </li>
                   <li>
-                    <%= link_to mypage_user_path(tab: 'game_records') do %>
+                    <%= link_to mypage_path(tab: 'game_records') do %>
                       <span class="whitespace-nowrap"><%= t('shared.defaults.game_records') %></span>
                     <% end %>
                   </li>
@@ -66,9 +66,7 @@
               <div class="indicator">
                 <span class="indicator-item indicator-start badge badge-primary lg:hidden">!</span>
                 <div class="bg-base-300 pl-6 grid place-items-center">
-                  <%= turbo_frame_tag "header_name_sp" do %>
-                    <%= render "shared/header_name" %>
-                  <% end %>
+                  <%= render "shared/header_name" %>
                 </div>
               </div>
             </summary>
@@ -84,9 +82,7 @@
             <details>
               <summary>
                 <div class="bg-base-300 pl-6 grid place-items-center">
-                  <%= turbo_frame_tag "header_name_sp" do %>
-                    <%= render "shared/header_name" %>
-                  <% end %>
+                  <%= render "shared/header_name" %>
                 </div>
               </summary>
               <%= render 'shared/header_end_authenticated' %>
@@ -105,9 +101,7 @@
           <li>
           <details>
             <summary class="text-xl">
-              <%= turbo_frame_tag "header_name_pc" do %>
-                <%= render "shared/header_name" %>
-              <% end %>
+              <%= render "shared/header_name" %>
             </summary>
             <%= render 'shared/header_end_authenticated' %>
           </details>

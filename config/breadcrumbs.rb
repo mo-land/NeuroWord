@@ -28,9 +28,14 @@ end
 # end
 
 # user
-#   マイページ (users#mypage, mypage_user_path)
+#   マイページ (#mypage, mypage_path)
 crumb :mypage do
-  link "マイページ", mypage_user_path
+  link "マイページ", mypage_path
+end
+
+#   ユーザーページ (users#show, user_path)
+crumb :user_show do |user|
+  link "【#{user.name}さん】のユーザーページ", user_path(user)
 end
 
 # question
@@ -123,7 +128,7 @@ crumb :batch_play_games_show do |question, list|
 end
 #   まとめてプレイモード：リスト
 crumb :batch_play_list do |list|
-  link "【#{list.name}】をまとめてプレイ", mypage_user_path(tab: "user_lists", list_id: list.id)
+  link "【#{list.name}】をまとめてプレイ", mypage_path(tab: "user_lists", list_id: list.id)
   parent :mypage
 end
 #   まとめてプレイモード：結果画面 (game_records#batch_results)

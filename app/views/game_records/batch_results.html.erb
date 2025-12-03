@@ -155,14 +155,14 @@
     <!-- アクションボタン -->
     <div class="flex flex-wrap justify-center gap-4">
       <% if @list_id %>
-        <%= link_to mypage_user_path(tab: "user_lists", list_id: @list_id),
+        <%= link_to mypage_path(tab: "user_lists", list_id: @list_id),
                     class: "btn btn-primary btn-lg" do %>
           <i class="fas fa-list mr-2"></i>
           リストに戻る
         <% end %>
       <% end %>
 
-      <%= link_to mypage_user_path,
+      <%= link_to mypage_path,
                   class: "btn btn-outline btn-lg" do %>
         <i class="fas fa-home mr-2"></i>
         マイページへ

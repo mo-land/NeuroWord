@@ -1,11 +1,5 @@
-
-  <%= paginate @questions, param_name: :questions_page, params: { tab: 'user_questions' } %>
-  <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 mx-auto max-w-screen-6xl py-8 items-stretch">
-  <!-- 問題一覧 -->
-    <% if @questions.present? %>
-      <%= render @questions %>
-    <% else %>
-      <div class="m-8">問題がありません</div>
-    <% end %>
-  </div>
-  <%= paginate @questions, param_name: :questions_page, params: { tab: 'user_questions' } %>
+<% if @questions.present? %>
+  <%= render @questions %>
+<% else %>
+  <div class="m-8">問題がありません</div>
+<% end %>

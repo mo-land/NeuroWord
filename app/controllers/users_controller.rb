@@ -1,8 +1,16 @@
 class UsersController < ApplicationController
   include Filterable
 
-  before_action :authenticate_user!
-  before_action :set_user
+  before_action :authenticate_user!, except: %i[ show ]
+  before_action :set_selected_user, only: %i[ show ]
+  before_action :set_user, only: %i[ mypage ]
+  before_action :set_calender_data
+
+  def show
+    set_calender_data
+    @questions = @user.questions.includes(:category, :tags).page(params[:questions_page]).order(updated_at: :desc)
+  end
+
 
   def mypage
     # クッキーに設定を保存
@@ -37,14 +45,22 @@ class UsersController < ApplicationController
 
     @current_tab = params[:tab] || "user_questions"
 
-    # カレンダーチャート用のデータを作成
-    @calendar_data = build_calendar_data
+    set_calender_data
   end
 
   private
 
+  def set_selected_user
+    @user = User.find(params[:id])
+  end
+
   def set_user
     @user = current_user
+  end
+
+  def set_calender_data
+    # カレンダーチャート用のデータを作成
+    @calendar_data = build_calendar_data
   end
 
   def build_calendar_data

@@ -5,7 +5,7 @@
       <%= render 'form', list: @list %>
     </div>
     <form method="dialog" class="modal-backdrop">
-      <%= link_to "close", mypage_user_path(tab: "user_lists", list_id: @current_list_id), data: { turbo_frame: "_top" } %>
+      <%= link_to "close", mypage_path(tab: "user_lists", list_id: @current_list_id), data: { turbo_frame: "_top" } %>
     </form>
   </dialog>
 <% end %>

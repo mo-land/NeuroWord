@@ -19,15 +19,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
-  def edit
-    if turbo_frame_request?
-      # Turbo Frameならフォーム表示
-      super
-    else
-      # 通常遷移ならマイページへ
-      redirect_to mypage_user_path, alert: "都合により、マイページを再読み込みしました。<br>ユーザー編集の場合は再度「編集」ボタンを押してください。"
-    end
-  end
+  # GET /resource/edit
+  # def edit
+  #   super
+  # end
 
   # PUT /resource
   # We need to use a copy of the resource because we don't want to change
@@ -42,22 +37,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
       set_flash_message_for_update(resource, prev_unconfirmed_email)
       bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
 
-      # claudeで変更（明示的なTurbo化）
-      # respond_with resource, location: after_update_path_for(resource)
-      respond_to do |format|
-        format.turbo_stream
-        format.html { redirect_to after_update_path_for(resource) }
-      end
+      respond_with resource, location: after_update_path_for(resource)
     else
       clean_up_passwords resource
       set_minimum_password_length
-
-      # claudeで変更（明示的なTurbo化）
-      # respond_with resource
-      respond_to do |format|
-        format.turbo_stream { render :update, status: :unprocessable_entity }
-        format.html { render :edit, status: :unprocessable_entity }
-      end
+      respond_with resource
     end
     current_user.reload
   end
@@ -90,7 +74,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [ :name ])
+    devise_parameter_sanitizer.permit(:account_update, keys: [ :name, :bio ])
   end
 
   # The path used after sign up.
@@ -111,7 +95,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # 編集後のリダイレクト先を指定するメソッド
   def after_update_path_for(resource)
-    mypage_user_path(resource)
+    params[:redirect_to] || mypage_path(resource)
   end
 
   private
@@ -126,7 +110,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
     else
       :updated_but_not_signed_in
     end
-    # set_flash_message :notice, flash_key
-    flash.now[:notice] = I18n.t("devise.registrations.#{flash_key}")
+    set_flash_message :notice, flash_key
   end
 end

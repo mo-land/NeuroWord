@@ -97,7 +97,7 @@ class GameRecordsController < ApplicationController
     @list = List.find_by(id: @list_id)
 
     if @results.empty?
-      redirect_to mypage_user_path, alert: "まとめてプレイの結果がありません"
+      redirect_to mypage_path, alert: "まとめてプレイの結果がありません"
       return
     end
 

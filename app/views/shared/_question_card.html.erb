@@ -22,10 +22,16 @@
 
       <div class="justify-start items-start text-sm opacity-70 w-full mt-auto <%= user_signed_in? || (current_user && current_user.own?(question)) ? 'mb-6' : '' %>">
         <%= render 'shared/category_and_tags', question: question %>
-        <div class="flex items-center gap-2">
-          <i class="fa-solid fa-user text-base-content/70"></i>
-          <%= question.user.name %>
+
+        <div class="tooltip tooltip-top before:max-w-[250px] before:whitespace-normal before:ml-16" data-tip=<%="#{truncate("#{question.user.bio}", omission: "…")}"%>>
+          <%= link_to user_path(question.user), data: { turbo_frame: "_top" } do %>
+            <div class="flex items-center gap-2 px-2 rounded-sm hover:bg-base-300">
+              <i class="fa-solid fa-user text-base-content/70"></i>
+              <%= question.user.name %>
+            </div>
+          <% end %>
         </div>
+
       </div>
 
       <% if user_signed_in? || (current_user && current_user.own?(question)) %>
