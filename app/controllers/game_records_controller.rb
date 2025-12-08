@@ -1,5 +1,7 @@
 class GameRecordsController < ApplicationController
   include FindQuestion
+  include CalculateCurrentAccuracy
+  include ClearBatchPlaySession
 
   before_action :authenticate_user!, only: %i[create batch_results]
   before_action :set_question, only: %i[create show]
@@ -145,18 +147,5 @@ class GameRecordsController < ApplicationController
 
   def game_record_params
     params.require(:game_record).permit(:total_matches, :accuracy, :completion_time_seconds, :given_up)
-  end
-
-  def calculate_current_accuracy
-    return 0 if session[:total_clicks].to_i == 0
-    (session[:correct_clicks].to_f / session[:total_clicks] * 100).round(1)
-  end
-
-  def clear_batch_play_session
-    session.delete(:batch_play_mode)
-    session.delete(:batch_play_question_ids)
-    session.delete(:batch_play_current_index)
-    session.delete(:batch_play_results)
-    session.delete(:batch_play_list_id)
   end
 end
