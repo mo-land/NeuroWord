@@ -1,9 +1,10 @@
 class QuestionsController < ApplicationController
   include Filterable
+  include FindQuestion
 
   before_action :authenticate_user!, except: %i[index show]
   before_action :set_category, only: %i[index new create edit update]
-  before_action :set_question, only: %i[edit update destroy]
+  before_action :set_user_question, only: %i[edit update destroy]
 
   def index
     # クッキーに設定を保存
@@ -70,7 +71,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @question = Question.includes(origin_words: :related_words).find(params[:id])
+    set_question
     @card_sets = @question.origin_words
     @tag_list = Tag.all
     @question_tags = @question.tags
@@ -107,7 +108,7 @@ class QuestionsController < ApplicationController
   
   private
   
-  def set_question
+  def set_user_question
     @question = current_user.questions.find(params[:id])
   end
 
