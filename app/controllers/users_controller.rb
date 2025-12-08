@@ -4,19 +4,14 @@ class UsersController < ApplicationController
   before_action :authenticate_user!, except: %i[ show ]
   before_action :set_selected_user, only: %i[ show ]
   before_action :set_user, only: %i[ mypage ]
-  before_action :set_calender_data
+  before_action :set_questions, only: %i[ show mypage ]
+  before_action :set_calender_data, only: %i[ show mypage ]
 
-  def show
-    set_calender_data
-    @questions = @user.questions.includes(:category, :tags).page(params[:questions_page]).order(updated_at: :desc)
-  end
-
+  def show;  end
 
   def mypage
     # クッキーに設定を保存
     save_filter_understood_preference
-
-    @questions = @user.questions.includes(:category, :tags).page(params[:questions_page]).order(updated_at: :desc)
 
     # プレイ履歴のフィルタリング
     game_records_query = @user.game_records.includes(:question).order(created_at: :desc)
@@ -44,8 +39,6 @@ class UsersController < ApplicationController
     @list_questions = list_questions_query
 
     @current_tab = params[:tab] || "user_questions"
-
-    set_calender_data
   end
 
   private
@@ -58,6 +51,10 @@ class UsersController < ApplicationController
     @user = current_user
   end
 
+  def set_questions
+    @questions = @user.questions.includes(:category, :tags).page(params[:questions_page]).order(updated_at: :desc)
+  end
+
   def set_calender_data
     # カレンダーチャート用のデータを作成
     @calendar_data = build_calendar_data
@@ -66,18 +63,18 @@ class UsersController < ApplicationController
   def build_calendar_data
     # 問題追加数を日毎に集計
     questions_by_date = @user.questions
-      .group("DATE(created_at)")
-      .count
+    .group("DATE(created_at)")
+    .count
 
     # game_recordsを日毎に集計
     game_records_by_date = @user.game_records
-      .group("DATE(created_at)")
-      .count
+    .group("DATE(created_at)")
+    .count
 
     # 2つのハッシュをマージして、日付毎の合計値を計算
     merged_data = questions_by_date.merge(game_records_by_date) do |date, questions_count, records_count|
-                    questions_count + records_count
-                  end
+      questions_count + records_count
+    end
 
     # カレンダーチャート用のフォーマットに変換 [[Date, count], ...]
     merged_data.map do |date_str, count|

@@ -1,8 +1,9 @@
 class QuestionsController < ApplicationController
   include Filterable
 
-  before_action :authenticate_user!, except: %i[index show ]
+  before_action :authenticate_user!, except: %i[index show]
   before_action :set_category, only: %i[index new create edit update]
+  before_action :set_question, only: %i[edit update destroy]
 
   def index
     # クッキーに設定を保存
@@ -76,12 +77,10 @@ class QuestionsController < ApplicationController
   end
 
   def edit
-    @question = current_user.questions.find(params[:id])
     @tag_list = @question.tags.pluck(:name).join(",")
   end
 
   def update
-    @question = current_user.questions.find(params[:id])
     tag_list = parse_tag_params
     apply_tags_to_question(tag_list)
     if @question.update(question_params)
@@ -95,19 +94,22 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-  question = current_user.questions.find(params[:id])
-    question.destroy!
+    @question.destroy!
     redirect_to questions_path, notice: t("defaults.flash_message.deleted", item: Question.model_name.human), status: :see_other
   end
-
+  
   def autocomplete
     @questions = Question.where("title like ?", "%#{params[:q]}%")
     respond_to do |format|
       format.js
     end
   end
-
+  
   private
+  
+  def set_question
+    @question = current_user.questions.find(params[:id])
+  end
 
   def question_params
     params.require(:question).permit(:title, :description, :category_id)
