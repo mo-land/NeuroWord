@@ -120,15 +120,17 @@
 
 
 <table>
-  <tr><th width="640">投稿した問題をシェア</th></tr>
+  <tr><th colspan="2">投稿した問題をシェア</th></tr>
   <tr>
-    <td class="flex">
-        <img src="https://i.gyazo.com/9845e6eacdd726f10d10975bf85f7823.png" width="320">
-        <img src="https://i.gyazo.com/abfa1fd97c24a3079a63a9d847fe906c.png" width="320">
+    <td>
+      <img src="https://i.gyazo.com/9845e6eacdd726f10d10975bf85f7823.png" width="320">
+    </td>
+    <td>
+      <img src="https://i.gyazo.com/abfa1fd97c24a3079a63a9d847fe906c.png" width="320">
     </td>
   </tr>
   <tr>
-    <td>作成した問題は、X（Twitter）への投稿機能でシェアできます。</td>
+    <td colspan="2">作成した問題は、X（Twitter）への投稿機能でシェアできます。</td>
   </tr>
 </table>
 
