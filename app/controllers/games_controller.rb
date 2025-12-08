@@ -1,8 +1,8 @@
 class GamesController < ApplicationController
   include FindQuestion
 
-  before_action :set_question, only: [ :show, :check_match ]
-  before_action :session_delete, only: [ :show ], if: :new_game_start?
+  before_action :set_question, only: %i[show check_match ]
+  before_action :session_delete, only:  %i[show], if: :new_game_start?
 
   # GET /games/:id (questionのIDを使用)
   def show
