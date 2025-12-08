@@ -79,42 +79,98 @@
 
 ## ![icon Image](public/icon.ico) 主要な機能
 ### ◇ ログイン不要の機能
-|問題一覧|ゲームをプレイ|
-|---|---|
-|<img src="https://i.gyazo.com/7e0733897046d7a5fb3427f33885d449.png" width="320">|<img src="https://github.com/user-attachments/assets/02ef72af-6bd9-47ee-ad21-109951071657" width="320">|
-|ユーザー登録無しでトップページから問題一覧を閲覧し、興味のある問題を選択してすぐにゲームを始められます。|問題画面では、最大10枚のカードから正しい単語と関連語の組み合わせを探し出し、マッチング完了を目指します。<br>どうしても正しい組み合わせがわからない場合は、ギブアップも可能です。|
 
-|ゲーム結果を見る|ゲーム結果をシェア|
-|---|---|
-|<img src="https://github.com/user-attachments/assets/77a4e6c1-2c08-462a-940b-5caeb5e2b976" width="320">|<img src="https://i.gyazo.com/7a9452d0803194e3e18af2b5dcbdfa60.png" width="320">|
-|ゲーム終了後の結果画面で正解の組み合わせとスコア（正答率・クリック数・解答にかかった時間）を確認できます。|X（Twitter）への投稿機能で学習成果をシェアできます。|
+<table>
+  <tr><th width="320">問題一覧</th><th width="320">ゲームをプレイ</th></tr>
+  <tr>
+    <td><img src="https://i.gyazo.com/5ca4d3944669cd7c789b7f815f7d52f8.png"></td>
+    <td><img src="https://github.com/user-attachments/assets/02ef72af-6bd9-47ee-ad21-109951071657"></td>
+  </tr>
+  <tr>
+    <td>ユーザー登録無しでトップページから問題一覧を閲覧し、興味のある問題を選択してすぐにゲームを始められます。</td>
+    <td>問題画面では、最大10枚のカードから正しい単語と関連語の組み合わせを探し出し、マッチング完了を目指します。<br>どうしても正しい組み合わせがわからない場合は、ギブアップも可能です。</td>
+  </tr>
+</table>
+
+
+<table>
+  <tr><th width="320">ゲーム結果を見る</th><th width="320">ゲーム結果をシェア</th></tr>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/77a4e6c1-2c08-462a-940b-5caeb5e2b976"></td>
+    <td><img src="https://i.gyazo.com/7a9452d0803194e3e18af2b5dcbdfa60.png"></td>
+  </tr>
+  <tr>
+    <td>ゲーム終了後の結果画面で正解の組み合わせとスコア（正答率・クリック数・解答にかかった時間）を確認できます。</td>
+    <td>X（Twitter）への投稿機能で学習成果をシェアできます。</td>
+  </tr>
+</table>
+
 
 ### ◇ ログインすると使用できる機能
 
-|問題投稿|
-|---|
-|<img src="https://github.com/user-attachments/assets/c5976424-e3e2-41b1-ae2f-7380c8b435be" width="320">|
-|アカウント作成・ログイン後は、オリジナル問題の作成や投稿が可能です。|
+<table>
+  <tr><th width="320">問題投稿</th></tr>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/c5976424-e3e2-41b1-ae2f-7380c8b435be"></td>
+  </tr>
+  <tr>
+    <td>アカウント作成・ログイン後は、オリジナル問題の作成や投稿が可能です。</td>
+  </tr>
+</table>
 
-|投稿した問題をシェア|
-|---|
-|<img src="https://i.gyazo.com/9845e6eacdd726f10d10975bf85f7823.png" width="320"> <img src="https://i.gyazo.com/abfa1fd97c24a3079a63a9d847fe906c.png" width="320">|
-|作成した問題は、X（Twitter）への投稿機能でシェアできます。|
 
-|お気に入り追加・削除|リスト作成・削除|
-|---|---|
-|<img src="https://github.com/user-attachments/assets/6557463e-77f4-4836-be9d-da64a10d74ed" width="320">|<img src="https://github.com/user-attachments/assets/92f7008c-46e8-4a9b-a18e-6965ae31c62d" width="320">|
-|アカウント作成・ログイン後は、気になる問題のリスト登録も可能です。|
+<table>
+  <tr><th width="640">投稿した問題をシェア</th></tr>
+  <tr>
+    <td class="flex">
+        <img src="https://i.gyazo.com/9845e6eacdd726f10d10975bf85f7823.png" width="320">
+        <img src="https://i.gyazo.com/abfa1fd97c24a3079a63a9d847fe906c.png" width="320">
+    </td>
+  </tr>
+  <tr>
+    <td>作成した問題は、X（Twitter）への投稿機能でシェアできます。</td>
+  </tr>
+</table>
 
-|リストをまとめてプレイ|修正依頼の投稿|
-|---|---|
-|<img src="https://github.com/user-attachments/assets/cb71813b-dc45-4cd7-b755-6415a6e8b0a4" width="320">|<img src="https://github.com/user-attachments/assets/b88d4306-b833-4644-a3f6-f9801dfe8d9d" width="320">|
-|リスト登録した問題は、まとめてプレイ機能による効率的な学習も可能です。|アカウント作成・ログイン後は、問題に対する修正依頼の投稿も可能です。|
 
-|理解した問題を非表示|学習履歴を確認|
-|---|---|
-|<img src="https://i.gyazo.com/f266fcd214f1eec63ecf307501ee3fa2.png" width="320">|<img src="https://github.com/user-attachments/assets/3efc4c0c-a0bb-4ecb-b115-471e86b43d72" width="320">|
-|アカウント作成・ログイン後は、2週間以内に解答率が80%以上となった問題の除外が可能です。|アカウント作成・ログイン後は、学習履歴の確認も可能です。|
+<table>
+  <tr><th width="320">お気に入り追加・削除</th><th width="320">リスト作成・削除</th></tr>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/6557463e-77f4-4836-be9d-da64a10d74ed"></td>
+    <td><img src="https://github.com/user-attachments/assets/92f7008c-46e8-4a9b-a18e-6965ae31c62d"></td>
+  </tr>
+  <tr>
+    <td>アカウント作成・ログイン後は、気になる問題のリスト登録も可能です。</td>
+    <td>ユーザー自身で任意のリスト作成も可能です。</td>
+  </tr>
+</table>
+
+
+<table>
+  <tr><th width="320">リストをまとめてプレイ</th><th width="320">修正依頼の投稿</th></tr>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/cb71813b-dc45-4cd7-b755-6415a6e8b0a4"></td>
+    <td><img src="https://github.com/user-attachments/assets/b88d4306-b833-4644-a3f6-f9801dfe8d9d"></td>
+  </tr>
+  <tr>
+    <td>リスト登録した問題は、まとめてプレイ機能による効率的な学習も可能です。</td>
+    <td>アカウント作成・ログイン後は、問題に対する修正依頼の投稿も可能です。</td>
+  </tr>
+</table>
+
+
+<table>
+  <tr><th width="320">理解した問題を非表示</th><th width="320">学習履歴を確認</th></tr>
+  <tr>
+    <td><img src="https://i.gyazo.com/f266fcd214f1eec63ecf307501ee3fa2.png"></td>
+    <td><img src="https://github.com/user-attachments/assets/3efc4c0c-a0bb-4ecb-b115-471e86b43d72"></td>
+  </tr>
+  <tr>
+    <td>アカウント作成・ログイン後は、2週間以内に解答率が80%以上となった問題の除外が可能です。</td>
+    <td>アカウント作成・ログイン後は、学習履歴の確認も可能です。</td>
+  </tr>
+</table>
+
   
  ### 用語定義
  ★：ログインユーザーのみ使用可能  
@@ -163,7 +219,7 @@
 
 | カテゴリ       | 技術                             |
 |----------------|----------------------------------|
-| バックエンド   | Ruby 3.3.6 / Ruby on Rails 7.2  |
+| バックエンド   | Ruby 3.3.6 / Ruby on Rails 7.2.3  |
 | フロントエンド | TailwindCSS / daisyUI / Hotwire (Turbo, Stimulus)          |
 | データベース   | PostgreSQL                       |
 | デプロイ       | Render                           |
