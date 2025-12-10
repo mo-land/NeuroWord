@@ -45,7 +45,7 @@ class ListQuestionsController < ApplicationController
       list_id: current_user.lists.pluck(:id),
       question_id: @question.id
     ).destroy_all.count
-    
+
     if deleted_count > 0
       respond_to do |format|
         format.turbo_stream
@@ -55,24 +55,24 @@ class ListQuestionsController < ApplicationController
       redirect_back fallback_location: @question, alert: "登録されているリストがありませんでした。"
     end
   end
-  
+
   private
-  
+
   def set_question
     @question = Question.find(params[:question_id])
   end
-  
+
   def set_context
     @context = params[:context]
   end
-  
+
   def set_list_questions
     if params[:list_id].present?
       @list = current_user.lists.find(params[:list_id])
       @list_questions = @list.questions.order("list_questions.created_at DESC")
     end
   end
-  
+
   def set_game_records
     # game_recordsの場合、該当する全てのgame_recordを取得
     if @context == "game_records"

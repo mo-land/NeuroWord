@@ -95,16 +95,16 @@ class QuestionsController < ApplicationController
     @question.destroy!
     redirect_to questions_path, notice: t("defaults.flash_message.deleted", item: Question.model_name.human), status: :see_other
   end
-  
+
   def autocomplete
     @questions = Question.where("title like ?", "%#{params[:q]}%")
     respond_to do |format|
       format.js
     end
   end
-  
+
   private
-  
+
   def set_user_question
     @question = current_user.questions.find(params[:id])
   end

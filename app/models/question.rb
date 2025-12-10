@@ -19,7 +19,7 @@ class Question < ApplicationRecord
 
   scope :tagged_with, ->(tag_name) { joins(:tags).where(tags: { name: tag_name }) }
   scope :with_tag_relations, -> { includes(:user, :category, :tags) }
-  
+
   # 新しいゲーム形式用のグループ分けメソッド
   def grouped_game_cards
     origin_cards = []
