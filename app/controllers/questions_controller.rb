@@ -1,8 +1,10 @@
 class QuestionsController < ApplicationController
   include Filterable
+  include FindQuestion
 
-  before_action :authenticate_user!, except: %i[index show ]
+  before_action :authenticate_user!, except: %i[index show]
   before_action :set_category, only: %i[index new create edit update]
+  before_action :set_user_question, only: %i[edit update destroy]
 
   def index
     # クッキーに設定を保存
@@ -22,14 +24,11 @@ class QuestionsController < ApplicationController
     # タグ絞り込み（新規追加）
     if params[:tag_name].present?
       @selected_tag = Tag.find_by(name: params[:tag_name])
-      base_query = base_query.joins(:tags).where(tags: { name: params[:tag_name] }) if @selected_tag
+      base_query = base_query.tagged_with(params[:tag_name]) if @selected_tag
     end
 
     # 理解済み問題の除外（ログインユーザーのみ）
-    if current_user && filter_understood_enabled?
-      understood_ids = GameRecord.understood_question_ids_for(current_user)
-      base_query = base_query.where.not(id: understood_ids) if understood_ids.present?
-    end
+    base_query = apply_understood_filter(base_query, current_user) if current_user
 
     # search_keywordからRansackのqパラメータを構築
     ransack_params = params[:q] || {}
@@ -69,19 +68,17 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @question = Question.includes(origin_words: :related_words).find(params[:id])
+    set_question
     @card_sets = @question.origin_words
     @tag_list = Tag.all
     @question_tags = @question.tags
   end
 
   def edit
-    @question = current_user.questions.find(params[:id])
     @tag_list = @question.tags.pluck(:name).join(",")
   end
 
   def update
-    @question = current_user.questions.find(params[:id])
     tag_list = parse_tag_params
     apply_tags_to_question(tag_list)
     if @question.update(question_params)
@@ -95,8 +92,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-  question = current_user.questions.find(params[:id])
-    question.destroy!
+    @question.destroy!
     redirect_to questions_path, notice: t("defaults.flash_message.deleted", item: Question.model_name.human), status: :see_other
   end
 
@@ -108,6 +104,10 @@ class QuestionsController < ApplicationController
   end
 
   private
+
+  def set_user_question
+    @question = current_user.questions.find(params[:id])
+  end
 
   def question_params
     params.require(:question).permit(:title, :description, :category_id)
@@ -145,13 +145,10 @@ class QuestionsController < ApplicationController
     filter_query = Question.all
 
     if params[:tag_name].present? && @selected_tag
-      filter_query = filter_query.joins(:tags).where(tags: { name: params[:tag_name] })
+      filter_query = filter_query.tagged_with(params[:tag_name])
     end
 
-    if current_user && filter_understood_enabled?
-      understood_ids = GameRecord.understood_question_ids_for(current_user)
-      filter_query = filter_query.where.not(id: understood_ids) if understood_ids.present?
-    end
+    filter_query = apply_understood_filter(filter_query, current_user) if current_user
 
     ransack_params = {}
     if params[:search_keyword].present?

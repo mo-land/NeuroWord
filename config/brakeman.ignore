@@ -3,19 +3,19 @@
     {
       "warning_type": "Dynamic Render Path",
       "warning_code": 15,
-      "fingerprint": "26f5c62da0af2e2de89ab9f3ec7189a5cdf3d906368708a2a600b62cf907e005",
+      "fingerprint": "12b980268254a1cbd6431d8c0c9961b2c0a65b9e8db336bbc801e3fcf64723cd",
       "check_name": "Render",
       "message": "Render path contains parameter value",
       "file": "app/views/questions/index.html.erb",
       "line": 49,
       "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
-      "code": "render(action => Question.all.where(:category_id => Category.find(params[:category_id]).subtree_ids).joins(:tags).where(:tags => ({ :name => params[:tag_name] })).where.not(:id => GameRecord.understood_question_ids_for(current_user)).ransack((params[:q] or {})).result(:distinct => true).with_tag_relations.order(:created_at => :desc).page(params[:page]), {})",
+      "code": "render(action => (Question.all.where(:category_id => Category.find(params[:category_id]).subtree_ids).tagged_with(params[:tag_name]) or apply_understood_filter(Question.all.where(:category_id => Category.find(params[:category_id]).subtree_ids).tagged_with(params[:tag_name]), current_user)).ransack((params[:q] or {})).result(:distinct => true).with_tag_relations.order(:created_at => :desc).page(params[:page]), {})",
       "render_path": [
         {
           "type": "controller",
           "class": "QuestionsController",
           "method": "index",
-          "line": 49,
+          "line": 48,
           "file": "app/controllers/questions_controller.rb",
           "rendered": {
             "name": "questions/index",

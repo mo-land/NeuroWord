@@ -1,8 +1,10 @@
 class GamesController < ApplicationController
   include FindQuestion
+  include CalculateCurrentAccuracy
+  include ClearBatchPlaySession
 
-  before_action :set_question, only: [ :show, :check_match ]
-  before_action :session_delete, only: [ :show ], if: :new_game_start?
+  before_action :set_question, only: %i[show check_match ]
+  before_action :session_delete, only:  %i[show], if: :new_game_start?
 
   # GET /games/:id (questionのIDを使用)
   def show
@@ -180,11 +182,6 @@ class GamesController < ApplicationController
     end
   end
 
-  def calculate_current_accuracy
-    return 0 if session[:total_clicks].to_i == 0
-    (session[:correct_clicks].to_f / session[:total_clicks] * 100).round(1)
-  end
-
   def session_delete
     # セッションクリア
     session.delete(:game_question_id)
@@ -194,14 +191,6 @@ class GamesController < ApplicationController
     session.delete(:selected_origin_id)
     session.delete(:total_clicks)
     session.delete(:correct_clicks)
-  end
-
-  def clear_batch_play_session
-    session.delete(:batch_play_mode)
-    session.delete(:batch_play_question_ids)
-    session.delete(:batch_play_current_index)
-    session.delete(:batch_play_results)
-    session.delete(:batch_play_list_id)
   end
 
   def new_game_start?
