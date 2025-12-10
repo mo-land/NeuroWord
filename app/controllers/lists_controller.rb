@@ -39,10 +39,7 @@ class ListsController < ApplicationController
     questions = @list.questions.order("list_questions.created_at DESC")
 
     # 理解済み問題のフィルタリング
-    if filter_understood_enabled?
-      understood_ids = GameRecord.understood_question_ids_for(current_user)
-      questions = questions.where.not(id: understood_ids) if understood_ids.present?
-    end
+    questions = apply_understood_filter(questions, current_user)
 
     # ゲーム可能な問題のみに絞り込み
     valid_questions = questions.select { |q| q.valid_for_game? }

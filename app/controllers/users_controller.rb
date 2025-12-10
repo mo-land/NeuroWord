@@ -15,10 +15,7 @@ class UsersController < ApplicationController
 
     # プレイ履歴のフィルタリング
     game_records_query = @user.game_records.includes(:question).order(created_at: :desc)
-    if filter_understood_enabled?
-      understood_ids = GameRecord.understood_question_ids_for(@user)
-      game_records_query = game_records_query.where.not(question_id: understood_ids) if understood_ids.present?
-    end
+    game_records_query = apply_understood_filter_to_records(game_records_query, @user)
     @game_records = game_records_query.page(params[:game_records_page]).per(10)
 
     # ユーザーの全リストを取得（お気に入りと通常リストを分けて結合）
@@ -32,10 +29,7 @@ class UsersController < ApplicationController
 
     # リストの問題をリスト追加降順で取得（フィルタリング適用）
     list_questions_query = @list.questions.with_tag_relations.order("list_questions.created_at DESC")
-    if filter_understood_enabled?
-      understood_ids = GameRecord.understood_question_ids_for(@user)
-      list_questions_query = list_questions_query.where.not(id: understood_ids) if understood_ids.present?
-    end
+    list_questions_query = apply_understood_filter(list_questions_query, @user)
     @list_questions = list_questions_query
 
     @current_tab = params[:tab] || "user_questions"

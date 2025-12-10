@@ -28,10 +28,7 @@ class QuestionsController < ApplicationController
     end
 
     # 理解済み問題の除外（ログインユーザーのみ）
-    if current_user && filter_understood_enabled?
-      understood_ids = GameRecord.understood_question_ids_for(current_user)
-      base_query = base_query.where.not(id: understood_ids) if understood_ids.present?
-    end
+    base_query = apply_understood_filter(base_query, current_user) if current_user
 
     # search_keywordからRansackのqパラメータを構築
     ransack_params = params[:q] || {}
@@ -151,10 +148,7 @@ class QuestionsController < ApplicationController
       filter_query = filter_query.joins(:tags).where(tags: { name: params[:tag_name] })
     end
 
-    if current_user && filter_understood_enabled?
-      understood_ids = GameRecord.understood_question_ids_for(current_user)
-      filter_query = filter_query.where.not(id: understood_ids) if understood_ids.present?
-    end
+    filter_query = apply_understood_filter(filter_query, current_user) if current_user
 
     ransack_params = {}
     if params[:search_keyword].present?

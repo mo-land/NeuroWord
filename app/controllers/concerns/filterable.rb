@@ -24,4 +24,20 @@ module Filterable
       cookies.permanent[:filter_understood] = params[:filter_understood]
     end
   end
+
+  # 理解済み問題を除外したクエリを返す（Question用）
+  def apply_understood_filter(relation, user)
+    return relation unless filter_understood_enabled?
+
+    understood_ids = GameRecord.understood_question_ids_for(user)
+    understood_ids.present? ? relation.where.not(id: understood_ids) : relation
+  end
+
+  # 理解済み問題を除外したクエリを返す（GameRecord用）
+  def apply_understood_filter_to_records(relation, user)
+    return relation unless filter_understood_enabled?
+
+    understood_ids = GameRecord.understood_question_ids_for(user)
+    understood_ids.present? ? relation.where.not(question_id: understood_ids) : relation
+  end
 end
