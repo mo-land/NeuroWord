@@ -24,7 +24,7 @@ class QuestionsController < ApplicationController
     # タグ絞り込み（新規追加）
     if params[:tag_name].present?
       @selected_tag = Tag.find_by(name: params[:tag_name])
-      base_query = base_query.joins(:tags).where(tags: { name: params[:tag_name] }) if @selected_tag
+      base_query = base_query.tagged_with(params[:tag_name]) if @selected_tag
     end
 
     # 理解済み問題の除外（ログインユーザーのみ）
@@ -145,7 +145,7 @@ class QuestionsController < ApplicationController
     filter_query = Question.all
 
     if params[:tag_name].present? && @selected_tag
-      filter_query = filter_query.joins(:tags).where(tags: { name: params[:tag_name] })
+      filter_query = filter_query.tagged_with(params[:tag_name])
     end
 
     filter_query = apply_understood_filter(filter_query, current_user) if current_user
