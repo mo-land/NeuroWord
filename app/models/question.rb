@@ -82,7 +82,7 @@ class Question < ApplicationRecord
     RelatedWord.joins(:origin_word).where(origin_words: { question_id: id }).count
   end
 
-  def can_add_card_set?(origin_word_count = 1, related_words_count = 0)
+  def can_add_card_set?(origin_word_count = 1, related_words_count = 1)
     (total_cards_count + origin_word_count + related_words_count) <= 10
   end
 
