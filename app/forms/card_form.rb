@@ -49,7 +49,7 @@ class CardForm
       errors.add(:base, "このカードセットを追加すると総カード数が10枚を超えます（予想枚数：#{total_count}枚）")
     end
   end
-  
+
   def origin_word_uniqueness_within_question
     return unless question_id.present? && origin_word.present?
 
@@ -57,15 +57,15 @@ class CardForm
     # 同じ問題内の全てのorigin_wordsと重複チェック
     # 同じ問題内の重複があると、ゲームで正しい組み合わせを選ぶのに支障が出るため
     existing_origin_words = OriginWord.where(origin_words: { question_id: question.id }).where(origin_word: origin_word)
-    
+
     if existing_origin_words.exists?
       errors.add(:base, "【#{origin_word}】は既にこの問題内で使用されています")
     end
   end
-  
+
   def related_word_uniqueness_within_question
     return unless question_id.present? && related_word.present?
-    
+
     question = Question.find(question_id)
     # 同じ問題内の全てのrelated_wordsと重複チェック
     # 同じ問題内の重複があると、ゲームで正しい組み合わせを選ぶのに支障が出るため

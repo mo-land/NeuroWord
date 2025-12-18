@@ -26,7 +26,7 @@ class CardSetsController < ApplicationController
       flash.now[:alert] = "カードセットの作成に失敗しました"
       render :new, status: :unprocessable_entity
       return
-    end
+     end
 
     if params[:add_more].present?
       redirect_to new_question_card_set_related_word_path(@question, origin_word_record.id),
@@ -53,7 +53,7 @@ class CardSetsController < ApplicationController
       render :edit, status: :unprocessable_entity
       return
     end
-    
+
     # 関連語の更新
     if params[:origin_word][:related_words].present?
       unless update_related_words
