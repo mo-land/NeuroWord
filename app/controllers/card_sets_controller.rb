@@ -34,7 +34,7 @@ class CardSetsController < ApplicationController
       return
     end
 
-    if @question.origin_words.count == 1
+    if @question.needs_more_card_sets?
       redirect_to new_question_card_set_path(@question),
         notice: "最初のカードセットを作成しました。続けて2つ目のカードセットも作成しましょう！"
     else
@@ -43,7 +43,6 @@ class CardSetsController < ApplicationController
     end
   end
 
-  # GET /questions/:question_id/card_sets/:id/edit
   def edit
     @card_set = @question.origin_words.find(params[:id])
   end
@@ -68,7 +67,7 @@ class CardSetsController < ApplicationController
     if params[:add_more].present?
       redirect_to new_question_card_set_related_word_path(@question, @card_set),
       notice: "カードセットを更新しました。続けて関連語を追加できます。"
-    elsif @question.origin_words.count == 1
+    elsif @question.needs_more_card_sets?
       redirect_to new_question_card_set_path(@question),
       notice: "カードセットを更新しました。続けて2つ目のカードセットも作成しましょう！"
     else

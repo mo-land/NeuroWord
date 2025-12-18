@@ -29,7 +29,7 @@ class RelatedWordsController < ApplicationController
     end
 
     # 「このワードセットを保存」ボタンの場合：ワードセット数に応じて遷移
-    if @question.origin_words.count == 1
+    if @question.needs_more_card_sets?
       redirect_to new_question_card_set_path(@question), notice: "関連語を保存しました。2つ目のカードセットを作成してください。"
     else
       redirect_to question_path(@question), notice: "関連語を保存しました。"

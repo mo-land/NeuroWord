@@ -98,11 +98,15 @@ class Question < ApplicationRecord
     end
     return false if total_cards_count >= max_count
 
-    if origin_words.count == 1
+    if needs_more_card_sets?
       total_related_words_count < 6
     else
       true
     end
+  end
+
+  def needs_more_card_sets?
+    origin_words.count == 1
   end
 
   def save_tag(sent_tags)
