@@ -12,7 +12,7 @@ class CardSetsController < ApplicationController
     @card_set = CardForm.new(question_id: @question.id)
 
     # カード上限チェック
-    unless @question.can_add_card_set?(1, 1) # 最小構成での確認
+    unless @question.can_add_card_set?
       redirect_to @question, alert: "カード数が上限に達しています"
       nil
     end
@@ -22,29 +22,34 @@ class CardSetsController < ApplicationController
     @card_set = CardForm.new(card_set_params)
     origin_word_record = @card_set.save
 
-    if origin_word_record
-      if params[:add_more].present?
-        redirect_to new_question_card_set_related_word_path(@question, origin_word_record.id)
-      else
-        # ワードセットが1つなら新規作成画面へ、2つ以上なら問題詳細画面へ
-        if @question.origin_words.count == 1
-          redirect_to new_question_card_set_path(@question)
-        else
-          redirect_to question_path(@question)
-        end
-      end
-    else
+     unless origin_word_record
+      flash.now[:alert] = "カードセットの作成に失敗しました"
       render :new, status: :unprocessable_entity
+      return
+     end
+
+    if params[:add_more].present?
+      redirect_to new_question_card_set_related_word_path(@question, origin_word_record.id),
+        notice: "カードセットを作成しました。続けて関連語を追加できます。"
+      return
+    end
+
+    if @question.needs_more_card_sets?
+      redirect_to new_question_card_set_path(@question),
+        notice: "最初のカードセットを作成しました。続けて2つ目のカードセットも作成しましょう！"
+    else
+      redirect_to question_path(@question),
+        notice: "カードセットを作成しました"
     end
   end
 
-  # GET /questions/:question_id/card_sets/:id/edit
   def edit
     @card_set = @question.origin_words.find(params[:id])
   end
 
   def update
     unless @card_set.update(update_params)
+      flash.now[:alert] = "カードセットの更新に失敗しました"
       render :edit, status: :unprocessable_entity
       return
     end
@@ -52,6 +57,7 @@ class CardSetsController < ApplicationController
     # 関連語の更新
     if params[:origin_word][:related_words].present?
       unless update_related_words
+        flash.now[:alert] = "関連語の更新に失敗しました"
         render :edit, status: :unprocessable_entity
         return
       end
@@ -59,9 +65,11 @@ class CardSetsController < ApplicationController
 
     # リダイレクト先の決定
     if params[:add_more].present?
-      redirect_to new_question_card_set_related_word_path(@question, @card_set)
-    elsif @question.origin_words.count == 1
-      redirect_to new_question_card_set_path(@question)
+      redirect_to new_question_card_set_related_word_path(@question, @card_set),
+      notice: "カードセットを更新しました。続けて関連語を追加できます。"
+    elsif @question.needs_more_card_sets?
+      redirect_to new_question_card_set_path(@question),
+      notice: "カードセットを更新しました。続けて2つ目のカードセットも作成しましょう！"
     else
       redirect_to question_path(@question), notice: "カードセットを更新しました"
     end

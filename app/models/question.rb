@@ -82,7 +82,7 @@ class Question < ApplicationRecord
     RelatedWord.joins(:origin_word).where(origin_words: { question_id: id }).count
   end
 
-  def can_add_card_set?(origin_word_count = 1, related_words_count = 0)
+  def can_add_card_set?(origin_word_count = 1, related_words_count = 1)
     (total_cards_count + origin_word_count + related_words_count) <= 10
   end
 
@@ -98,11 +98,15 @@ class Question < ApplicationRecord
     end
     return false if total_cards_count >= max_count
 
-    if origin_words.count == 1
+    if needs_more_card_sets?
       total_related_words_count < 6
     else
       true
     end
+  end
+
+  def needs_more_card_sets?
+    origin_words.count == 1
   end
 
   def save_tag(sent_tags)
