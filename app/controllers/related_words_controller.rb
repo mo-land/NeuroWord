@@ -23,15 +23,17 @@ class RelatedWordsController < ApplicationController
     # 「関連語を追加」ボタンの場合：同じ画面に戻る
     @related_word.save
     if params[:add_more].present?
-      redirect_to new_question_card_set_related_word_path(@question, @origin_word)
+      redirect_to new_question_card_set_related_word_path(@question, @origin_word),
+        notice: "関連語を保存しました。続けてさらに関連語を追加できます。"
       return
     end
 
     # 「このワードセットを保存」ボタンの場合：ワードセット数に応じて遷移
-    redirect_path = @question.origin_words.count == 1 ?
-                      new_question_card_set_path(@question) :
-                      question_path(@question)
-    redirect_to redirect_path
+    if @question.origin_words.count == 1
+      redirect_to new_question_card_set_path(@question), notice: "関連語を保存しました。2つ目のカードセットを作成してください。"
+    else
+      redirect_to question_path(@question), notice: "関連語を保存しました。"
+    end
   end
 
   def destroy
