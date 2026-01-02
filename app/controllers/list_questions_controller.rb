@@ -11,7 +11,7 @@ class ListQuestionsController < ApplicationController
 
     if list_question.save
       respond_to do |format|
-        format.turbo_stream
+        format.turbo_stream { flash.now.notice = "お気に入りに追加しました！" }
         format.html { redirect_back fallback_location: @question, notice: "お気に入りに追加しました！" }
       end
     else
@@ -34,8 +34,8 @@ class ListQuestionsController < ApplicationController
     end
 
     respond_to do |format|
-      format.turbo_stream
-      format.html { redirect_back fallback_location: @question, notice: "登録リストを更新しました！" }
+      format.turbo_stream { flash.now.notice = "リストを更新しました！" }
+      format.html { redirect_back fallback_location: @question, notice: "リストを更新しました！" }
     end
   end
 
@@ -48,8 +48,8 @@ class ListQuestionsController < ApplicationController
 
     if deleted_count > 0
       respond_to do |format|
-        format.turbo_stream
-        format.html { redirect_back fallback_location: @question, notice: "全てのリスト登録を解除しました。" }
+        format.turbo_stream { flash.now.notice = "リスト登録を完全に解除しました" }
+        format.html { redirect_back fallback_location: @question, notice: "リスト登録を完全に解除しました。" }
       end
     else
       redirect_back fallback_location: @question, alert: "登録されているリストがありませんでした。"
