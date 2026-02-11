@@ -84,12 +84,16 @@ jobs:
         env:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:postgres@localhost:5432
+          MAIL_FROM: noreply@example.com
+          RESEND_API_KEY: dummy_key_for_ci
         run: bundle exec rails assets:precompile
 
       - name: Run rspec
         env:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:postgres@localhost:5432
+          MAIL_FROM: noreply@example.com
+          RESEND_API_KEY: dummy_key_for_ci
           CI: true
           DISABLE_WEBDRIVERS: true
           # REDIS_URL: redis://localhost:6379/0
