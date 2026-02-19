@@ -225,6 +225,7 @@
 | フロントエンド | TailwindCSS / daisyUI / Hotwire (Turbo, Stimulus)          |
 | データベース   | PostgreSQL                       |
 | デプロイ       | Render                           |
+| メール送信       | Resend                           |
 | 認証           | Devise / OmniAuth (Google OAuth2)|
 
 ### 主要な使用技術と用途
@@ -250,6 +251,7 @@
 * Cloudinary - 動的OGP画像生成
 * meta-tags - OGP・SEO対応
 * Cloudflare - 独自ドメイン
+* Resend - パスワードリセットにおけるメール送信
 
 ## ![icon Image](public/icon.ico) ER図
 
