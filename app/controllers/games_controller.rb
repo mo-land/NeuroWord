@@ -46,7 +46,7 @@ class GamesController < ApplicationController
     game_state.initialize_game(@question, @game_data)
   end
 
-# POST /games/:id/check_match
+  # POST /games/:id/check_match
   def check_match
     click_type = params[:click_type] # 'origin' or 'related'
 
@@ -183,5 +183,4 @@ class GamesController < ApplicationController
   def new_game_start?
     game_state.new_game?(@question.id)
   end
-
 end
