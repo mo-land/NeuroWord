@@ -42,23 +42,15 @@ class GamesController < ApplicationController
       @batch_play_list = List.find_by(id: session[:batch_play_list_id])
     end
 
-    # セッションでゲーム状態管理
-    session[:game_question_id] = @question.id
-    session[:correct_matches] = []
-    session[:total_required_matches] = @game_data[:relateds].count
-    session[:game_start_time] = Time.current.to_f
-    session[:selected_origin_id] = nil
-    # クリック数追跡用
-    session[:total_clicks] = 0
-    session[:correct_clicks] = 0
+    # 重複登録を防ぐため、既存チェックを実施
+    game_state.initialize_game(@question, @game_data)
   end
 
   # POST /games/:id/check_match
   def check_match
     click_type = params[:click_type] # 'origin' or 'related'
 
-    # すべてのクリックをカウント
-    session[:total_clicks] = (session[:total_clicks] || 0) + 1
+    game_state.increment_total_clicks
 
     if click_type == "origin"
       handle_origin_click
@@ -70,6 +62,10 @@ class GamesController < ApplicationController
   end
 
   private
+
+  def game_state
+    @game_state ||= GameStateManager.new(session)
+  end
 
   # games#showへのOGP画像を動的に設定するメソッド
   def set_dynamic_ogp_image
@@ -109,7 +105,7 @@ class GamesController < ApplicationController
     end
 
     # 起点カード選択は基本的に常に有効（ゲーム状態関係なく）
-    session[:correct_clicks] = (session[:correct_clicks] || 0) + 1
+    game_state.increment_correct_clicks
 
     render json: {
       valid_action: true,
@@ -144,13 +140,11 @@ class GamesController < ApplicationController
     is_correct = origin_word.related_words.pluck(:related_word).include?(related_word)
     is_valid_match = (clicked_set_id == selected_origin_id)
 
-    if is_correct && is_valid_match && !session[:correct_matches].include?("#{selected_origin_id}-#{related_word}")
+    if is_correct && is_valid_match
       # 正解の場合
-      session[:correct_matches] << "#{selected_origin_id}-#{related_word}"
-      session[:correct_clicks] = (session[:correct_clicks] || 0) + 1
-
-      # ゲーム完了チェック
-      game_completed = session[:correct_matches].length == session[:total_required_matches]
+      game_state.add_correct_match(selected_origin_id, related_word)
+      game_state.increment_correct_clicks
+      game_completed = game_state.game_completed?
 
       render json: {
         valid_action: true,
@@ -183,18 +177,10 @@ class GamesController < ApplicationController
   end
 
   def session_delete
-    # セッションクリア
-    session.delete(:game_question_id)
-    session.delete(:correct_matches)
-    session.delete(:total_required_matches)
-    session.delete(:game_start_time)
-    session.delete(:selected_origin_id)
-    session.delete(:total_clicks)
-    session.delete(:correct_clicks)
+    game_state.clear_game_state
   end
 
   def new_game_start?
-    # 現在のゲームIDと異なる場合、または既存セッションがない場合は新ゲーム
-    session[:game_question_id] != @question.id
+    game_state.new_game?(@question.id)
   end
 end
