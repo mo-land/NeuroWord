@@ -76,7 +76,7 @@ GEM
       tzinfo (~> 2.0, >= 2.0.5)
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
-    ancestry (5.0.0)
+    ancestry (5.1.0)
       activerecord (>= 5.2.6)
       logger
     ast (2.4.3)
@@ -204,7 +204,8 @@ GEM
     meta-tags (2.22.3)
       actionpack (>= 6.0.0)
     mini_mime (1.1.5)
-    minitest (6.0.1)
+    minitest (6.0.2)
+      drb (~> 2.0)
       prism (~> 1.5)
     msgpack (1.8.0)
     multi_xml (0.8.1)
