@@ -1,8 +1,6 @@
 class GamesController < ApplicationController
   include FindQuestion
   include CalculateCurrentAccuracy
-  include ClearBatchPlaySession
-
   before_action :set_question, only: %i[show check_match ]
   before_action :session_delete, only:  %i[show], if: :new_game_start?
 
@@ -14,35 +12,17 @@ class GamesController < ApplicationController
     end
 
     @game_data = @question.grouped_game_cards
-
-    # OGP画像の動的設定（経由元に応じて切り替え）
     set_dynamic_ogp_image
 
-    # まとめてプレイモードの情報をビューに渡す
-    # 現在の問題がバッチプレイリストに含まれているかチェック
-    question_ids = session[:batch_play_question_ids] || []
-    is_in_batch = question_ids.include?(@question.id)
-
-    # 遷移元をチェック
-    referer = request.referer || ""
-    from_mypage_lists = referer.include?("/mypage") && referer.include?("tab=user_lists")
-    from_batch_game = referer.include?("/games/") && session[:batch_play_mode]
-
-    # バッチプレイモード中だが、以下の条件を満たす場合はセッションをクリア
-    # ①現在の問題がリストに含まれていない
-    # ②遷移元がマイページのリストタブではない、かつバッチプレイモードのゲーム画面ではない
-    if session[:batch_play_mode] && (!is_in_batch || (!from_mypage_lists && !from_batch_game))
-      clear_batch_play_session
+    if batch_play_manager.should_clear?(@question, request.referer)
+      batch_play_manager.clear
     end
 
-    @batch_play_mode = session[:batch_play_mode] || false
-    if @batch_play_mode
-      current_index = session[:batch_play_current_index] || 0
-      @batch_play_progress = "#{current_index + 1} / #{question_ids.length}"
-      @batch_play_list = List.find_by(id: session[:batch_play_list_id])
-    end
+    progress = batch_play_manager.progress_info
+    @batch_play_mode = progress&.dig(:active) || false
+    @batch_play_progress = progress&.dig(:progress)
+    @batch_play_list = progress&.dig(:list)
 
-    # 重複登録を防ぐため、既存チェックを実施
     game_state.initialize_game(@question, @game_data)
   end
 
@@ -65,6 +45,10 @@ class GamesController < ApplicationController
 
   def game_state
     @game_state ||= GameStateManager.new(session)
+  end
+
+   def batch_play_manager
+    @batch_play_manager ||= BatchPlayManager.new(session)
   end
 
   # games#showへのOGP画像を動的に設定するメソッド
@@ -92,7 +76,6 @@ class GamesController < ApplicationController
     current_state = params[:current_state]
     is_completed = params[:is_completed]
 
-    # 既に完了している起点カードかチェック
     if is_completed
       render json: {
         valid_action: false,
