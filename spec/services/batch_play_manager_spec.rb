@@ -30,7 +30,7 @@ RSpec.describe BatchPlayManager do
   end
 
   describe '#includes_question?' do
-    before { session[:batch_play_question_ids] = [1, 2, 3] }
+    before { session[:batch_play_question_ids] = [ 1, 2, 3 ] }
 
     it 'リストに含まれる問題IDに対してtrueを返す' do
       expect(manager.includes_question?(1)).to be true
@@ -59,7 +59,7 @@ RSpec.describe BatchPlayManager do
     context 'バッチプレイモードがONの場合' do
       before do
         session[:batch_play_mode] = true
-        session[:batch_play_question_ids] = [question.id]
+        session[:batch_play_question_ids] = [ question.id ]
       end
 
       context '問題がリストに含まれず' do
@@ -108,7 +108,7 @@ RSpec.describe BatchPlayManager do
 
       before do
         session[:batch_play_mode] = true
-        session[:batch_play_question_ids] = [1, 2, 3]
+        session[:batch_play_question_ids] = [ 1, 2, 3 ]
         session[:batch_play_current_index] = 1
         session[:batch_play_list_id] = list.id
       end
@@ -146,7 +146,7 @@ RSpec.describe BatchPlayManager do
   describe '#clear' do
     before do
       session[:batch_play_mode] = true
-      session[:batch_play_question_ids] = [1, 2, 3]
+      session[:batch_play_question_ids] = [ 1, 2, 3 ]
       session[:batch_play_current_index] = 1
       session[:batch_play_results] = { '1' => true }
       session[:batch_play_list_id] = 5
