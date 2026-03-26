@@ -100,63 +100,28 @@ class GamesController < ApplicationController
   end
 
   def handle_related_click
-    selected_origin_id = params[:origin_set_id]&.to_i
-    related_word = params[:related_word]
-    clicked_set_id = params[:clicked_set_id].to_i
-    current_state = params[:current_state]
+    result = MatchCardCommand.new(
+      question:   @question,
+      game_state: game_state,
+      params:     params
+    ).call
 
-    # 起点カードが選択されていない場合
-    if selected_origin_id.nil? || current_state != "SELECT_RELATED"
-      render json: {
-        valid_action: false,
-        correct: false,
-        message: "まず起点カードを選択してください",
-        total_clicks: session[:total_clicks],
-        correct_clicks: session[:correct_clicks],
-        current_accuracy: calculate_current_accuracy
-      }
-      return
+    response = {
+      valid_action:     result.valid_action,
+      correct:          result.correct,
+      message:          result.message,
+      total_clicks:     session[:total_clicks],
+      correct_clicks:   session[:correct_clicks],
+      current_accuracy: calculate_current_accuracy
+    }
+
+    if result.correct
+      response[:total_matches]    = session[:correct_matches].length
+      response[:required_matches] = session[:total_required_matches]
+      response[:game_completed]   = result.game_completed
     end
 
-    # マッチング判定
-    origin_word = @question.origin_words.find(selected_origin_id)
-    is_correct = origin_word.related_words.pluck(:related_word).include?(related_word)
-    is_valid_match = (clicked_set_id == selected_origin_id)
-
-    if is_correct && is_valid_match
-      # 正解の場合
-      game_state.add_correct_match(selected_origin_id, related_word)
-      game_state.increment_correct_clicks
-      game_completed = game_state.game_completed?
-
-      render json: {
-        valid_action: true,
-        correct: true,
-        total_matches: session[:correct_matches].length,
-        required_matches: session[:total_required_matches],
-        game_completed: game_completed,
-        total_clicks: session[:total_clicks],
-        correct_clicks: session[:correct_clicks],
-        current_accuracy: calculate_current_accuracy,
-        message: "正解！"
-      }
-    else
-      # 不正解の場合
-      message = if !is_valid_match
-                  "選択したカードは、現在の起点カードとセットになっていません"
-      else
-                  "不正解..."
-      end
-
-      render json: {
-        valid_action: true,
-        correct: false,
-        message: message,
-        total_clicks: session[:total_clicks],
-        correct_clicks: session[:correct_clicks],
-        current_accuracy: calculate_current_accuracy
-      }
-    end
+    render json: response
   end
 
   def session_delete
