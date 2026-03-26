@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe MatchCardCommand do
   let(:question) { create(:question) }
-  let(:origin_word) { create(:origin_word, question: question, related_words_list: ['正解ワード']) }
+  let(:origin_word) { create(:origin_word, question: question, related_words_list: [ '正解ワード' ]) }
   let(:game_state) { instance_double(GameStateManager) }
   let(:command) { described_class.new(question: question, game_state: game_state, params: params) }
 
