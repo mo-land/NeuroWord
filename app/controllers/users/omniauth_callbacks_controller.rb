@@ -35,10 +35,10 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   #   super
   # end
 
-  # GET|POST /users/auth/twitter/callback
+  # GET|POST /users/auth/google/callback
   def failure
     redirect_to root_path
-    set_flash_message(:notice, :failure, kind: "Google") if is_navigational_format?
+    set_flash_message(:alert, :failure, kind: "Google") if is_navigational_format?
   end
 
   # protected
