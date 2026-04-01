@@ -51,24 +51,10 @@ class GamesController < ApplicationController
     @batch_play_manager ||= BatchPlayManager.new(session)
   end
 
-  # games#showへのOGP画像を動的に設定するメソッド
+  # SNSシェア時のコンテキスト（作成者 or プレイ結果）に応じてOGP画像を切り替える。
   def set_dynamic_ogp_image
-    pattern = /[\p{Emoji}\p{Emoji_Component}&&[:^ascii:]]/
-    escaped_title = @question.title.gsub(pattern, "")
-
-    case params[:from]
-    when "creator"
-      # 作成者からのシェア（questions/show からのリンク）
-      @url = "https://res.cloudinary.com/dyafcag5y/image/upload/l_text:TakaoPGothic_60_bold:～#{escaped_title}～%0Aの問題を作ったよ！,co_rgb:FFF,w_900,c_fit/v1752074827/kjwmtl03doe8m0ywkvvh.png"
-    when "result"
-      # ゲーム結果からのシェア（result.html.erb からのリンク）
-      @url = "https://res.cloudinary.com/dyafcag5y/image/upload/l_text:TakaoPGothic_60_bold:～#{escaped_title}～%0Aに挑戦したよ！,co_rgb:421,w_900,c_fit/v1752074826/h0rhydkkhqhzlqvt1rbk.png"
-    else
-      # デフォルト（直接アクセスやその他）
-      @url = "https://res.cloudinary.com/dyafcag5y/image/upload/v1752075435/iyj9hdmhh8r4njmyrwwr.png"
-    end
-
-    set_meta_tags(og: { image: @url }, twitter: { image: @url })
+    url = OgpImagePresenter.new(@question, params[:from]).url
+    set_meta_tags(og: { image: url }, twitter: { image: url })
   end
 
   def handle_origin_click
