@@ -1,7 +1,6 @@
 class GameRecordsController < ApplicationController
   include FindQuestion
   include CalculateCurrentAccuracy
-  include ClearBatchPlaySession
 
   before_action :authenticate_user!, only: %i[create batch_results]
   before_action :set_question, only: %i[create show]
@@ -139,8 +138,7 @@ class GameRecordsController < ApplicationController
     top_3_question_ids = sorted_results.take(3).map { |r| r[:question].id }
     @ogp_question_ids = "#{top_3_question_ids.join(',')}&total=#{@detailed_results.length}"
 
-    # セッションをクリア
-    clear_batch_play_session
+    BatchPlayManager.new(session).clear
   end
 
   private
