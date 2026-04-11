@@ -57,4 +57,24 @@ class GameStateManager
   def new_game?(question_id)
     @session[:game_question_id] != question_id
   end
+
+  def total_clicks
+    @session[:total_clicks] || 0
+  end
+
+  def correct_clicks
+    @session[:correct_clicks] || 0
+  end
+
+  def correct_matches_count
+    (@session[:correct_matches] || []).length
+  end
+
+  def total_required_matches
+    @session[:total_required_matches] || 0
+  end
+
+  def start_time
+    @session[:game_start_time] || Time.current.to_f
+  end
 end
