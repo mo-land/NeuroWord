@@ -44,6 +44,44 @@ class BatchPlayManager
     BATCH_SESSION_KEYS.each { |key| @session.delete(key) }
   end
 
+  # 問題IDとリストIDをセッションに記録し、バッチプレイを開始する
+  def start(question_ids, list_id)
+    @session[:batch_play_mode] = true
+    @session[:batch_play_question_ids] = question_ids
+    @session[:batch_play_current_index] = 0
+    @session[:batch_play_results] = []
+    @session[:batch_play_list_id] = list_id
+  end
+
+  def advance
+    @session[:batch_play_current_index] = (current_index || 0) + 1
+  end
+
+  def current_question_id
+    question_ids[current_index]
+  end
+
+  def all_completed?
+    current_index >= question_ids.length
+  end
+
+  def current_index
+    @session[:batch_play_current_index] || 0
+  end
+
+  def add_result(result)
+    @session[:batch_play_results] ||= []
+    @session[:batch_play_results] << result
+  end
+
+  def results
+    @session[:batch_play_results] || []
+  end
+
+  def list_id
+    @session[:batch_play_list_id]
+  end
+
   private
 
   def question_ids

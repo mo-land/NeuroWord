@@ -52,14 +52,8 @@ class ListsController < ApplicationController
     # 問題をランダムにシャッフル
     shuffled_question_ids = valid_questions.map(&:id).shuffle
 
-    # セッションに保存
-    session[:batch_play_mode] = true
-    session[:batch_play_question_ids] = shuffled_question_ids
-    session[:batch_play_current_index] = 0
-    session[:batch_play_results] = []
-    session[:batch_play_list_id] = @list.id
+    BatchPlayManager.new(session).start(shuffled_question_ids, @list.id)
 
-    # 最初のゲームへリダイレクト
     redirect_to game_path(shuffled_question_ids.first)
   end
 

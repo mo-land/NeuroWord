@@ -61,4 +61,28 @@ RSpec.describe GameStateManager do
       expect(manager.game_completed?).to be false
     end
   end
+
+  describe '#total_clicks' do
+    it 'セッションの total_clicks を返す' do
+      manager.initialize_game(question, game_data)
+      manager.increment_total_clicks
+      expect(manager.total_clicks).to eq(1)
+    end
+  end
+
+  describe '#correct_clicks' do
+    it 'セッションの correct_clicks を返す' do
+      manager.initialize_game(question, game_data)
+      manager.increment_correct_clicks
+      expect(manager.correct_clicks).to eq(1)
+    end
+  end
+
+  describe '#correct_matches_count' do
+    it '正解マッチ数を返す' do
+      manager.initialize_game(question, game_data)
+      manager.add_correct_match(1, 'word')
+      expect(manager.correct_matches_count).to eq(1)
+    end
+  end
 end

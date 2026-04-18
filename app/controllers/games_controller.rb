@@ -66,8 +66,8 @@ class GamesController < ApplicationController
       render json: {
         valid_action: false,
         message: "この起点カードは既に完了しています",
-        total_clicks: session[:total_clicks],
-        correct_clicks: session[:correct_clicks],
+        total_clicks: game_state.total_clicks,
+        correct_clicks: game_state.correct_clicks,
         current_accuracy: calculate_current_accuracy
       }
       return
@@ -79,8 +79,8 @@ class GamesController < ApplicationController
     render json: {
       valid_action: true,
       message: "起点カードを選択しました。関連語を選んでください！",
-      total_clicks: session[:total_clicks],
-      correct_clicks: session[:correct_clicks],
+      total_clicks: game_state.total_clicks,
+      correct_clicks: game_state.correct_clicks,
       current_accuracy: calculate_current_accuracy
     }
   end
@@ -96,14 +96,14 @@ class GamesController < ApplicationController
       valid_action:     result.valid_action,
       correct:          result.correct,
       message:          result.message,
-      total_clicks:     session[:total_clicks],
-      correct_clicks:   session[:correct_clicks],
+      total_clicks: game_state.total_clicks,
+      correct_clicks: game_state.correct_clicks,
       current_accuracy: calculate_current_accuracy
     }
 
     if result.correct
-      response[:total_matches]    = session[:correct_matches].length
-      response[:required_matches] = session[:total_required_matches]
+      response[:total_matches]    = game_state.correct_matches_count
+      response[:required_matches] = game_state.total_required_matches
       response[:game_completed]   = result.game_completed
     end
 
