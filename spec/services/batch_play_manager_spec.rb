@@ -167,4 +167,34 @@ RSpec.describe BatchPlayManager do
       expect(session[:other_key]).to eq('other_value')
     end
   end
+
+  describe '#start' do
+    it 'まとめてプレイのセッションを初期化する' do
+      manager.start([ 1, 2, 3 ], 99)
+
+      expect(session[:batch_play_mode]).to be true
+      expect(session[:batch_play_question_ids]).to eq([ 1, 2, 3 ])
+      expect(session[:batch_play_current_index]).to eq(0)
+      expect(session[:batch_play_results]).to eq([])
+      expect(session[:batch_play_list_id]).to eq(99)
+    end
+  end
+
+  describe '#advance' do
+    it 'current_index をインクリメントする' do
+      manager.start([ 1, 2, 3 ], 99)
+      manager.advance
+
+      expect(manager.current_index).to eq(1)
+    end
+  end
+
+  describe '#all_completed?' do
+    it '全問完了後は true を返す' do
+      manager.start([ 1 ], 99)
+      manager.advance
+
+      expect(manager.all_completed?).to be true
+    end
+  end
 end
