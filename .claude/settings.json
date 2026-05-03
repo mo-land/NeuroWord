@@ -1,0 +1,39 @@
+{
+  "sandbox": {
+    "enabled": true,
+    "allowUnsandboxedCommands": false,
+      "filesystem": {
+          "denyRead": [
+          "~/.aws/credentials",
+          "~/.ssh",
+          "~/.gnupg",
+          "/.env",
+          "/.env.*",
+          "/config/master.key",
+          "/config/credentials/*.key",
+          "/secrets"
+        ]
+      }
+  },
+  "permissions": {
+    "deny": [
+      "Bash(rm:*)",
+      "Bash(curl:*)",
+      "Bash(wget:*)",
+      "Bash(sudo:*)",
+      "Bash(ssh:*)",
+      "Bash(git push:*)",
+      "Bash(chmod:*)",
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./secrets/**)",
+      "Read(/config/master.key)",
+      "Read(/config/credentials/*.key)",
+      "Read(./config/credentials.yml.enc)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)"
+    ],
+  "disableBypassPermissionsMode": "disable"
+  }
+}
+
