@@ -93,8 +93,50 @@ RSpec.describe "Users", type: :system do
         # fill_in 'ユーザー名', with: 'newname'
       end
 
-      xit 'アカウントを削除できる' do
-        # ログイン → アカウント削除 → 確認画面 → 削除実行 → トップページ遷移
+      it 'アカウントを削除できる' do
+        login(user)
+        visit mypage_path
+        find('.btn-error').click
+        expect(current_path).to eq root_path
+        expect(page).to have_content('アカウントを削除しました。またのご利用をお待ちしております。')
+        expect(User.exists?(user.id)).to be false
+      end
+
+      context '削除後の状態' do
+        let!(:question) { create(:question, user: user) }
+        let!(:game_record) { create(:game_record, user: user, question: question) }
+
+        before do
+          login(user)
+          visit mypage_path
+          find('.btn-error').click
+        end
+
+        it '確認後にアカウントが削除され、関連データが削除される' do
+          expect(User.exists?(user.id)).to be false
+          expect(Question.exists?(question.id)).to be false
+          expect(GameRecord.exists?(game_record.id)).to be false
+        end
+
+        it '削除後、トップページへリダイレクトされセッションがクリアされる' do
+          expect(current_path).to eq root_path
+          visit mypage_path
+          expect(current_path).to eq new_user_session_path
+        end
+      end
+
+      context '本人以外による削除' do
+        it '他ユーザーのプロフィールページには削除ボタンが表示されない' do
+          other_user = create(:user)
+          login(other_user)
+          visit user_path(user)
+          expect(page).not_to have_selector('.btn-error')
+        end
+
+        it '未ログイン状態では削除できず、ログインページへリダイレクトされる' do
+          page.driver.delete user_registration_path
+          expect(page.driver.response.location).to include(new_user_session_path)
+        end
       end
     end
   end
